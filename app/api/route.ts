@@ -1,32 +1,34 @@
-import { faker } from '@faker-js/faker';
+import fs from 'node:fs';
+import path from 'node:path';
 import { NextResponse } from 'next/server';
-import postgres from 'postgres';
 
-if (!process.env.POSTGRES_URL) {
-  throw new Error(`Database URL is ${process.env.POSTGRES_URL}`);
+function getApiRoutes(dir: string, basePath = '/api'): string[] {
+  const routes: string[] = [];
+  const files = fs.readdirSync(dir);
+
+  files.forEach((file) => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+
+    if (stat.isDirectory()) {
+      routes.push(...getApiRoutes(filePath, `${basePath}/${file}`));
+    } else if (file === 'route.ts') {
+      routes.push(basePath);
+    }
+  });
+
+  return routes;
 }
-
-const sql = postgres(process.env.POSTGRES_URL, { ssl: 'require' });
 
 export async function GET() {
-  const result = await sql`
-    SELECT * FROM pgadmin;
-  `;
-  return NextResponse.json({ message: 'Hello Tiger!', result });
-}
+  const apiDir = path.join(process.cwd(), 'app/api');
+  const endpoints = getApiRoutes(apiDir);
 
-export async function POST() {
-  const randomName = faker.person.firstName();
-  const randomInt = faker.number.int({ max: 1000 });
-  try {
-    const result = await sql`
-      INSERT INTO pgadmin(name, id) VALUES (${randomName}, ${randomInt}) RETURNING *
-    `;
-    return NextResponse.json({
-      message: 'You just sent a POST request',
-      result,
-    });
-  } catch (error) {
-    return NextResponse.json({ error }, { status: 400 });
-  }
+  return NextResponse.json({
+    name: 'e-commerce API',
+    version: '1.0.0',
+    description: '',
+    documentation: '',
+    endpoints,
+  });
 }
