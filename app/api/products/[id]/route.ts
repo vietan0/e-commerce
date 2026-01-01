@@ -31,3 +31,36 @@ export async function GET(
     return NextResponse.json({ error }, { status: 500 });
   }
 }
+
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const body = await req.json();
+    const { id } = await params;
+    // TODO: validate
+    const updatedProduct = await sql`
+      update product set ${sql(body)} where product_id = ${id} returning *;
+    `;
+    return NextResponse.json({ body, updatedProduct });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const { id } = await params;
+    const [product] = await sql`
+      delete from product where product_id = ${id} returning *;
+    `;
+
+    return NextResponse.json(product);
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+}

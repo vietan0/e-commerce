@@ -17,7 +17,18 @@ export async function GET(request: NextRequest) {
       Math.floor(totalProducts / limit) + (totalProducts % limit);
 
     const products = await sql`
-      select * from product order by product_id limit ${limit} offset ${limit * (page - 1)};
+      select p.*,
+        c.name,
+        m.name
+      from
+        product p
+          join product_category pc
+          on p.id = pc.product_id
+          join category c
+          on c.id = pc.category_id
+          join manufacturer m
+          on m.id = p.manufacturer_id
+      order by p.id limit ${limit} offset ${limit * (page - 1)};
     `;
 
     const links = {
@@ -53,9 +64,20 @@ export async function GET(request: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    return NextResponse.json({
-      body,
-    });
+    const { name, price, description, thumbnail, stock, manufacturer_id } =
+      body;
+
+    const [product] = await sql`
+      insert into product(name, price, description, thumbnail, stock, manufacturer_id)
+      values(${name}, ${price}, ${description || null}, ${thumbnail || null}, ${stock}, ${manufacturer_id}) returning *
+    `;
+
+    return NextResponse.json(
+      {
+        product,
+      },
+      { status: 201 },
+    );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
