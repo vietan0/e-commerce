@@ -1,9 +1,28 @@
+import { Box, Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+    <Box
+      className="font-sans items-center justify-items-center"
+      sx={{
+        p: 4,
+        pb: 8,
+        display: 'grid',
+        gap: 2,
+      }}
+    >
+      <Box
+        className="sm:items-start"
+        component="main"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 4,
+          width: '100%',
+        }}
+      >
         <Image
           alt="Next.js logo"
           className="dark:invert"
@@ -12,6 +31,10 @@ export default function Home() {
           src="/next.svg"
           width={180}
         />
+        <Box>
+          <Typography>Paragraph</Typography>
+          <Button variant="contained">Hello World</Button>
+        </Box>
         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{' '}
@@ -50,8 +73,8 @@ export default function Home() {
             Read our docs
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
+      </Box>
+      <footer className="flex gap-[24px] flex-wrap items-center justify-center">
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
           href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
@@ -98,6 +121,6 @@ export default function Home() {
           Go to nextjs.org →
         </a>
       </footer>
-    </div>
+    </Box>
   );
 }

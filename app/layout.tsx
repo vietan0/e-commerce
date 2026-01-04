@@ -1,6 +1,9 @@
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { AppBar, Button, ThemeProvider, Typography } from '@mui/material';
+import theme from '@/app/theme';
 
 const geistSans = Geist({
   subsets: ['latin'],
@@ -27,7 +30,28 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+          <ThemeProvider theme={theme}>
+            <AppBar
+              color="primary"
+              position="sticky"
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                py: 1,
+                px: 2,
+              }}
+            >
+              <Typography fontWeight={700}>CellphoneS</Typography>
+              <Button color="inherit" variant="outlined">
+                Login
+              </Button>
+            </AppBar>
+            {children}
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
