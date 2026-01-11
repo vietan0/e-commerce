@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
 
     const products = await sql`
       select p.*,
-        c.name,
-        m.name
+        c.name as category_name,
+        m.name as manufacturer_name
       from
         product p
           join product_category pc
