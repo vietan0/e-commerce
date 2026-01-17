@@ -62,7 +62,9 @@ export default function Categories({ closeMenu }: { closeMenu?: () => void }) {
         backgroundColor: 'background.default',
         color: 'text.primary',
         maxWidth: 250,
-        borderRadius: (theme.shape.borderRadius as number) * 0.25,
+        borderRadius: 1,
+        border: closeMenu ? 0 : 1,
+        borderColor: closeMenu ? undefined : 'grey.300',
       }}
     >
       {menus.map((m) => (

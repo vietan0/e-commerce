@@ -1,6 +1,7 @@
 'use client';
 import { Icon } from '@iconify/react';
-import { AppBar, Box, Button, Menu, Typography } from '@mui/material';
+import { AppBar, Box, Button, Link, Menu } from '@mui/material';
+import NextLink from 'next/link';
 import type React from 'react';
 import { useState } from 'react';
 import Categories from '@/components/Categories';
@@ -37,9 +38,16 @@ export default function Nav() {
           gap: 3,
         }}
       >
-        <Typography fontWeight={700} variant="h6">
+        <Link
+          color="inherit"
+          component={NextLink}
+          fontWeight={700}
+          href="/"
+          underline="hover"
+          variant="h6"
+        >
           CellphoneS
-        </Typography>
+        </Link>
         <Button
           aria-controls={open ? 'basic-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}

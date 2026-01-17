@@ -7,7 +7,7 @@ export default function ProductCarousel() {
   const { data, error } = useProjects();
   if (data)
     return (
-      <Stack direction="row" spacing={1} sx={{ overflowX: 'scroll' }}>
+      <Stack direction="row" spacing={2} sx={{ overflowX: 'initial' }}>
         {data.products.map((p) => (
           <ProductCard key={p.id} product={p} />
         ))}
