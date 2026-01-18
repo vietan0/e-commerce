@@ -1,28 +1,37 @@
-import { CardMedia } from '@mui/material';
+import { CardMedia, type SxProps, type Theme } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import { productCardWidth } from '@/app/constants/ui';
 import type { Product } from '@/app/types';
 import formatPrice from '@/lib/formatPrice';
 
 interface Props {
   product: Product;
+  hasShadow: boolean;
 }
-export default function ProductCard({ product }: Props) {
-  const width = 200;
+export default function ProductCard({ product, hasShadow }: Props) {
+  const propBasedStyles: SxProps<Theme> = hasShadow
+    ? { boxShadow: 4 }
+    : {
+        boxShadow: 0,
+        border: 1,
+        borderRadius: 3,
+        borderColor: 'grey.400',
+      };
   return (
     <Card
       sx={{
-        boxShadow: 4,
         borderRadius: 2,
-        flexBasis: width,
+        flexBasis: productCardWidth,
         flexShrink: 0,
         flexGrow: 0,
+        ...propBasedStyles,
       }}
     >
       <CardMedia
         image={product.thumbnail || ''}
-        sx={{ height: width }}
+        sx={{ height: productCardWidth }}
         title={product.name}
       />
       <CardContent sx={{ p: 1.5 }}>

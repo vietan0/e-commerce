@@ -4,7 +4,6 @@ import {
   Container,
   Skeleton,
   Stack,
-  Typography,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
