@@ -1,7 +1,13 @@
-import { CardMedia, type SxProps, type Theme } from '@mui/material';
+import {
+  CardActionArea,
+  CardMedia,
+  type SxProps,
+  type Theme,
+} from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Link from 'next/link';
 import { productCardWidth } from '@/app/constants/ui';
 import type { Product } from '@/app/types';
 import formatPrice from '@/lib/formatPrice';
@@ -29,22 +35,29 @@ export default function ProductCard({ product, hasShadow }: Props) {
         ...propBasedStyles,
       }}
     >
-      <CardMedia
-        image={product.thumbnail || ''}
-        sx={{ height: productCardWidth }}
-        title={product.name}
-      />
-      <CardContent sx={{ p: 1.5 }}>
-        <Typography gutterBottom sx={{ fontWeight: 700 }} variant="body2">
-          {product.name}
-        </Typography>
-        <Typography
-          align="right"
-          sx={{ fontWeight: 700, color: 'primary.main' }}
-        >
-          {formatPrice(product.price)}
-        </Typography>
-      </CardContent>
+      <CardActionArea
+        component={Link}
+        href={`/product/${product.id}`}
+        key={product.id}
+        prefetch={false}
+      >
+        <CardMedia
+          image={product.thumbnail || ''}
+          sx={{ height: productCardWidth }}
+          title={product.name}
+        />
+        <CardContent sx={{ p: 1.5 }}>
+          <Typography gutterBottom sx={{ fontWeight: 700 }} variant="body2">
+            {product.name}
+          </Typography>
+          <Typography
+            align="right"
+            sx={{ fontWeight: 700, color: 'primary.main' }}
+          >
+            {formatPrice(product.price)}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 }

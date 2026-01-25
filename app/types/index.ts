@@ -27,8 +27,26 @@ export interface Product {
   manufacturer_name: string;
 }
 
-export interface ProductRes {
+export interface ProductImage {
+  id: string;
+  product_id: string;
+  url: string;
+}
+
+export interface ProductsSuccessRes {
   meta: ResMeta;
   links: ResLinks;
   products: Product[];
 }
+
+export type ProductsRes = ProductsSuccessRes | ErrorRes;
+
+export interface ProductSuccessRes extends Product {
+  images: ProductImage[];
+}
+
+export interface ErrorRes {
+  error: string;
+}
+
+export type ProductRes = ProductSuccessRes | ErrorRes;
