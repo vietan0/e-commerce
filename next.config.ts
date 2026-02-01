@@ -2,7 +2,10 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [new URL('https://cdn2.cellphones.com.vn/insecure/**')],
+    remotePatterns: [
+      new URL('https://cdn2.cellphones.com.vn/insecure/**'),
+      new URL('https://siaezlhlmwbpqhmm.public.blob.vercel-storage.com/**'),
+    ],
   },
 };
 

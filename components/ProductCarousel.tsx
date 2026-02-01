@@ -1,6 +1,14 @@
 'use client';
 import { Icon } from '@iconify/react';
-import { Box, CircularProgress, Stack, Typography } from '@mui/material';
+import {
+  alpha,
+  Box,
+  CircularProgress,
+  Stack,
+  type SxProps,
+  type Theme,
+  Typography,
+} from '@mui/material';
 import { useState } from 'react';
 import { productCardWidth } from '@/app/constants/ui';
 import theme from '@/app/theme';
@@ -14,6 +22,16 @@ export default function ProductCarousel() {
   const btnW = 52; // size of one CarouselNavButton, may change if "size" prop or child icon size changes
   const spacing = 2;
   const gap = spacing * 8; // 8px - MUI default
+  const carouselNavBtnStyles: SxProps<Theme> = {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    zIndex: 1,
+    backgroundColor: alpha(theme.palette.common.black, 0.5),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.black, 0.7),
+    },
+  };
 
   function offsetLeft() {
     setOffset((p) => p + 1);
@@ -38,11 +56,8 @@ export default function ProductCarousel() {
         onClick={offsetRight}
         size="large"
         sx={{
-          position: 'absolute',
-          left: `-${btnW / 2}px`,
-          top: '50%',
-          transform: 'translateY(-50%)',
-          zIndex: 1,
+          left: -btnW / 2,
+          ...carouselNavBtnStyles,
         }}
       >
         <Icon
@@ -56,11 +71,8 @@ export default function ProductCarousel() {
         onClick={offsetLeft}
         size="large"
         sx={{
-          position: 'absolute',
-          right: `-${btnW / 2}px`,
-          top: '50%',
-          transform: 'translateY(-50%)',
-          zIndex: 1,
+          right: -btnW / 2,
+          ...carouselNavBtnStyles,
         }}
       >
         <Icon

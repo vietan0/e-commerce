@@ -1,11 +1,7 @@
 import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 const CarouselNavButton = styled(IconButton)<IconButtonProps>(({ theme }) => ({
-  backgroundColor: alpha(theme.palette.common.black, 0.3),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.black, 0.5),
-  },
   '&:disabled': {
     visibility: 'hidden',
   },

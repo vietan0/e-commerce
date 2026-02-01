@@ -8,12 +8,23 @@ export async function GET(
   try {
     const { id } = await params;
     const [product] = await sql`
-      select * from product where product_id = ${id}
+      select p.*,
+        c.name as category_name,
+        m.name as manufacturer_name
+      from
+        product p
+          join product_category pc
+          on p.id = pc.product_id
+          join category c
+          on c.id = pc.category_id
+          join manufacturer m
+          on m.id = p.manufacturer_id 
+      where p.id = ${id}
     `;
 
     if (!product) {
       return NextResponse.json(
-        { error: `Product with product_id = ${id} not found` },
+        { error: `Product with id = ${id} not found` },
         { status: 404 },
       );
     }
