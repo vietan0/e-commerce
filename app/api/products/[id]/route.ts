@@ -9,16 +9,27 @@ export async function GET(
     const { id } = await params;
     const [product] = await sql`
       select p.*,
-        c.name as category_name,
-        m.name as manufacturer_name
+        (case
+          when dt.name = 'percentage' then p.base_price * (100 - d.value) / 100
+          when dt.name = 'fixed_amount' then p.base_price - d.value
+          else p.base_price
+        end)::numeric(14, 3) as final_price,
+        m.name  as manufacturer_name,
+        d.name  as discount_name,
+        d.value as discount_value,
+        dt.name as discount_type_name
       from
         product p
-          join product_category pc
+          full join product_category pc
           on p.id = pc.product_id
-          join category c
-          on c.id = pc.category_id
-          join manufacturer m
-          on m.id = p.manufacturer_id 
+          full join manufacturer m
+          on m.id = p.manufacturer_id
+          full join discount_product dp
+          on p.id = dp.product_id
+          full join discount d
+          on dp.discount_id = d.id
+          full join discount_type dt
+          on d.type = dt.id
       where p.id = ${id}
     `;
 

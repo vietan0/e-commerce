@@ -32,7 +32,7 @@ export default function ImagesCarousel({ images }: { images: ProductImage[] }) {
   const [imgStack, { width: imgStackWidth }] = useSize(() => (
     <Stack
       direction="row"
-      spacing={0.5}
+      spacing={1}
       sx={{
         width: 'fit-content',
         transition: 'all 0.2s ease-out',
@@ -49,8 +49,8 @@ export default function ImagesCarousel({ images }: { images: ProductImage[] }) {
             borderRadius: 2,
             overflow: 'hidden',
             flexShrink: 0,
-            border: 3,
-            borderColor: activeImageIdx === i ? 'inherit' : 'transparent',
+            border: 1,
+            borderColor: activeImageIdx === i ? 'inherit' : 'grey.400',
             '&:hover': {
               borderColor: 'inherit',
             },
@@ -83,6 +83,8 @@ export default function ImagesCarousel({ images }: { images: ProductImage[] }) {
       return pureResult < minOffset ? minOffset : pureResult;
     });
   }
+
+  if (images.length === 0) return;
 
   return (
     <Stack spacing={1}>

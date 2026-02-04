@@ -17,11 +17,12 @@ interface Props {
   hasShadow: boolean;
 }
 export default function ProductCard({ product, hasShadow }: Props) {
+  const { id, base_price, final_price, name, thumbnail } = product;
   const propBasedStyles: SxProps<Theme> = hasShadow
     ? { boxShadow: 4 }
     : {
         boxShadow: 0,
-        border: 1,
+        border: 3,
         borderRadius: 3,
         borderColor: 'grey.400',
       };
@@ -37,24 +38,34 @@ export default function ProductCard({ product, hasShadow }: Props) {
     >
       <CardActionArea
         component={Link}
-        href={`/product/${product.id}`}
-        key={product.id}
+        href={`/product/${id}`}
+        key={id}
         prefetch={false}
       >
         <CardMedia
-          image={product.thumbnail || ''}
+          image={thumbnail || ''}
           sx={{ height: productCardWidth }}
-          title={product.name}
+          title={name}
         />
         <CardContent sx={{ p: 1.5 }}>
           <Typography gutterBottom sx={{ fontWeight: 700 }} variant="body2">
-            {product.name}
+            {name}
           </Typography>
+          {base_price !== final_price && (
+            <Typography
+              align="right"
+              color="grey.500"
+              sx={{ textDecorationLine: 'line-through' }}
+              variant="body2"
+            >
+              {formatPrice(base_price)}
+            </Typography>
+          )}
           <Typography
             align="right"
             sx={{ fontWeight: 700, color: 'primary.main' }}
           >
-            {formatPrice(product.price)}
+            {formatPrice(final_price)}
           </Typography>
         </CardContent>
       </CardActionArea>

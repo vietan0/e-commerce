@@ -13,23 +13,39 @@ interface ResLinks {
   next?: string;
 }
 
+interface Discount_Type {
+  id: number;
+  name: 'percentage' | 'fixed_amount';
+}
+
+interface Discount {
+  id: number;
+  name: string;
+  value: string;
+  type: Discount_Type['id'];
+  created_at: string;
+}
+
 export interface Product {
   id: string;
   name: string;
-  price: string;
+  base_price: string;
+  final_price: string;
   description: string | null;
   thumbnail: string | null;
   stock: number;
   created_at: string;
   updated_at: string | null;
   manufacturer_id: string;
-  category_name: string;
   manufacturer_name: string;
+  discount_name: Discount['name'] | null;
+  discount_value: Discount['value'] | null;
+  discount_type_name: Discount_Type['name'] | null;
 }
 
 export interface ProductImage {
   id: string;
-  product_id: string;
+  product_id: Product['id'];
   url: string;
 }
 
