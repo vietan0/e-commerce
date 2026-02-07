@@ -1,5 +1,18 @@
-import { put } from '@vercel/blob';
+import { list, put } from '@vercel/blob';
 import { type NextRequest, NextResponse } from 'next/server';
+
+export async function GET() {
+  try {
+    const { blobs } = await list();
+    const sorted = blobs.sort(
+      (a, b) =>
+        new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime(),
+    );
+    return NextResponse.json({ blobs: sorted });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 400 });
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {

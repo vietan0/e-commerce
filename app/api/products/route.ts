@@ -76,12 +76,12 @@ export async function GET(request: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, price, description, thumbnail, stock, manufacturer_id } =
+    const { name, base_price, description, thumbnail, stock, manufacturer_id } =
       body;
 
     const [product] = await sql`
-      insert into product(name, price, description, thumbnail, stock, manufacturer_id)
-      values(${name}, ${price}, ${description || null}, ${thumbnail || null}, ${stock}, ${manufacturer_id}) returning *
+      insert into product(name, base_price, description, thumbnail, stock, manufacturer_id)
+      values(${name}, ${base_price}, ${description || null}, ${thumbnail || null}, ${stock}, ${manufacturer_id}) returning *
     `;
 
     return NextResponse.json(
