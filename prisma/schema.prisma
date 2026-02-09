@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model app_user {
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String?      @db.VarChar(255)
+  email       String       @unique @db.VarChar(255)
+  phone       String?      @unique @db.VarChar(15)
+  profile_pic String?
+  created_at  DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime?    @db.Timestamptz(6)
+  password    String?
+  cart_item   cart_item[]
+  user_order  user_order[]
+}
+
+model cart_item {
+  id         BigInt   @id @default(autoincrement())
+  product_id BigInt
+  user_id    String   @db.Uuid
+  amount     Int?
+  product    product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  app_user   app_user @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model category {
+  id               BigInt             @id @default(autoincrement())
+  name             String             @unique @db.VarChar(255)
+  product_category product_category[]
+}
+
+model discount {
+  id               BigInt             @id @default(autoincrement())
+  name             String?            @db.VarChar(255)
+  value            Decimal?           @db.Decimal(14, 3)
+  type             BigInt?
+  created_at       DateTime           @default(now()) @db.Timestamptz(6)
+  discount_type    discount_type?     @relation(fields: [type], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  discount_product discount_product[]
+}
+
+model discount_product {
+  id          BigInt    @id @default(autoincrement())
+  discount_id BigInt?
+  product_id  BigInt?
+  discount    discount? @relation(fields: [discount_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product     product?  @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model discount_type {
+  id       BigInt     @id @default(autoincrement())
+  name     String?    @db.VarChar(255)
+  discount discount[]
+}
+
+model manufacturer {
+  id      BigInt    @id @default(autoincrement())
+  name    String    @unique @db.VarChar(255)
+  product product[]
+}
+
+model order_product {
+  order_id   BigInt
+  product_id BigInt
+  amount     Int
+  id         BigInt     @id @default(autoincrement())
+  user_order user_order @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product    product    @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model order_status {
+  id         BigInt       @id @default(autoincrement())
+  status     String       @unique @db.VarChar(255)
+  user_order user_order[]
+}
+
+model product {
+  id               BigInt             @id @default(autoincrement())
+  name             String?            @unique @db.VarChar(255)
+  base_price       Decimal?           @db.Decimal(14, 3)
+  description      String?
+  thumbnail        String?
+  stock            Int?
+  created_at       DateTime           @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime?          @db.Timestamptz(6)
+  manufacturer_id  BigInt?
+  cart_item        cart_item[]
+  discount_product discount_product[]
+  order_product    order_product[]
+  manufacturer     manufacturer?      @relation(fields: [manufacturer_id], references: [id], onUpdate: NoAction)
+  product_category product_category[]
+  product_image    product_image[]
+}
+
+model product_category {
+  id          BigInt   @id @default(autoincrement())
+  category_id BigInt
+  product_id  BigInt
+  category    category @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product     product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model product_image {
+  id         BigInt  @id @default(autoincrement())
+  product_id BigInt
+  url        String
+  product    product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([product_id, url], map: "unique_product_id_url")
+}
+
+model store {
+  id             BigInt       @id @default(autoincrement())
+  city           String?      @db.VarChar(255)
+  district       String?      @db.VarChar(255)
+  street_address String?      @db.VarChar(255)
+  user_order     user_order[]
+}
+
+model user_order {
+  id              BigInt          @id @default(autoincrement())
+  user_id         String?         @db.Uuid
+  store_id        BigInt?
+  order_status_id BigInt?
+  created_at      DateTime        @db.Timestamptz(6)
+  order_product   order_product[]
+  order_status    order_status?   @relation(fields: [order_status_id], references: [id], onUpdate: NoAction)
+  store           store?          @relation(fields: [store_id], references: [id], onUpdate: NoAction)
+  app_user        app_user?       @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+}
