@@ -4,10 +4,14 @@ import { Box, Button, Stack, type SxProps, type Theme } from '@mui/material';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useMeasure, useSize } from 'react-use';
-import type { ProductImage } from '@/app/types';
 import CarouselNavButton from '@/components/CarouselNavButton';
+import type { Prisma } from '@/lib/generated/prisma/client';
 
-export default function ImagesCarousel({ images }: { images: ProductImage[] }) {
+export default function ImagesCarousel({
+  images,
+}: {
+  images: Prisma.product_imageModel[];
+}) {
   const btnW = 30;
 
   const carouselNavBtnStyles: SxProps<Theme> = {

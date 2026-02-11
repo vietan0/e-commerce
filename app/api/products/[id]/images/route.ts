@@ -1,6 +1,6 @@
 import { put } from '@vercel/blob';
 import { type NextRequest, NextResponse } from 'next/server';
-import { sql } from '@/app/api/utils';
+import { prisma } from '@/lib/prisma';
 
 export async function POST(
   req: NextRequest,
@@ -21,13 +21,13 @@ export async function POST(
     const imgBlobs = await Promise.all(promises);
 
     const rows = imgBlobs.map((blob) => ({
-      product_id: id,
+      product_id: BigInt(id),
       url: blob.url,
     }));
 
-    const product_images = await sql`
-      insert into product_image ${sql(rows, 'product_id', 'url')} returning *
-    `;
+    const product_images = await prisma.product_image.createMany({
+      data: rows,
+    });
     return NextResponse.json({ product_images });
   } catch (error) {
     return NextResponse.json({ error }, { status: 400 });

@@ -1,18 +1,3 @@
-interface ResMeta {
-  totalRows: number;
-  totalProducts: number;
-  totalPages: number;
-  page: number;
-}
-
-interface ResLinks {
-  self: string;
-  first: string;
-  last: string;
-  prev?: string;
-  next?: string;
-}
-
 interface Discount_Type {
   id: number;
   name: 'percentage' | 'fixed_amount';
@@ -37,7 +22,6 @@ export interface Product {
   created_at: string;
   updated_at: string | null;
   manufacturer_id: string;
-  manufacturer_name: string;
   discount_name: Discount['name'] | null;
   discount_value: Discount['value'] | null;
   discount_type_name: Discount_Type['name'] | null;
@@ -50,15 +34,15 @@ export interface ProductImage {
 }
 
 export interface ProductsSuccessRes {
-  meta: ResMeta;
-  links: ResLinks;
+  rowCount: number;
+  totalRowCount: number;
   products: Product[];
 }
 
 export type ProductsRes = ProductsSuccessRes | ErrorRes;
 
 export interface ProductSuccessRes extends Product {
-  images: ProductImage[];
+  product_image: ProductImage[];
 }
 
 export interface ErrorRes {

@@ -1,6 +1,7 @@
 'use client';
 import {
   Box,
+  Chip,
   CircularProgress,
   Container,
   Grid,
@@ -26,22 +27,24 @@ export default function ProductPage({
       </Box>
     );
 
-  if (error)
-    return <Typography>Error fetching product with id {id}</Typography>;
+  if (error) {
+    return (
+      <Typography color="error.light">
+        Error fetching product with id {id}:
+        <Typography sx={{ fontFamily: 'monospace' }}>
+          {error.message}
+        </Typography>
+      </Typography>
+    );
+  }
 
   const {
     name,
     base_price,
-    final_price,
-    description,
-    thumbnail,
-    stock,
-    manufacturer_id,
-    manufacturer_name,
-    images,
-    discount_name,
-    discount_value,
-    discount_type_name,
+    product_image,
+    manufacturer,
+    product_category,
+    discount_product,
   } = product;
   return (
     <Container>
@@ -49,21 +52,22 @@ export default function ProductPage({
         <Grid size={{ xs: 12, md: 7 }}>
           <Typography variant="h6">{name}</Typography>
           <Typography>Giá sản phẩm</Typography>
-          {base_price !== final_price && (
+          {base_price !== null && (
             <Typography
               color="grey.500"
               sx={{ textDecorationLine: 'line-through' }}
               variant="h6"
             >
-              {formatPrice(base_price)}
+              {formatPrice(base_price as unknown as string)}
             </Typography>
           )}
-          <Typography variant="h5">{formatPrice(final_price)}</Typography>
-          <Typography>manufacturer_name: {manufacturer_name}</Typography>
-          <Typography>discount_name: {discount_name}</Typography>
-          <Typography>discount_value: {discount_value}</Typography>
-          <Typography>discount_type_name: {discount_type_name}</Typography>
-          <ImagesCarousel images={images} />
+          <Typography variant="h5">final_price</Typography>
+          <Typography>manufacturer.name: {manufacturer?.name}</Typography>
+          {product_category.map(({ category }) => (
+            <Chip key={category.id} label={category.name} sx={{ mr: 1 }} />
+          ))}
+          {/* <Typography>discount_product: {discount_product}</Typography> */}
+          <ImagesCarousel images={product_image} />
         </Grid>
         <Grid size={{ xs: 12, md: 5 }} sx={{ border: 1 }}>
           Right
