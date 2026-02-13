@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import ProductCarousel from '@/components/ProductCarousel';
+import ProductCarousel from '@/src/components/ProductCarousel';
 
 export default function HotSale() {
   return (

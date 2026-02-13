@@ -1,5 +1,5 @@
 import { PrismaPg } from '@prisma/adapter-pg';
-import { Prisma, PrismaClient } from './generated/prisma/client';
+import { Prisma, PrismaClient } from '../generated/prisma/client';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 const adapter = new PrismaPg({
@@ -25,6 +25,7 @@ const convertBigIntExt = Prisma.defineExtension({
     },
   },
 });
+
 export const prisma =
   globalForPrisma.prisma ||
   new PrismaClient({ adapter }).$extends(convertBigIntExt);

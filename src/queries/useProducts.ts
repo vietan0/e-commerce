@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { ProductsRes } from '@/app/types';
+import type { ProductsRes } from '@/src/types';
 
 export default function useProducts() {
   return useQuery({
@@ -20,5 +20,6 @@ async function getProducts() {
   if (!res.ok) {
     throw new Error('Network response was not ok');
   }
+
   return data;
 }

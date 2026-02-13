@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import { calcPriceAfterDiscounts } from '@/lib/price';
-import { prisma } from '@/lib/prisma';
+import { calcPriceAfterDiscounts } from '@/src/lib/price';
+import { prisma } from '@/src/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {

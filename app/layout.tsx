@@ -3,7 +3,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { Container } from '@mui/material';
 import Providers from '@/app/Providers';
-import Nav from '@/components/Nav';
+import Nav from '@/src/components/Nav';
 
 const geistSans = localFont({
   src: '../public/geist-font-1.6.0/fonts/Geist/variable/Geist[wght].ttf',

@@ -8,9 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 import { use } from 'react';
-import ImagesCarousel from '@/components/ImagesCarousel';
-import formatPrice from '@/lib/price';
-import useProduct from '@/queries/useProduct';
+import ImagesCarousel from '@/src/components/ImagesCarousel';
+import formatPrice from '@/src/lib/price';
+import useProduct from '@/src/queries/useProduct';
 
 export default function ProductPage({
   params,

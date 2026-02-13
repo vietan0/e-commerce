@@ -1,6 +1,6 @@
 import { Box, Skeleton, Stack } from '@mui/material';
-import Categories from '@/components/Categories';
-import HotSale from '@/components/HotSale';
+import Categories from '@/src/components/Categories';
+import HotSale from '@/src/components/HotSale';
 
 export default function Home() {
   return (

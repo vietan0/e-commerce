@@ -1,6 +1,6 @@
 import { AppBar, Box, Button } from '@mui/material';
-import HomeLink from '@/components/HomeLink';
-import NavCategories from '@/components/NavCategories';
+import HomeLink from '@/src/components/HomeLink';
+import NavCategories from '@/src/components/NavCategories';
 
 export default function Nav() {
   return (

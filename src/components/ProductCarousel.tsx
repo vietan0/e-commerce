@@ -10,11 +10,11 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-import { productCardWidth } from '@/app/constants/ui';
 import theme from '@/app/theme';
-import CarouselNavButton from '@/components/CarouselNavButton';
-import ProductCard from '@/components/ProductCard';
-import useProducts from '@/queries/useProducts';
+import CarouselNavButton from '@/src/components/CarouselNavButton';
+import ProductCard from '@/src/components/ProductCard';
+import { productCardWidth } from '@/src/constants/ui';
+import useProducts from '@/src/queries/useProducts';
 
 export default function ProductCarousel() {
   const { data, isPending, error } = useProducts();

@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 import { Button, Menu } from '@mui/material';
 import type React from 'react';
 import { useState } from 'react';
-import Categories from '@/components/Categories';
+import Categories from '@/src/components/Categories';
 
 export default function NavCategories() {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);

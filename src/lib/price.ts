@@ -1,4 +1,4 @@
-import type { productGetPayload } from '@/lib/generated/prisma/models';
+import type { productGetPayload } from '@/src/generated/prisma/models';
 
 /**
  * e.g. `12000000.0` -> `12.000.000₫`

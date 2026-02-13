@@ -8,9 +8,9 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
-import { productCardWidth } from '@/app/constants/ui';
-import type { Product } from '@/app/types';
-import formatPrice from '@/lib/price';
+import { productCardWidth } from '@/src/constants/ui';
+import formatPrice from '@/src/lib/price';
+import type { Product } from '@/src/types';
 
 interface Props {
   product: Product;
@@ -45,20 +45,20 @@ export default function ProductCard({ product, hasShadow }: Props) {
         <CardMedia
           image={thumbnail || ''}
           sx={{ height: productCardWidth }}
-          title={name}
+          title={name || undefined}
         />
         <CardContent sx={{ p: 1.5 }}>
           <Typography gutterBottom sx={{ fontWeight: 700 }} variant="body2">
             {name}
           </Typography>
-          {base_price !== final_price && (
+          {(base_price as unknown as string) !== final_price && (
             <Typography
               align="right"
               color="grey.500"
               sx={{ textDecorationLine: 'line-through' }}
               variant="body2"
             >
-              {formatPrice(base_price)}
+              {formatPrice(base_price as unknown as string)}
             </Typography>
           )}
           <Typography
