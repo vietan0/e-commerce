@@ -41,6 +41,7 @@ export default function ProductPage({
   const {
     name,
     base_price,
+    final_price,
     product_image,
     manufacturer,
     product_category,
@@ -52,7 +53,7 @@ export default function ProductPage({
         <Grid size={{ xs: 12, md: 7 }}>
           <Typography variant="h6">{name}</Typography>
           <Typography>Giá sản phẩm</Typography>
-          {base_price !== null && (
+          {(base_price as unknown as string) !== final_price && (
             <Typography
               color="grey.500"
               sx={{ textDecorationLine: 'line-through' }}
@@ -61,12 +62,20 @@ export default function ProductPage({
               {formatPrice(base_price as unknown as string)}
             </Typography>
           )}
-          <Typography variant="h5">final_price</Typography>
+          <Typography variant="h5">{formatPrice(final_price)}</Typography>
           <Typography>manufacturer.name: {manufacturer?.name}</Typography>
-          {product_category.map(({ category }) => (
-            <Chip key={category.id} label={category.name} sx={{ mr: 1 }} />
-          ))}
-          {/* <Typography>discount_product: {discount_product}</Typography> */}
+          <Box sx={{ mb: 1 }}>
+            {product_category.map(({ category }) => (
+              <Chip key={category.id} label={category.name} sx={{ mr: 1 }} />
+            ))}
+          </Box>
+          <Box sx={{ mb: 1 }}>
+            {discount_product.map(({ discount }) =>
+              discount ? (
+                <Chip key={discount.id} label={discount.name} sx={{ mr: 1 }} />
+              ) : null,
+            )}
+          </Box>
           <ImagesCarousel images={product_image} />
         </Grid>
         <Grid size={{ xs: 12, md: 5 }} sx={{ border: 1 }}>

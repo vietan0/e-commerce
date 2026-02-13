@@ -17,7 +17,7 @@ interface Props {
   hasShadow: boolean;
 }
 export default function ProductCard({ product, hasShadow }: Props) {
-  const { id, base_price, name, thumbnail } = product;
+  const { id, base_price, final_price, name, thumbnail } = product;
   const propBasedStyles: SxProps<Theme> = hasShadow
     ? { boxShadow: 4 }
     : {
@@ -51,7 +51,7 @@ export default function ProductCard({ product, hasShadow }: Props) {
           <Typography gutterBottom sx={{ fontWeight: 700 }} variant="body2">
             {name}
           </Typography>
-          {base_price !== null /* final_price */ && (
+          {base_price !== final_price && (
             <Typography
               align="right"
               color="grey.500"
@@ -65,8 +65,7 @@ export default function ProductCard({ product, hasShadow }: Props) {
             align="right"
             sx={{ fontWeight: 700, color: 'primary.main' }}
           >
-            {/* {formatPrice()} */}
-            final_price
+            {formatPrice(final_price)}
           </Typography>
         </CardContent>
       </CardActionArea>

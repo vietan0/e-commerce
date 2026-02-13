@@ -37,7 +37,10 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(product);
+    return NextResponse.json({
+      ...product,
+      final_price: calcPriceAfterDiscounts(product),
+    });
   } catch (error) {
     const typedError = error as Error;
     return NextResponse.json({ error: typedError.message }, { status: 500 });
