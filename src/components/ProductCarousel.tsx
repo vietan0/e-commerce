@@ -17,7 +17,7 @@ import { productCardWidth } from '@/src/constants/ui';
 import useProducts from '@/src/queries/useProducts';
 
 export default function ProductCarousel() {
-  const { data, isPending, error } = useProducts();
+  const { data, isPending, error } = useProducts({ limit: 8 });
   const [offset, setOffset] = useState(0);
   const btnW = 52; // size of one CarouselNavButton, may change if "size" prop or child icon size changes
   const spacing = 2;
