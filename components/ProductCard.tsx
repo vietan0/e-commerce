@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { productCardWidth } from '@/app/constants/ui';
 import type { Product } from '@/app/types';
-import formatPrice from '@/lib/formatPrice';
+import formatPrice from '@/lib/price';
 
 interface Props {
   product: Product;

@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { use } from 'react';
 import ImagesCarousel from '@/components/ImagesCarousel';
-import formatPrice from '@/lib/formatPrice';
+import formatPrice from '@/lib/price';
 import useProduct from '@/queries/useProduct';
 
 export default function ProductPage({
