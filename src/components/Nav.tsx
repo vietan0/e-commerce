@@ -1,4 +1,7 @@
-import { AppBar, Box, Button } from '@mui/material';
+'use client';
+import { Icon } from '@iconify/react';
+import { AppBar, Box, Button, Stack } from '@mui/material';
+import NextLink from 'next/link';
 import HomeLink from '@/src/components/HomeLink';
 import NavCategories from '@/src/components/NavCategories';
 
@@ -26,9 +29,26 @@ export default function Nav() {
         <HomeLink />
         <NavCategories />
       </Box>
-      <Button color="inherit" variant="outlined">
-        Login
-      </Button>
+      <Stack direction="row" spacing={1}>
+        <Button
+          color="inherit"
+          component={NextLink}
+          href="/admin"
+          startIcon={
+            <Icon icon="material-symbols:admin-panel-settings-rounded" />
+          }
+          variant="outlined"
+        >
+          Admin
+        </Button>
+        <Button
+          color="inherit"
+          startIcon={<Icon icon="material-symbols:person-rounded" />}
+          variant="outlined"
+        >
+          Login
+        </Button>
+      </Stack>
     </AppBar>
   );
 }

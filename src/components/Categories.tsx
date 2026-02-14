@@ -1,16 +1,9 @@
 'use client';
 import { Icon } from '@iconify/react';
-import {
-  ListItemIcon,
-  ListItemText,
-  MenuItem,
-  MenuList,
-  useTheme,
-} from '@mui/material';
+import { ListItemIcon, ListItemText, MenuItem, MenuList } from '@mui/material';
+import theme from '@/app/theme';
 
 export default function Categories({ closeMenu }: { closeMenu?: () => void }) {
-  const theme = useTheme();
-
   const menus = [
     {
       icon: 'material-symbols:phone-android-outline-rounded',

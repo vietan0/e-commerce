@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import { Container } from '@mui/material';
 import Providers from '@/app/Providers';
 import Nav from '@/src/components/Nav';
 
@@ -32,16 +31,7 @@ export default function RootLayout({
       >
         <Providers>
           <Nav />
-          <Container
-            sx={{
-              py: {
-                xs: 2,
-                md: 4,
-              },
-            }}
-          >
-            {children}
-          </Container>
+          {children}
         </Providers>
       </body>
     </html>
