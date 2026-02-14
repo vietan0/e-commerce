@@ -41,6 +41,7 @@ export default function ProductCard({ product, hasShadow }: Props) {
         href={`/product/${id}`}
         key={id}
         prefetch={false}
+        sx={{ height: 1 }}
       >
         <CardMedia
           image={thumbnail || ''}
@@ -48,7 +49,17 @@ export default function ProductCard({ product, hasShadow }: Props) {
           title={name || undefined}
         />
         <CardContent sx={{ p: 1.5 }}>
-          <Typography gutterBottom sx={{ fontWeight: 700 }} variant="body2">
+          <Typography
+            gutterBottom
+            sx={{
+              fontWeight: 700,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+            variant="body2"
+          >
             {name}
           </Typography>
           {(base_price as unknown as string) !== final_price && (

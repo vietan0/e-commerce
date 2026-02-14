@@ -1,4 +1,5 @@
 import { Box, Skeleton, Stack } from '@mui/material';
+import AllProducts from '@/src/components/AllProducts';
 import Categories from '@/src/components/Categories';
 import HotSale from '@/src/components/HotSale';
 
@@ -44,6 +45,7 @@ export default function Home() {
         }}
       >
         <HotSale />
+        <AllProducts />
       </Box>
     </Stack>
   );
