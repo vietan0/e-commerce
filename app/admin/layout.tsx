@@ -29,12 +29,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Container
       sx={{
+        flexBasis: 0,
+        minHeight: 0,
+        flexGrow: 1,
+        px: {
+          sm: 0,
+        },
         maxWidth: {
           lg: 1500,
         },
       }}
     >
-      <Grid container>
+      <Grid container sx={{ height: 1 }}>
         <Grid size={{ xs: 12, md: 2 }}>
           <MenuList>
             {links.map(({ name, path, icon }) => (
@@ -58,7 +64,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             ))}
           </MenuList>
         </Grid>
-        <Grid size={{ xs: 12, md: 'grow' }}>{children}</Grid>
+        <Grid
+          size={{ xs: 12, md: 'grow' }}
+          sx={{ height: 1, overflow: 'auto' }}
+        >
+          {children}
+        </Grid>
       </Grid>
     </Container>
   );

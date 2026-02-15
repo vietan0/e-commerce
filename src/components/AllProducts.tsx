@@ -14,7 +14,17 @@ export default function AllProducts() {
     );
   }
 
-  if (error) return <Typography>Error fetching products.</Typography>;
+  if (error) {
+    return (
+      <Typography color="error.light">
+        Error fetching products:
+        <Typography sx={{ fontFamily: 'monospace' }}>
+          {error.message}
+        </Typography>
+      </Typography>
+    );
+  }
+
   return (
     <Box>
       <Typography gutterBottom variant="h3">

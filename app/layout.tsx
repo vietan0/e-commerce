@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import { Stack } from '@mui/material';
 import Providers from '@/app/Providers';
 import Nav from '@/src/components/Nav';
 
@@ -26,12 +27,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
-          <Nav />
-          {children}
+          <Stack sx={{ minHeight: '100vh' }}>
+            <Nav />
+            {children}
+          </Stack>
         </Providers>
       </body>
     </html>
