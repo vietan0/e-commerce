@@ -4,7 +4,7 @@ import { useState } from 'react';
 import CategoryChip from '@/app/admin/products/_components/CategoryChip';
 import DiscountChip from '@/app/admin/products/_components/DiscountChip';
 import ProductEditForm from '@/app/admin/products/_components/ProductEditForm';
-import formatPrice from '@/src/lib/price';
+import { formatPrice } from '@/src/lib/price';
 import type { Product } from '@/src/types';
 export default function ProductRow({ product }: { product: Product }) {
   const {

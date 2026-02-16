@@ -1,19 +1,42 @@
 import type { productGetPayload } from '@/src/generated/prisma/models';
 
+export function stripFormat(str: string) {
+  const stripped = str.replaceAll(/[\s.,]/g, '');
+  return stripped;
+}
+
 /**
- * e.g. `12000000.0` -> `12.000.000₫`
+ * - e.g. `12000000` -> `12.000.000₫`
+ * - e.g. `12000000.5` -> `12.000.000,5₫`
  * @param numeric numeric(x,y) from postgres
  */
-export default function formatPrice(numeric: string) {
-  const wholeStr = numeric.split('.')[0];
-  const wholeNum = Number(wholeStr);
-  const formatted = new Intl.NumberFormat('vi-VN', {
+export function formatPrice(
+  numeric: string,
+  options: {
+    hasUnit?: boolean;
+  } = {},
+) {
+  const defaultOptions = {
+    hasUnit: true,
+  };
+  const finalOptions = {
+    ...defaultOptions,
+    ...options,
+  };
+
+  const num = Number(numeric);
+  let formatted = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
     currency: 'vnd',
+    maximumFractionDigits: 3,
+    trailingZeroDisplay: 'stripIfInteger',
   })
-    .format(wholeNum)
-    .replace(/\s/, '');
+    .format(num)
+    .replaceAll(/\s/g, '');
 
+  if (!finalOptions.hasUnit) {
+    formatted = formatted.slice(0, -1);
+  }
   return formatted;
 }
 

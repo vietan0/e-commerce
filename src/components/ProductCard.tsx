@@ -9,7 +9,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { productCardWidth } from '@/src/constants/ui';
-import formatPrice from '@/src/lib/price';
+import { formatPrice } from '@/src/lib/price';
 import type { Product } from '@/src/types';
 
 interface Props {

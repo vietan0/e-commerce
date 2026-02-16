@@ -2,7 +2,7 @@
 import { Box, Chip, CircularProgress, Grid, Typography } from '@mui/material';
 import { use } from 'react';
 import ImagesCarousel from '@/src/components/ImagesCarousel';
-import formatPrice from '@/src/lib/price';
+import { formatPrice } from '@/src/lib/price';
 import useProduct from '@/src/queries/useProduct';
 
 export default function ProductPage({
