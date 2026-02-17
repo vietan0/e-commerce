@@ -1,3 +1,4 @@
+import type { ListBlobResultBlob } from '@vercel/blob';
 import type {
   manufacturerGetPayload,
   productGetPayload,
@@ -47,3 +48,10 @@ export interface ManufacturersSuccessRes {
 }
 
 export type ManufacturersRes = ManufacturersSuccessRes | ErrorRes;
+
+export type BlobsSuccessRes = {
+  blobCount: number;
+  blobs: ListBlobResultBlob[];
+};
+
+export type BlobsRes = BlobsSuccessRes | ErrorRes;

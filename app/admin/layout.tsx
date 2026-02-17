@@ -14,16 +14,22 @@ import theme from '@/app/theme';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const firstSegment = pathname.match(/^\/\w+/)![0];
   const links = [
     {
       name: 'Products',
-      path: '/admin/products',
+      path: `${firstSegment}/products`,
       icon: 'material-symbols:inventory-2-outline-rounded',
     },
     {
       name: 'Orders',
-      path: '/admin/orders',
+      path: `${firstSegment}/orders`,
       icon: 'material-symbols:shopping-bag-outline',
+    },
+    {
+      name: 'Blobs',
+      path: `${firstSegment}/blobs`,
+      icon: 'material-symbols:perm-media-outline-rounded',
     },
   ];
   return (
@@ -68,7 +74,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           size={{ xs: 12, md: 'grow' }}
           sx={{ height: 1, overflow: 'auto' }}
         >
-          {children}
+          <Container
+            sx={{
+              py: 3,
+              pr: {
+                xs: 0,
+                sm: 2,
+              },
+            }}
+          >
+            {children}
+          </Container>
         </Grid>
       </Grid>
     </Container>

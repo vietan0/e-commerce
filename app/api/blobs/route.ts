@@ -8,7 +8,7 @@ export async function GET() {
       (a, b) =>
         new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime(),
     );
-    return NextResponse.json({ blobs: sorted });
+    return NextResponse.json({ blobCount: sorted.length, blobs: sorted });
   } catch (error) {
     return NextResponse.json({ error }, { status: 400 });
   }
