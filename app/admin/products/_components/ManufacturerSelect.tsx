@@ -21,7 +21,7 @@ export default function ManufacturerSelect(props: SelectProps) {
         {...props}
         label="Manufacturer"
         labelId={labelId}
-        renderValue={(value) => {
+        renderValue={(selected) => {
           if (isPending) return <CircularProgress size={16} />;
 
           if (error) {
@@ -29,13 +29,15 @@ export default function ManufacturerSelect(props: SelectProps) {
               <Typography color="error.light">
                 Error fetching manufacturers:
                 <Typography sx={{ fontFamily: 'monospace' }}>
-                  error.message;
+                  {error.message}
                 </Typography>
               </Typography>
             );
           }
 
-          const match = data.manufacturers.find((m) => String(m.id) === value);
+          const match = data.manufacturers.find(
+            (m) => String(m.id) === selected,
+          );
           return match!.name;
         }}
         size="small"

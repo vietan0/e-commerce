@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import CategoriesSelect from '@/app/admin/products/_components/CategoriesSelect';
 import ManufacturerSelect from '@/app/admin/products/_components/ManufacturerSelect';
 import theme from '@/app/theme';
 import VisuallyHiddenInput from '@/src/components/VisuallyHiddenInput';
@@ -26,8 +27,9 @@ interface IFormInputs {
   id: string;
   name: string;
   base_price: string;
-  stock: number;
+  stock: string;
   manufacturer_id: string;
+  categories: string[];
   thumbnail: FileList;
 }
 export default function ProductEditForm({
@@ -39,19 +41,39 @@ export default function ProductEditForm({
   open: boolean;
   handleClose: () => void;
 }) {
-  const { id, name, base_price, stock, manufacturer_id, thumbnail } = product;
-  const { control, handleSubmit, register, formState, watch, resetField } =
-    useForm<IFormInputs>({
-      defaultValues: {
-        id: (id as unknown as string) || '',
-        name: name || '',
-        base_price: formatPrice(base_price as unknown as string, {
-          hasUnit: false,
-        }),
-        stock: stock || 0,
-        manufacturer_id: String(manufacturer_id),
-      },
-    });
+  const {
+    id,
+    name,
+    base_price,
+    stock,
+    manufacturer_id,
+    product_category,
+    thumbnail,
+  } = product;
+
+  const defaultValues = {
+    id: (id as unknown as string) || '',
+    name: name || '',
+    base_price: formatPrice(base_price as unknown as string, {
+      hasUnit: false,
+    }),
+    stock: String(stock) || '',
+    manufacturer_id: String(manufacturer_id),
+    categories: product_category.map((pc) => String(pc.category_id)),
+    thumbnail: new DataTransfer().files, // an empty FileList[]
+  };
+
+  const {
+    control,
+    handleSubmit,
+    register,
+    formState,
+    watch,
+    resetField,
+    reset,
+  } = useForm<IFormInputs>({
+    defaultValues,
+  });
 
   const thumbnailVal = watch('thumbnail');
   const onSubmit: SubmitHandler<IFormInputs> = (data) => console.log(data);
@@ -154,6 +176,25 @@ export default function ProductEditForm({
                 )}
               />
             </Grid>
+            <Grid size={12}>
+              <Controller
+                control={control}
+                name="categories"
+                render={({ field }) => (
+                  <CategoriesSelect
+                    {...field}
+                    fullWidth
+                    onChange={(e) => {
+                      const value = e.target.value as string[];
+                      const sortedValue = value.sort(
+                        (a, b) => Number(a) - Number(b),
+                      );
+                      field.onChange(sortedValue);
+                    }}
+                  />
+                )}
+              />
+            </Grid>
             <DevTool control={control} />
           </Grid>
           <Divider />
@@ -188,7 +229,7 @@ export default function ProductEditForm({
                   }}
                   title="Upload Image"
                 >
-                  {thumbnailVal && thumbnailVal.length > 0 ? (
+                  {thumbnailVal.length > 0 ? (
                     <Image
                       alt="New product thumbnail"
                       height={100}
@@ -212,7 +253,7 @@ export default function ProductEditForm({
                   />
                 </Button>
                 <Button
-                  disabled={!thumbnailVal || thumbnailVal.length === 0}
+                  disabled={thumbnailVal.length === 0}
                   onClick={() => resetField('thumbnail')}
                 >
                   Reset
@@ -223,7 +264,13 @@ export default function ProductEditForm({
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button color="inherit" onClick={handleClose}>
+        <Button
+          color="inherit"
+          onClick={() => {
+            reset();
+            handleClose();
+          }}
+        >
           Cancel
         </Button>
         <Button disabled={!formState.isDirty} type="submit" variant="contained">

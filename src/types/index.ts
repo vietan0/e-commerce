@@ -1,5 +1,6 @@
 import type { ListBlobResultBlob } from '@vercel/blob';
 import type {
+  categoryGetPayload,
   manufacturerGetPayload,
   productGetPayload,
 } from '@/src/generated/prisma/models';
@@ -55,3 +56,11 @@ export type BlobsSuccessRes = {
 };
 
 export type BlobsRes = BlobsSuccessRes | ErrorRes;
+
+export interface CategoriesSuccessRes {
+  rowCount: number;
+  totalRowCount: number;
+  categories: categoryGetPayload<null>[];
+}
+
+export type CategoriesRes = CategoriesSuccessRes | ErrorRes;

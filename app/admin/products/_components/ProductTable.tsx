@@ -36,7 +36,7 @@ export default function ProductTable() {
 
   return (
     <TableContainer>
-      <Table size="small" stickyHeader sx={{ fontSize: 0.25 }}>
+      <Table size="small" stickyHeader>
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
