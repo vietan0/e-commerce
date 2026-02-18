@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import type { BlobsRes } from '@/src/types';
 
 type Options = {
-  page?: number;
   limit?: number;
   sort?: string;
 };

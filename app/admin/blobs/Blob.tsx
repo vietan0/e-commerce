@@ -44,7 +44,7 @@ export default function Blob({ blob }: { blob: ListBlobResultBlob }) {
               width={120}
             />
           </Stack>
-          <Typography noWrap title={blob.pathname}>
+          <Typography noWrap title={blob.pathname} variant="body2">
             {blob.pathname}
           </Typography>
           <Stack direction="row" spacing={0.25} sx={{ alignItems: 'center' }}>

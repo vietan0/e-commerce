@@ -5,7 +5,7 @@ import Blob from '@/app/admin/blobs/Blob';
 import useBlobs from '@/src/queries/useBlobs';
 
 export default function Blobs() {
-  const { data, isPending, error } = useBlobs();
+  const { data, isPending, error } = useBlobs({ sort: '-uploadedAt' });
   if (isPending)
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>

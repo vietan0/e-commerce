@@ -1,10 +1,10 @@
 export default function formatFileSize(bytes: number) {
-  const mb = bytes / 1024;
+  const kb = bytes / 1024;
 
-  if (mb > 1024) {
-    const gb = mb / 1024;
-    return `${gb.toFixed(1)} GB`;
+  if (kb > 1024) {
+    const mb = kb / 1024;
+    return `${mb.toFixed(1)} MB`;
   }
 
-  return `${mb.toFixed(1)} MB`;
+  return `${kb.toFixed(1)} KB`;
 }
