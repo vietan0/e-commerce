@@ -1,6 +1,3 @@
--- CreateSchema
-CREATE SCHEMA IF NOT EXISTS "public";
-
 -- CreateTable
 CREATE TABLE "app_user" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -28,7 +25,8 @@ CREATE TABLE "cart_item" (
 -- CreateTable
 CREATE TABLE "category" (
     "id" BIGSERIAL NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
+    "code" VARCHAR(255) NOT NULL,
+    "name" VARCHAR(255),
 
     CONSTRAINT "category_pkey" PRIMARY KEY ("id")
 );
@@ -148,7 +146,7 @@ CREATE UNIQUE INDEX "app_user_email_key" ON "app_user"("email");
 CREATE UNIQUE INDEX "app_user_phone_key" ON "app_user"("phone");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "category_name_key" ON "category"("name");
+CREATE UNIQUE INDEX "category_name_key" ON "category"("code");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "manufacturer_name_key" ON "manufacturer"("name");
@@ -203,4 +201,3 @@ ALTER TABLE "user_order" ADD CONSTRAINT "user_order_store_id_fkey" FOREIGN KEY (
 
 -- AddForeignKey
 ALTER TABLE "user_order" ADD CONSTRAINT "user_order_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "app_user"("id") ON DELETE SET NULL ON UPDATE NO ACTION;
-

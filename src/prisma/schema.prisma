@@ -18,6 +18,7 @@ model app_user {
   password    String?
   cart_item   cart_item[]
   user_order  user_order[]
+  files       file[]
 }
 
 model cart_item {
@@ -31,7 +32,8 @@ model cart_item {
 
 model category {
   id               BigInt             @id @default(autoincrement())
-  name             String             @unique @db.VarChar(255)
+  code             String             @unique(map: "category_name_key") @db.VarChar(255)
+  name             String?            @db.VarChar(255)
   product_category product_category[]
 }
 
@@ -133,4 +135,15 @@ model user_order {
   order_status    order_status?   @relation(fields: [order_status_id], references: [id], onUpdate: NoAction)
   store           store?          @relation(fields: [store_id], references: [id], onUpdate: NoAction)
   app_user        app_user?       @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+}
+
+model file {
+  id           BigInt    @id @default(autoincrement())
+  name         String?   @db.VarChar(255)
+  url          String
+  download_url String
+  size         Int?
+  created_at   DateTime  @db.Timestamptz(6)
+  user_id      String?   @db.Uuid
+  app_user     app_user? @relation(fields: [user_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
 }
