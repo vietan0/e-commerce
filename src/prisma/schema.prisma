@@ -111,10 +111,9 @@ model product_category {
 model product_image {
   id         BigInt  @id @default(autoincrement())
   product_id BigInt
-  url        String
+  file_id    BigInt
+  file       file    @relation(fields: [file_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   product    product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@unique([product_id, url], map: "unique_product_id_url")
 }
 
 model store {
@@ -138,12 +137,13 @@ model user_order {
 }
 
 model file {
-  id           BigInt    @id @default(autoincrement())
-  name         String?   @db.VarChar(255)
-  url          String
-  download_url String
-  size         Int?
-  created_at   DateTime  @db.Timestamptz(6)
-  user_id      String?   @db.Uuid
-  app_user     app_user? @relation(fields: [user_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  id            BigInt          @id @default(autoincrement())
+  name          String?         @db.VarChar(255)
+  url           String
+  download_url  String
+  size          Int?
+  created_at    DateTime        @db.Timestamptz(6)
+  user_id       String?         @db.Uuid
+  app_user      app_user?       @relation(fields: [user_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  productImages product_image[]
 }

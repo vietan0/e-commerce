@@ -10,7 +10,11 @@ import type { Prisma } from '@/src/generated/prisma/client';
 export default function ImagesCarousel({
   images,
 }: {
-  images: Prisma.product_imageModel[];
+  images: Prisma.product_imageGetPayload<{
+    include: {
+      file: true;
+    };
+  }>[];
 }) {
   const btnW = 30;
 
@@ -64,7 +68,7 @@ export default function ImagesCarousel({
           <Image
             alt=""
             height={80}
-            src={img.url}
+            src={img.file.url}
             style={{ objectFit: 'cover' }}
             width={80}
           />
@@ -105,7 +109,7 @@ export default function ImagesCarousel({
           alt=""
           height={300}
           key={images[activeImageIdx].id}
-          src={images[activeImageIdx].url}
+          src={images[activeImageIdx].file.url}
           style={{ display: 'block', objectFit: 'contain', width: '100%' }}
           width={500}
         />
