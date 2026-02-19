@@ -18,6 +18,7 @@ import Image from 'next/image';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import CategoriesSelect from '@/app/admin/products/_components/CategoriesSelect';
 import ManufacturerSelect from '@/app/admin/products/_components/ManufacturerSelect';
+import ProductImage from '@/app/admin/products/_components/ProductImage';
 import theme from '@/app/theme';
 import VisuallyHiddenInput from '@/src/components/VisuallyHiddenInput';
 import { formatPrice, stripFormat } from '@/src/lib/price';
@@ -30,7 +31,6 @@ interface IFormInputs {
   stock: string;
   manufacturer_id: string;
   categories: string[];
-  thumbnail: FileList;
 }
 export default function ProductEditForm({
   product,
@@ -60,22 +60,12 @@ export default function ProductEditForm({
     stock: String(stock) || '',
     manufacturer_id: String(manufacturer_id),
     categories: product_category.map((pc) => String(pc.category_id)),
-    thumbnail: new DataTransfer().files, // an empty FileList[]
   };
 
-  const {
-    control,
-    handleSubmit,
-    register,
-    formState,
-    watch,
-    resetField,
-    reset,
-  } = useForm<IFormInputs>({
+  const { control, handleSubmit, formState, reset } = useForm<IFormInputs>({
     defaultValues,
   });
 
-  const thumbnailVal = watch('thumbnail');
   const onSubmit: SubmitHandler<IFormInputs> = (data) => console.log(data);
   return (
     <Dialog
@@ -195,6 +185,17 @@ export default function ProductEditForm({
                 )}
               />
             </Grid>
+            <Grid size={12}>
+              <Stack direction="row" sx={{ justifyContent: 'end' }}>
+                <Button
+                  disabled={!formState.isDirty}
+                  type="submit"
+                  variant="contained"
+                >
+                  Save
+                </Button>
+              </Stack>
+            </Grid>
             <DevTool control={control} />
           </Grid>
           <Divider />
@@ -229,11 +230,14 @@ export default function ProductEditForm({
                   }}
                   title="Upload Image"
                 >
-                  {thumbnailVal.length > 0 ? (
+                  {Math.random() < 0 ? (
                     <Image
                       alt="New product thumbnail"
                       height={100}
-                      src={URL.createObjectURL(thumbnailVal[0])}
+                      // src={URL.createObjectURL(thumbnailVal[0])}
+                      src={
+                        'https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/q/u/quat-dung-sharp-pj-s40rv-dg-kem-remote-1_2.png'
+                      }
                       style={{ objectFit: 'contain' }}
                       width={100}
                     />
@@ -246,19 +250,20 @@ export default function ProductEditForm({
                       }}
                     />
                   )}
-                  <VisuallyHiddenInput
-                    {...register('thumbnail')}
-                    accept="image/*"
-                    type="file"
-                  />
+                  <VisuallyHiddenInput accept="image/*" type="file" />
                 </Button>
-                <Button
-                  disabled={thumbnailVal.length === 0}
-                  onClick={() => resetField('thumbnail')}
-                >
-                  Reset
-                </Button>
+                <Button>Reset</Button>
               </Stack>
+            </Box>
+            <Box>
+              <Typography gutterBottom>Product Images</Typography>
+              <Grid container spacing={1}>
+                {product.product_image.map((img) => (
+                  <Grid key={img.id} size={3}>
+                    <ProductImage image={img} />
+                  </Grid>
+                ))}
+              </Grid>
             </Box>
           </Stack>
         </Stack>
@@ -272,9 +277,6 @@ export default function ProductEditForm({
           }}
         >
           Cancel
-        </Button>
-        <Button disabled={!formState.isDirty} type="submit" variant="contained">
-          Save
         </Button>
       </DialogActions>
     </Dialog>
