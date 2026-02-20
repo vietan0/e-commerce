@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import ProductRow from '@/app/admin/products/_components/ProductRow';
-import useProducts from '@/src/queries/useProducts';
+import useProducts from '@/src/queries/products/useProducts';
 
 export default function ProductTable() {
   const { data, isPending, error } = useProducts();

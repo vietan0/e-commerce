@@ -10,7 +10,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import useCategories from '@/src/queries/useCategories';
+import useCategories from '@/src/queries/categories/useCategories';
 
 export default function CategoriesSelect(props: SelectProps) {
   const { data, isPending, error } = useCategories();

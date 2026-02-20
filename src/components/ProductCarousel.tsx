@@ -14,7 +14,7 @@ import theme from '@/app/theme';
 import CarouselNavButton from '@/src/components/CarouselNavButton';
 import ProductCard from '@/src/components/ProductCard';
 import { productCardWidth } from '@/src/constants/ui';
-import useProducts from '@/src/queries/useProducts';
+import useProducts from '@/src/queries/products/useProducts';
 
 export default function ProductCarousel() {
   const { data, isPending, error } = useProducts({ limit: 8 });

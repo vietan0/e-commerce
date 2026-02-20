@@ -1,7 +1,7 @@
 'use client';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import ProductCard from '@/src/components/ProductCard';
-import useProducts from '@/src/queries/useProducts';
+import useProducts from '@/src/queries/products/useProducts';
 
 export default function AllProducts() {
   const { data, isPending, error } = useProducts();

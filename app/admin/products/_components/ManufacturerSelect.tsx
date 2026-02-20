@@ -8,7 +8,7 @@ import {
   type SelectProps,
   Typography,
 } from '@mui/material';
-import useManufacturers from '@/src/queries/useManufacturers';
+import useManufacturers from '@/src/queries/manufacturers/useManufacturers';
 
 export default function ManufacturerSelect(props: SelectProps) {
   const { data, isPending, error } = useManufacturers();
