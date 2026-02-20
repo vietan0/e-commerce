@@ -14,7 +14,10 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import 'md-editor-rt/lib/style.css';
+import { MdEditor } from 'md-editor-rt';
 import Image from 'next/image';
+import { useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import CategoriesSelect from '@/app/admin/products/_components/CategoriesSelect';
 import ManufacturerSelect from '@/app/admin/products/_components/ManufacturerSelect';
@@ -31,6 +34,7 @@ interface IFormInputs {
   stock: string;
   manufacturer_id: string;
   categories: string[];
+  description: string;
 }
 export default function ProductEditForm({
   product,
@@ -48,6 +52,7 @@ export default function ProductEditForm({
     stock,
     manufacturer_id,
     product_category,
+    description,
     thumbnail,
   } = product;
 
@@ -60,11 +65,17 @@ export default function ProductEditForm({
     stock: String(stock) || '',
     manufacturer_id: String(manufacturer_id),
     categories: product_category.map((pc) => String(pc.category_id)),
+    description: description || '',
   };
 
-  const { control, handleSubmit, formState, reset } = useForm<IFormInputs>({
+  const { control, handleSubmit, formState, setValue, reset } =
+useForm<IFormInputs>({
     defaultValues,
   });
+
+// this local state is only here to sync MD Editor with MD Preview,
+  // not doing anything with React Hook Form
+  const [text, setText] = useState(defaultValues.description);
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => console.log(data);
   return (
@@ -75,8 +86,8 @@ export default function ProductEditForm({
         paper: {
           sx: {
             minWidth: 300,
-            maxWidth: 700,
-            width: '75%',
+            maxWidth: 1000,
+            width: '80%',
           },
         },
       }}
@@ -183,6 +194,26 @@ export default function ProductEditForm({
                     }}
                   />
                 )}
+              />
+            </Grid>
+            <Grid size={12}>
+              <Typography gutterBottom variant="body2">
+                Description
+              </Typography>
+              <MdEditor
+                language="en-US"
+                onChange={(val) => {
+                  setValue('description', val, {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  });
+                  setText(val);
+                }}
+                placeholder="Write the description for this product..."
+                style={{
+                  fontFamily: 'geistSans',
+                }}
+                value={text}
               />
             </Grid>
             <Grid size={12}>
