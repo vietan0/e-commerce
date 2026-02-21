@@ -48,6 +48,7 @@ export async function GET(
       final_price: calcPriceAfterDiscounts(product),
     });
   } catch (error) {
+    console.error(error);
     const typedError = error as Error;
     return NextResponse.json({ error: typedError.message }, { status: 500 });
   }
@@ -122,6 +123,7 @@ export async function DELETE(
 
     return NextResponse.json(product);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error }, { status: 500 });
   }
 }

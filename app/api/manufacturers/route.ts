@@ -12,6 +12,7 @@ export async function GET() {
       manufacturers,
     });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error }, { status: 500 });
   }
 }
