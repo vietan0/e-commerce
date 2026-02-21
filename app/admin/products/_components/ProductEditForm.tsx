@@ -14,10 +14,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { pick } from 'es-toolkit/object';
 import 'md-editor-rt/lib/style.css';
 import { MdEditor } from 'md-editor-rt';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import CategoriesSelect from '@/app/admin/products/_components/CategoriesSelect';
 import ManufacturerSelect from '@/app/admin/products/_components/ManufacturerSelect';
@@ -25,16 +26,16 @@ import ProductImage from '@/app/admin/products/_components/ProductImage';
 import theme from '@/app/theme';
 import VisuallyHiddenInput from '@/src/components/VisuallyHiddenInput';
 import { formatPrice, stripFormat } from '@/src/lib/price';
+import useUpdateProductMutation from '@/src/queries/products/useUpdateProductMutation';
 import type { Product } from '@/src/types';
 
-interface IFormInputs {
-  id: string;
-  name: string;
+interface UpdateProductFields {
+  name: string | null;
   base_price: string;
-  stock: string;
+  stock: number;
   manufacturer_id: string;
   categories: string[];
-  description: string;
+  description: string | null;
 }
 export default function ProductEditForm({
   product,
@@ -56,28 +57,59 @@ export default function ProductEditForm({
     thumbnail,
   } = product;
 
-  const defaultValues = {
-    id: (id as unknown as string) || '',
-    name: name || '',
-    base_price: formatPrice(base_price as unknown as string, {
-      hasUnit: false,
+  // defaultValues is updated when product updates (e.g. after successful edit),
+  // which will reset form
+  const defaultValues = useMemo(
+    () => ({
+      name,
+      base_price: formatPrice(base_price as unknown as string, {
+        hasUnit: false,
+      }),
+      stock: Number(stock), // unnecessary after update schema
+      manufacturer_id: String(manufacturer_id),
+      categories: product_category.map((pc) => String(pc.category_id)),
+      description,
     }),
-    stock: String(stock) || '',
-    manufacturer_id: String(manufacturer_id),
-    categories: product_category.map((pc) => String(pc.category_id)),
-    description: description || '',
-  };
+    [name, base_price, stock, manufacturer_id, product_category, description],
+  );
 
-  const { control, handleSubmit, formState, setValue, reset } =
-useForm<IFormInputs>({
-    defaultValues,
-  });
+  const { control, register, handleSubmit, formState, setValue, reset } =
+    useForm<UpdateProductFields>({
+      defaultValues,
+    });
 
-// this local state is only here to sync MD Editor with MD Preview,
+  // this local state is only here to sync MD Editor with MD Preview,
   // not doing anything with React Hook Form
   const [text, setText] = useState(defaultValues.description);
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => console.log(data);
+  const updateProductMutation = useUpdateProductMutation();
+  const onSubmit: SubmitHandler<UpdateProductFields> = (formData) => {
+    // get dirty fields only
+    const dirtyKeys: (keyof UpdateProductFields)[] = [];
+    for (const key in formState.dirtyFields) {
+      const dirty = formState.dirtyFields[key as keyof UpdateProductFields];
+      if (dirty) dirtyKeys.push(key as keyof UpdateProductFields);
+    }
+    const dirtyFields = pick(formData, dirtyKeys);
+
+    // make sure types match before sending
+    const data = {
+      ...dirtyFields,
+      base_price: dirtyFields.base_price
+        ? stripFormat(dirtyFields.base_price)
+        : undefined,
+      manufacturer_id: dirtyFields.manufacturer_id
+        ? Number(dirtyFields.manufacturer_id)
+        : undefined,
+    };
+
+    updateProductMutation.mutate({ data, id });
+  };
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
+
   return (
     <Dialog
       onClose={handleClose}
@@ -102,13 +134,7 @@ useForm<IFormInputs>({
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid size="grow">
-              <Controller
-                control={control}
-                name="id"
-                render={({ field }) => (
-                  <TextField {...field} disabled label="ID" size="small" />
-                )}
-              />
+              <TextField disabled label="ID" size="small" value={id} />
             </Grid>
             <Grid size={10}>
               <Controller
@@ -158,6 +184,7 @@ useForm<IFormInputs>({
                     fullWidth
                     inputMode="numeric"
                     label="Stock"
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                     size="small"
                     slotProps={{
                       htmlInput: {
@@ -203,7 +230,7 @@ useForm<IFormInputs>({
               <MdEditor
                 language="en-US"
                 onChange={(val) => {
-                  setValue('description', val, {
+                  setValue('description', val === '' ? null : val, {
                     shouldDirty: true,
                     shouldTouch: true,
                   });
@@ -212,14 +239,18 @@ useForm<IFormInputs>({
                 placeholder="Write the description for this product..."
                 style={{
                   fontFamily: 'geistSans',
+                  height: 300,
                 }}
-                value={text}
+                value={text || ''}
               />
+              {/* this is only for RHF Devtools, unused otherwise */}
+              <VisuallyHiddenInput {...register('description')} />
             </Grid>
             <Grid size={12}>
               <Stack direction="row" sx={{ justifyContent: 'end' }}>
                 <Button
                   disabled={!formState.isDirty}
+                  loading={updateProductMutation.isPending}
                   type="submit"
                   variant="contained"
                 >

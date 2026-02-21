@@ -1,9 +1,6 @@
 import type { ListBlobResultBlob } from '@vercel/blob';
-import type {
-  categoryGetPayload,
-  manufacturerGetPayload,
-  productGetPayload,
-} from '@/src/generated/prisma/models';
+import type { category, manufacturer } from '@/src/generated/prisma/client';
+import type { productGetPayload } from '@/src/generated/prisma/models';
 
 type ProductComputedFields = { final_price: string };
 
@@ -49,7 +46,7 @@ export type ProductsRes = ProductsSuccessRes | ErrorRes;
 export interface ManufacturersSuccessRes {
   rowCount: number;
   totalRowCount: number;
-  manufacturers: manufacturerGetPayload<null>[];
+  manufacturers: manufacturer[];
 }
 
 export type ManufacturersRes = ManufacturersSuccessRes | ErrorRes;
@@ -64,7 +61,7 @@ export type BlobsRes = BlobsSuccessRes | ErrorRes;
 export interface CategoriesSuccessRes {
   rowCount: number;
   totalRowCount: number;
-  categories: categoryGetPayload<null>[];
+  categories: category[];
 }
 
 export type CategoriesRes = CategoriesSuccessRes | ErrorRes;

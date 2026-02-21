@@ -12,7 +12,6 @@ export default function ProductRow({ product }: { product: Product }) {
     name,
     thumbnail,
     base_price,
-    description,
     discount_product,
     manufacturer,
     product_category,
@@ -37,7 +36,6 @@ export default function ProductRow({ product }: { product: Product }) {
         <TableCell align="right">
           {formatPrice(base_price as unknown as string)}
         </TableCell>
-        <TableCell>{description}</TableCell>
         <TableCell>{manufacturer?.name}</TableCell>
         <TableCell>
           <Stack

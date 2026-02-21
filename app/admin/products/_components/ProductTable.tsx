@@ -14,7 +14,7 @@ import ProductRow from '@/app/admin/products/_components/ProductRow';
 import useProducts from '@/src/queries/products/useProducts';
 
 export default function ProductTable() {
-  const { data, isPending, error } = useProducts();
+  const { data, isPending, error } = useProducts({ sort: 'id' });
   if (isPending) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -43,7 +43,6 @@ export default function ProductTable() {
             <TableCell>Thumbnail</TableCell>
             <TableCell>Name</TableCell>
             <TableCell align="right">Base Price</TableCell>
-            <TableCell>Description</TableCell>
             <TableCell>Manufacturer</TableCell>
             <TableCell>Categories</TableCell>
             <TableCell>Discounts</TableCell>
