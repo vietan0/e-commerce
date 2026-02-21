@@ -45,7 +45,7 @@ export default function ProductRow({ product }: { product: Product }) {
             useFlexGap
           >
             {product_category.map((pc) => (
-              <CategoryChip category_name={pc.category.name!} key={pc.id} />
+              <CategoryChip category_name={pc.category.name} key={pc.id} />
             ))}
           </Stack>
         </TableCell>
@@ -57,7 +57,7 @@ export default function ProductRow({ product }: { product: Product }) {
             useFlexGap
           >
             {discount_product.map((dp) => (
-              <DiscountChip discount_name={dp.discount!.name!} key={dp.id} />
+              <DiscountChip discount_name={dp.discount.name} key={dp.id} />
             ))}
           </Stack>
         </TableCell>

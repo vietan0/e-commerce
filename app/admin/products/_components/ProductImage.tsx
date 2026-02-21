@@ -41,14 +41,14 @@ export default function ProductImage({
         <CardContent sx={{ p: 1.5, pt: 0 }}>
           <Stack alignItems="center" sx={{ mb: 0.5 }}>
             <Image
-              alt={image.file.name!}
+              alt={image.file.name}
               height={100}
               src={image.file.url}
               style={{ objectFit: 'contain' }}
               width={200}
             />
           </Stack>
-          <Typography noWrap title={image.file.name!} variant="body2">
+          <Typography noWrap title={image.file.name} variant="body2">
             {image.file.name}
           </Typography>
           <Stack direction="row" spacing={0.25} sx={{ alignItems: 'center' }}>
@@ -83,7 +83,7 @@ export default function ProductImage({
             </Typography>
           </Stack>
           <Typography sx={{ color: 'text.secondary' }} variant="body2">
-            {formatFileSize(image.file.size!)}
+            {formatFileSize(image.file.size)}
           </Typography>
         </CardContent>
       </CardActionArea>

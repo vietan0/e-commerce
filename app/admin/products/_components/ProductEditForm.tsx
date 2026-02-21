@@ -30,7 +30,7 @@ import useUpdateProductMutation from '@/src/queries/products/useUpdateProductMut
 import type { Product } from '@/src/types';
 
 interface UpdateProductFields {
-  name: string | null;
+  name: string;
   base_price: string;
   stock: number;
   manufacturer_id: string;
@@ -62,13 +62,13 @@ export default function ProductEditForm({
   const defaultValues = useMemo(
     () => ({
       name,
+      stock,
+      description,
       base_price: formatPrice(base_price as unknown as string, {
         hasUnit: false,
       }),
-      stock: Number(stock), // unnecessary after update schema
       manufacturer_id: String(manufacturer_id),
       categories: product_category.map((pc) => String(pc.category_id)),
-      description,
     }),
     [name, base_price, stock, manufacturer_id, product_category, description],
   );
@@ -95,10 +95,10 @@ export default function ProductEditForm({
     // make sure types match before sending
     const data = {
       ...dirtyFields,
-      base_price: dirtyFields.base_price
+      base_price: dirtyKeys.includes('base_price')
         ? stripFormat(dirtyFields.base_price)
         : undefined,
-      manufacturer_id: dirtyFields.manufacturer_id
+      manufacturer_id: dirtyKeys.includes('manufacturer_id')
         ? Number(dirtyFields.manufacturer_id)
         : undefined,
     };
