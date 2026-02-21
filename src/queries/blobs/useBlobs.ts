@@ -1,48 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
+import apiFetch from '@/src/queries/apiFetch';
 import type { BlobsRes } from '@/src/types';
 
-type Options = {
+type Query = {
   limit?: number;
   sort?: string;
 };
 
-export default function useBlobs(options: Options = {}) {
+export default function useBlobs(query: Query = {}) {
   return useQuery({
-    queryKey: ['getBlobs', options],
-    queryFn: () => getBlobs(options),
+    queryKey: ['getBlobs', query],
+    queryFn: () => getBlobs(query),
     staleTime: 1000 * 60 * 5,
   });
 }
 
-function buildQueryParams(options: Options) {
-  let queryParams = '';
-  const entries = Object.entries(options);
+async function getBlobs(query: Query) {
+  const data = await apiFetch<BlobsRes>('/blobs', { query });
 
-  if (entries.length > 0) {
-    queryParams = '?';
-
-    for (let i = 0; i < entries.length; i++) {
-      const [key, value] = entries[i];
-      queryParams += `${key}=${value}`;
-      if (i < entries.length - 1) queryParams += '&';
-    }
-  }
-
-  return queryParams;
-}
-
-async function getBlobs(options: Options) {
-  const queryParams = buildQueryParams(options);
-  const res = await fetch(`/api/blobs${queryParams}`);
-  const data = (await res.json()) as BlobsRes;
-
-  if ('error' in data) {
-    throw new Error(data.error);
-  }
-
-  if (!res.ok) {
-    throw new Error('Network response was not ok');
-  }
-
+  if ('error' in data) throw new Error(data.error);
   return data;
 }

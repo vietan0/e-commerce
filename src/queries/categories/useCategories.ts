@@ -1,49 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
+import apiFetch from '@/src/queries/apiFetch';
 import type { CategoriesRes } from '@/src/types';
 
-type Options = {
+type Query = {
   page?: number;
   limit?: number;
   sort?: string;
 };
 
-export default function useCategories(options: Options = {}) {
+export default function useCategories(query: Query = {}) {
   return useQuery({
-    queryKey: ['getCategories', options],
-    queryFn: () => getCategories(options),
+    queryKey: ['getCategories', query],
+    queryFn: () => getCategories(query),
     staleTime: 1000 * 60 * 5,
   });
 }
 
-function buildQueryParams(options: Options) {
-  let queryParams = '';
-  const entries = Object.entries(options);
+async function getCategories(query: Query) {
+  const data = await apiFetch<CategoriesRes>('/categories', { query });
 
-  if (entries.length > 0) {
-    queryParams = '?';
-
-    for (let i = 0; i < entries.length; i++) {
-      const [key, value] = entries[i];
-      queryParams += `${key}=${value}`;
-      if (i < entries.length - 1) queryParams += '&';
-    }
-  }
-
-  return queryParams;
-}
-
-async function getCategories(options: Options) {
-  const queryParams = buildQueryParams(options);
-  const res = await fetch(`/api/categories${queryParams}`);
-  const data = (await res.json()) as CategoriesRes;
-
-  if ('error' in data) {
-    throw new Error(data.error);
-  }
-
-  if (!res.ok) {
-    throw new Error('Network response was not ok');
-  }
-
+  if ('error' in data) throw new Error(data.error);
   return data;
 }

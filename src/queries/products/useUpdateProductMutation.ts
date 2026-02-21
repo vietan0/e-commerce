@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ofetch } from 'ofetch';
 import type { Prisma, product } from '@/src/generated/prisma/client';
 import type { prisma } from '@/src/lib/prisma';
+import apiFetch from '@/src/queries/apiFetch';
 
 type UpdateProductParams = {
   data: Prisma.Args<typeof prisma.product, 'update'>['data'];
@@ -24,9 +24,10 @@ export default function useUpdateProductMutation() {
 }
 
 async function updateProduct({ data, id }: UpdateProductParams) {
-  const product = await ofetch(`/api/products/${id}`, {
+  const updateRes = await apiFetch(`/products/${id}`, {
     method: 'PATCH',
     body: data,
   });
-  return product;
+
+  return updateRes;
 }
