@@ -9,20 +9,12 @@ import {
 } from '@mui/material';
 import type { ListBlobResultBlob } from '@vercel/blob';
 import Image from 'next/image';
-import { useState } from 'react';
 import theme from '@/app/theme';
+import useCopy from '@/src/hooks/useCopy';
 import formatFileSize from '@/src/lib/formatFileSize';
 
 export default function Blob({ blob }: { blob: ListBlobResultBlob }) {
-  const [copied, setCopied] = useState(false);
-
-  function copyUrl() {
-    navigator.clipboard.writeText(blob.url);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 3000);
-  }
+  const { copied, copy } = useCopy();
 
   return (
     <Card
@@ -33,7 +25,7 @@ export default function Blob({ blob }: { blob: ListBlobResultBlob }) {
         borderColor: 'grey.400',
       }}
     >
-      <CardActionArea component="div" onClick={copyUrl}>
+      <CardActionArea component="div" onClick={() => copy(blob.url)}>
         <CardContent>
           <Stack alignItems="center" sx={{ mb: 0.5 }}>
             <Image
@@ -51,7 +43,7 @@ export default function Blob({ blob }: { blob: ListBlobResultBlob }) {
             <IconButton
               aria-label="Copy URL"
               disabled={copied}
-              onClick={copyUrl}
+              onClick={() => copy(blob.url)}
               size="small"
               sx={{ width: 26, height: 26 }}
             >

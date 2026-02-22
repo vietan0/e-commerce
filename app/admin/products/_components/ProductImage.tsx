@@ -8,9 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import { useState } from 'react';
 import theme from '@/app/theme';
 import type { product_imageGetPayload } from '@/src/generated/prisma/models';
+import useCopy from '@/src/hooks/useCopy';
 import formatFileSize from '@/src/lib/formatFileSize';
 
 export default function ProductImage({
@@ -18,15 +18,7 @@ export default function ProductImage({
 }: {
   image: product_imageGetPayload<{ include: { file: true } }>;
 }) {
-  const [copied, setCopied] = useState(false);
-
-  function copyUrl(str: string) {
-    navigator.clipboard.writeText(str);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 3000);
-  }
+  const { copied, copy } = useCopy();
 
   return (
     <Card
@@ -37,7 +29,7 @@ export default function ProductImage({
         borderColor: 'grey.400',
       }}
     >
-      <CardActionArea component="div" onClick={() => copyUrl(image.file.url)}>
+      <CardActionArea component="div" onClick={() => copy(image.file.url)}>
         <CardContent sx={{ p: 1.5, pt: 0 }}>
           <Stack alignItems="center" sx={{ mb: 0.5 }}>
             <Image
@@ -55,7 +47,7 @@ export default function ProductImage({
             <IconButton
               aria-label="Copy URL"
               disabled={copied}
-              onClick={() => copyUrl(image.file.url)}
+              onClick={() => copy(image.file.url)}
               size="small"
               sx={{ width: 26, height: 26 }}
             >
