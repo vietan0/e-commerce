@@ -16,8 +16,10 @@ import {
 } from '@mui/material';
 import { pick } from 'es-toolkit/object';
 import 'md-editor-rt/lib/style.css';
+import { Link } from '@mui/material';
 import { MdEditor } from 'md-editor-rt';
 import Image from 'next/image';
+import NextLink from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import CategoriesSelect from '@/app/admin/products/_components/CategoriesSelect';
@@ -124,7 +126,24 @@ export default function ProductEditForm({
         },
       }}
     >
-      <DialogTitle>Edit Product: {name}</DialogTitle>
+      <DialogTitle>
+        Edit Product:{' '}
+        <Link
+          color="inherit"
+          component={NextLink}
+          href={`/product/${id}`}
+          sx={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 0.75,
+          }}
+          target="_blank"
+          underline="hover"
+        >
+          {name}
+          <Icon fontSize={18} icon="material-symbols:open-in-new-rounded" />
+        </Link>
+      </DialogTitle>
       <DialogContent sx={{ overflow: 'initial' }}>
         <Stack spacing={2}>
           <Grid
