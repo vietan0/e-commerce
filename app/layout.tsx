@@ -4,6 +4,7 @@ import './globals.css';
 import { Stack } from '@mui/material';
 import Providers from '@/app/Providers';
 import Nav from '@/src/components/Nav';
+import SnackbarManager from '@/src/components/SnackbarManager';
 
 const geistSans = localFont({
   src: '../public/geist-font-1.6.0/fonts/Geist/variable/Geist[wght].ttf',
@@ -32,6 +33,7 @@ export default function RootLayout({
           <Stack sx={{ minHeight: '100vh' }}>
             <Nav />
             {children}
+            <SnackbarManager />
           </Stack>
         </Providers>
       </body>
