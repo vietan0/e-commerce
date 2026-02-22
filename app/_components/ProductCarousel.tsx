@@ -10,9 +10,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import CarouselNavButton from '@/app/_components/CarouselNavButton';
+import ProductCard from '@/app/_components/ProductCard';
 import theme from '@/app/theme';
-import CarouselNavButton from '@/src/components/CarouselNavButton';
-import ProductCard from '@/src/components/ProductCard';
 import { productCardWidth } from '@/src/constants/ui';
 import useProducts from '@/src/queries/products/useProducts';
 

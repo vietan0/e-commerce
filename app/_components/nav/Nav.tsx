@@ -2,9 +2,9 @@
 import { Icon } from '@iconify/react';
 import { AppBar, Box, Button, Stack } from '@mui/material';
 import NextLink from 'next/link';
-import ElevationScroll from '@/src/components/ElevationScroll';
-import HomeLink from '@/src/components/HomeLink';
-import NavCategories from '@/src/components/NavCategories';
+import ElevationScroll from '@/app/_components/nav/ElevationScroll';
+import HomeLink from '@/app/_components/nav/HomeLink';
+import NavCategories from '@/app/_components/nav/NavCategories';
 
 export default function Nav() {
   return (

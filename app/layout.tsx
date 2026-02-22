@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { Stack } from '@mui/material';
+import Nav from '@/app/_components/nav/Nav';
+import SnackbarManager from '@/app/_components/SnackbarManager';
 import Providers from '@/app/Providers';
-import Nav from '@/src/components/Nav';
-import SnackbarManager from '@/src/components/SnackbarManager';
 
 const geistSans = localFont({
   src: '../public/geist-font-1.6.0/fonts/Geist/variable/Geist[wght].ttf',

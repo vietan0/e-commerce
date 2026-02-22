@@ -1,6 +1,6 @@
 'use client';
 import { Box, CircularProgress, Typography } from '@mui/material';
-import ProductCard from '@/src/components/ProductCard';
+import ProductCard from '@/app/_components/ProductCard';
 import useProducts from '@/src/queries/products/useProducts';
 
 export default function AllProducts() {

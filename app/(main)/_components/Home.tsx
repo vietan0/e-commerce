@@ -1,7 +1,7 @@
 import { Box, Skeleton, Stack } from '@mui/material';
-import AllProducts from '@/src/components/AllProducts';
-import Categories from '@/src/components/Categories';
-import HotSale from '@/src/components/HotSale';
+import Categories from '@/app/_components/Categories';
+import AllProducts from '@/app/(main)/_components/AllProducts';
+import HotSale from '@/app/(main)/_components/HotSale';
 
 export default function Home() {
   return (
