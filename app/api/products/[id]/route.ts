@@ -1,4 +1,6 @@
+import { pick } from 'es-toolkit/object';
 import { type NextRequest, NextResponse } from 'next/server';
+import type { productUpdateInput } from '@/src/generated/prisma/models';
 import { calcPriceAfterDiscounts } from '@/src/lib/price';
 import { prisma } from '@/src/lib/prisma';
 
@@ -12,7 +14,11 @@ export async function GET(
       where: { id: BigInt(id) },
       include: {
         manufacturer: true,
-        product_image: true,
+        product_image: {
+          include: {
+            file: true,
+          },
+        },
         discount_product: {
           include: {
             discount: {
@@ -42,6 +48,7 @@ export async function GET(
       final_price: calcPriceAfterDiscounts(product),
     });
   } catch (error) {
+    console.error(error);
     const typedError = error as Error;
     return NextResponse.json({ error: typedError.message }, { status: 500 });
   }
@@ -55,14 +62,49 @@ export async function PATCH(
     const body = await req.json();
     const { id } = await params;
     // TODO: validate
-    const updatedProduct = await prisma.product.update({
+    // 1. get scalar fields
+    const scalarBody = pick(body, [
+      'name',
+      'base_price',
+      'description',
+      'thumbnail',
+      'stock',
+    ]);
+
+    const data: productUpdateInput = Object.fromEntries(
+      Object.entries(scalarBody).filter(([_, value]) => value !== undefined),
+    );
+
+    // 2. append relation fields manually
+    if (body.manufacturer_id) {
+      data.manufacturer = {
+        connect: {
+          id: body.manufacturer_id,
+        },
+      };
+    }
+
+    if (body.categories) {
+      // 'set' doesn't work because I defined these relations explicitly
+      data.product_category = {
+        deleteMany: {},
+        createMany: {
+          data: body.categories.map((c: string) => ({ category_id: c })),
+        },
+      };
+    }
+
+    // 3. update prisma
+    const product = await prisma.product.update({
       where: {
         id: BigInt(id),
       },
-      data: body,
+      data,
     });
-    return NextResponse.json({ body, updatedProduct });
+
+    return NextResponse.json({ product });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error }, { status: 500 });
   }
 }
@@ -81,6 +123,7 @@ export async function DELETE(
 
     return NextResponse.json(product);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error }, { status: 500 });
   }
 }

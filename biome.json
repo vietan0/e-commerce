@@ -28,6 +28,9 @@
       "recommended": true,
       "correctness": {
         "useUniqueElementIds": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
       }
     }
   },

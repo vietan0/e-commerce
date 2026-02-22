@@ -34,7 +34,11 @@ export async function GET(request: NextRequest) {
       orderBy: [orderByObj],
       include: {
         manufacturer: true,
-        product_image: true,
+        product_image: {
+          include: {
+            file: true,
+          },
+        },
         discount_product: {
           include: {
             discount: {
@@ -65,6 +69,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(res);
   } catch (error) {
+    console.error(error);
     const typedError = error as Error;
     return NextResponse.json({ error: typedError.message }, { status: 500 });
   }
@@ -79,6 +84,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ product }, { status: 201 });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error }, { status: 500 });
   }
 }

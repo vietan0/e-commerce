@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import { Container } from '@mui/material';
+import { Stack } from '@mui/material';
+import Nav from '@/app/_components/nav/Nav';
+import SnackbarManager from '@/app/_components/SnackbarManager';
 import Providers from '@/app/Providers';
-import Nav from '@/src/components/Nav';
 
 const geistSans = localFont({
   src: '../public/geist-font-1.6.0/fonts/Geist/variable/Geist[wght].ttf',
@@ -27,21 +28,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
-          <Nav />
-          <Container
-            sx={{
-              py: {
-                xs: 2,
-                md: 4,
-              },
-            }}
-          >
+          <Stack sx={{ minHeight: '100vh' }}>
+            <Nav />
             {children}
-          </Container>
+            <SnackbarManager />
+          </Stack>
         </Providers>
       </body>
     </html>

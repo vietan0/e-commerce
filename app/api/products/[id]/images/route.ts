@@ -30,6 +30,7 @@ export async function POST(
     });
     return NextResponse.json({ product_images });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error }, { status: 400 });
   }
 }
