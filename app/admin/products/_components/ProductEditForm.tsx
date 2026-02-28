@@ -114,7 +114,7 @@ export default function ProductEditForm({
 
   return (
     <Dialog
-      onClose={handleClose}
+            onClose={handleClose}
       open={open}
       slotProps={{
         paper: {
@@ -258,7 +258,7 @@ export default function ProductEditForm({
                 placeholder="Write the description for this product..."
                 style={{
                   fontFamily: 'geistSans',
-                  height: 300,
+                  height: 500,
                 }}
                 value={text || ''}
               />

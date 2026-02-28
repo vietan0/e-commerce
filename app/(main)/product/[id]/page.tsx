@@ -3,7 +3,7 @@ import { Box, Chip, CircularProgress, Grid, Typography } from '@mui/material';
 import { MdPreview } from 'md-editor-rt';
 import 'md-editor-rt/lib/preview.css';
 import { use } from 'react';
-import ImagesCarousel from '@/src/components/ImagesCarousel';
+import ImagesCarousel from '@/app/_components/ImagesCarousel';
 import { formatPrice } from '@/src/lib/price';
 import useProduct from '@/src/queries/products/useProduct';
 
@@ -72,7 +72,7 @@ export default function ProductPage({
           )}
         </Box>
         <ImagesCarousel images={product_image} />
-        <MdPreview style={{ fontFamily: 'geistSans' }} value={description} />
+        <MdPreview style={{ fontFamily: 'geistSans' }} value={description || ''} />
       </Grid>
       <Grid size={{ xs: 12, md: 5 }} sx={{ border: 1 }}>
         Right

@@ -16,9 +16,10 @@ model app_user {
   created_at  DateTime     @default(now()) @db.Timestamptz(6)
   updated_at  DateTime?    @db.Timestamptz(6)
   password    String?
+  is_admin    Boolean      @default(false)
   cart_item   cart_item[]
-  user_order  user_order[]
   files       file[]
+  user_order  user_order[]
 }
 
 model cart_item {
