@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { Stack } from '@mui/material';
-import Nav from '@/app/_components/nav/Nav';
 import SnackbarManager from '@/app/_components/SnackbarManager';
 import Providers from '@/app/Providers';
 
@@ -31,7 +30,6 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
           <Stack sx={{ minHeight: '100vh' }}>
-            <Nav />
             {children}
             <SnackbarManager />
           </Stack>

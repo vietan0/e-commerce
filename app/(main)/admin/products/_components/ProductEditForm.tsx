@@ -23,9 +23,9 @@ import NextLink from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import VisuallyHiddenInput from '@/app/_components/VisuallyHiddenInput';
-import CategoriesSelect from '@/app/admin/products/_components/CategoriesSelect';
-import ManufacturerSelect from '@/app/admin/products/_components/ManufacturerSelect';
-import ProductImage from '@/app/admin/products/_components/ProductImage';
+import CategoriesSelect from '@/app/(main)/admin/products/_components/CategoriesSelect';
+import ManufacturerSelect from '@/app/(main)/admin/products/_components/ManufacturerSelect';
+import ProductImage from '@/app/(main)/admin/products/_components/ProductImage';
 import theme from '@/app/theme';
 import { formatPrice, stripFormat } from '@/src/lib/price';
 import useUpdateProductMutation from '@/src/queries/products/useUpdateProductMutation';
@@ -114,7 +114,7 @@ export default function ProductEditForm({
 
   return (
     <Dialog
-            onClose={handleClose}
+      onClose={handleClose}
       open={open}
       slotProps={{
         paper: {
