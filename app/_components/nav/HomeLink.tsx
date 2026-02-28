@@ -1,8 +1,8 @@
 'use client';
-import { Link } from '@mui/material';
+import { Link, type TypographyVariant } from '@mui/material';
 import NextLink from 'next/link';
 
-export default function HomeLink() {
+export default function HomeLink({ variant }: { variant?: TypographyVariant }) {
   return (
     <Link
       color="inherit"
@@ -10,7 +10,7 @@ export default function HomeLink() {
       fontWeight={700}
       href="/"
       underline="hover"
-      variant="h6"
+      variant={variant || 'h6'}
     >
       CellphoneS
     </Link>

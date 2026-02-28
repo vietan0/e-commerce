@@ -45,6 +45,8 @@ export default function Nav() {
           </Button>
           <Button
             color="inherit"
+            component={NextLink}
+            href="/login"
             startIcon={<Icon icon="material-symbols:person-rounded" />}
             variant="outlined"
           >
