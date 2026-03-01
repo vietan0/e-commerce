@@ -15,7 +15,7 @@ model app_user {
   profile_pic String?
   created_at  DateTime     @default(now()) @db.Timestamptz(6)
   updated_at  DateTime?    @db.Timestamptz(6)
-  password    String?
+  password    String
   is_admin    Boolean      @default(false)
   cart_item   cart_item[]
   files       file[]
@@ -152,8 +152,8 @@ model file {
 
 model session {
   id              BigInt    @id @default(autoincrement())
-  session_id      String    @db.VarChar(255)
-  expired         Boolean   @default(false)
+  session_id      String    @unique
+  expired_at      DateTime  @default(dbgenerated("NOW() + INTERVAL '30 days'::interval")) @db.Timestamptz(6)
   browser         String?   @db.VarChar(255)
   browser_version String?   @db.VarChar(255)
   os              String?   @db.VarChar(255)

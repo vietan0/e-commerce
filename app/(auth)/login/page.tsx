@@ -16,6 +16,7 @@ import {
 import { useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import HomeLink from '@/app/_components/nav/HomeLink';
+import useLoginMutation from '@/src/queries/auth/useLoginMutation';
 
 type LoginFields = {
   email: string;
@@ -31,8 +32,9 @@ export default function Login() {
   });
   const [showPassword, setShowPassword] = useState(false);
 
+  const loginMutation = useLoginMutation();
   const onSubmit: SubmitHandler<LoginFields> = (formData) => {
-    console.log('formData', formData);
+    loginMutation.mutate(formData);
   };
 
   return (
