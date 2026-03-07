@@ -14,14 +14,22 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    if (!user) throw new Error('Invalid credentials.');
+    if (!user)
+      return NextResponse.json(
+        { error: 'Invalid credentials.' },
+        { status: 401 },
+      );
 
     // 3. Compare sent password with hashed password from user row.
     const passwordIsCorrect = await bcrypt.compare(
       body.password,
       user.password,
     );
-    if (!passwordIsCorrect) throw new Error('Invalid credentials.');
+    if (!passwordIsCorrect)
+      return NextResponse.json(
+        { error: 'Invalid credentials.' },
+        { status: 401 },
+      );
 
     // 4. Create session record & attach session_id to cookie
     await createSession(request, user);

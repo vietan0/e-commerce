@@ -16,15 +16,15 @@ import NextLink from 'next/link';
 import { useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import HomeLink from '@/app/_components/nav/HomeLink';
-import useLoginMutation from '@/src/queries/auth/useLoginMutation';
+import useRegisterMutation from '@/src/queries/auth/useRegisterMutation';
 
-type LoginFields = {
+type RegisterFields = {
   email: string;
   password: string;
 };
 
-export default function Login() {
-  const { control, handleSubmit, watch } = useForm<LoginFields>({
+export default function Register() {
+  const { control, handleSubmit, watch } = useForm<RegisterFields>({
     defaultValues: {
       email: '',
       password: '',
@@ -35,9 +35,9 @@ export default function Login() {
   const passwordField = watch('password');
   const [showPassword, setShowPassword] = useState(false);
 
-  const loginMutation = useLoginMutation();
-  const onSubmit: SubmitHandler<LoginFields> = (formData) => {
-    loginMutation.mutate(formData);
+  const registerMutation = useRegisterMutation();
+  const onSubmit: SubmitHandler<RegisterFields> = (formData) => {
+    registerMutation.mutate(formData);
   };
 
   return (
@@ -60,7 +60,7 @@ export default function Login() {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h5">Login</Typography>
+          <Typography variant="h5">Register</Typography>
           <HomeLink variant="body1" />
         </Stack>
         <Controller
@@ -111,12 +111,6 @@ export default function Login() {
             />
           )}
         />
-        {loginMutation.error && (
-          <Typography color="error" variant="body2">
-            {/** biome-ignore lint/suspicious/noExplicitAny: <Haven't define custom error type.> */}
-            {(loginMutation.error as any).data.error}
-          </Typography>
-        )}
         <DevTool control={control} />
       </CardContent>
       <CardActions
@@ -132,16 +126,16 @@ export default function Login() {
           >
             <Button
               disabled={!emailField && !passwordField}
-              loading={loginMutation.isPending}
+              loading={registerMutation.isPending}
               onClick={handleSubmit(onSubmit)}
               variant="contained"
             >
-              Login
+              Register
             </Button>
             <Button>Forgot password?</Button>
           </Stack>
-          <Button component={NextLink} href="/register">
-            Don't have an account? Register
+          <Button component={NextLink} href="/login">
+            Already have an account? Login
           </Button>
         </Stack>
       </CardActions>

@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import NextLink from 'next/link';
+import ProfileMenu from '@/app/_components/nav/ProfileMenu';
 import useMe from '@/src/queries/auth/useMe';
 
 export default function RightBtns() {
@@ -16,7 +17,7 @@ export default function RightBtns() {
   if (isPending)
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
+        <CircularProgress color="inherit" size={20} />
       </Box>
     );
 
@@ -33,7 +34,7 @@ export default function RightBtns() {
 
   return (
     <Stack direction="row" spacing={1}>
-      {data?.user.is_admin && (
+      {data?.session.app_user.is_admin && (
         <Button
           color="inherit"
           component={NextLink}
@@ -47,15 +48,9 @@ export default function RightBtns() {
         </Button>
       )}
       {data ? (
-        <Button
-          color="inherit"
-          component={NextLink}
-          href="/user" // not built yet
-          startIcon={<Icon icon="material-symbols:person-rounded" />}
-          variant="outlined"
-        >
-          {data.user.name || data.user.email}
-        </Button>
+        <ProfileMenu
+          name={data.session.app_user.name || data.session.app_user.email}
+        />
       ) : (
         <Button
           color="inherit"
@@ -64,7 +59,7 @@ export default function RightBtns() {
           startIcon={<Icon icon="material-symbols:login-rounded" />}
           variant="outlined"
         >
-          Login
+          Đăng nhập
         </Button>
       )}
     </Stack>

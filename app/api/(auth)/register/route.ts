@@ -2,10 +2,10 @@ import bcrypt from 'bcrypt';
 import { type NextRequest, NextResponse } from 'next/server';
 import createSession from '@/app/api/(auth)/_lib/createSession';
 import { prisma } from '@/src/lib/prisma';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-
     // 1. TODO: validate body
     // 2. Hash password
     const hashedPassword = await bcrypt.hash(body.password, 10);

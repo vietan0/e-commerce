@@ -151,16 +151,15 @@ model file {
 }
 
 model session {
-  id              BigInt    @id @default(autoincrement())
-  session_id      String    @unique
-  expired_at      DateTime  @default(dbgenerated("NOW() + INTERVAL '30 days'::interval")) @db.Timestamptz(6)
-  browser         String?   @db.VarChar(255)
-  browser_version String?   @db.VarChar(255)
-  os              String?   @db.VarChar(255)
-  ip              String?   @db.VarChar(255)
-  platform        String?   @db.VarChar(255)
-  user_id         String    @db.Uuid
-  app_user        app_user  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  created_at      DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at      DateTime? @db.Timestamptz(6)
+  id              BigInt   @id @default(autoincrement())
+  session_id      String   @unique
+  expired_at      DateTime @default(dbgenerated("now() + '30 days'::interval")) @db.Timestamptz(6)
+  browser         String?  @db.VarChar(255)
+  browser_version String?  @db.VarChar(255)
+  os              String?  @db.VarChar(255)
+  ip              String?  @db.VarChar(255)
+  platform        String?  @db.VarChar(255)
+  user_id         String   @db.Uuid
+  app_user        app_user @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
 }

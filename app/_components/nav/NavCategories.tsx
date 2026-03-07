@@ -1,15 +1,14 @@
 'use client';
 import { Icon } from '@iconify/react';
 import { Button, Menu } from '@mui/material';
-import type React from 'react';
-import { useState } from 'react';
+import { type MouseEvent, useState } from 'react';
 import Categories from '@/app/_components/Categories';
 
 export default function NavCategories() {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
-  function openMenu(e: React.MouseEvent<HTMLButtonElement>) {
+  function openMenu(e: MouseEvent<HTMLButtonElement>) {
     setAnchorEl(e.currentTarget);
   }
 
