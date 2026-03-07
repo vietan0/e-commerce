@@ -25,7 +25,7 @@ export default function SnackbarManager() {
         onClose={handleClose}
         severity="success"
         sx={{ width: '100%' }}
-        variant="filled"
+        variant="standard"
       >
         {snackbar}
       </Alert>

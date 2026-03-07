@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import Nav from '@/app/_components/nav/Nav';
 
 export default function RootLayout({
   children,
@@ -6,15 +6,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Container
-      sx={{
-        py: {
-          xs: 2,
-          md: 4,
-        },
-      }}
-    >
+    <>
+      <Nav />
       {children}
-    </Container>
+    </>
   );
 }

@@ -10,7 +10,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import ProductRow from '@/app/admin/products/_components/ProductRow';
+import ProductRow from '@/app/(main)/admin/products/_components/ProductRow';
 import useProducts from '@/src/queries/products/useProducts';
 
 export default function ProductTable() {
