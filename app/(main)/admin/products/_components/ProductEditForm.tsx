@@ -27,6 +27,7 @@ import CategoriesSelect from '@/app/(main)/admin/products/_components/Categories
 import ManufacturerSelect from '@/app/(main)/admin/products/_components/ManufacturerSelect';
 import ProductImage from '@/app/(main)/admin/products/_components/ProductImage';
 import theme from '@/app/theme';
+import { placeholderImg } from '@/src/constants/ui';
 import { formatPrice, stripFormat } from '@/src/lib/price';
 import useUpdateProductMutation from '@/src/queries/products/useUpdateProductMutation';
 import type { Product } from '@/src/types';
@@ -287,7 +288,7 @@ export default function ProductEditForm({
                 <Image
                   alt="Product thumbnail"
                   height={100}
-                  src={thumbnail?.url || '/placeholder.svg'}
+                  src={thumbnail?.url || placeholderImg}
                   width={100}
                 />
                 <Icon

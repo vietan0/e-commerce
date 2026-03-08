@@ -4,6 +4,7 @@ import { useState } from 'react';
 import CategoryChip from '@/app/(main)/admin/products/_components/CategoryChip';
 import DiscountChip from '@/app/(main)/admin/products/_components/DiscountChip';
 import ProductEditForm from '@/app/(main)/admin/products/_components/ProductEditForm';
+import { placeholderImg } from '@/src/constants/ui';
 import { formatPrice } from '@/src/lib/price';
 import type { Product } from '@/src/types';
 export default function ProductRow({ product }: { product: Product }) {
@@ -28,7 +29,7 @@ export default function ProductRow({ product }: { product: Product }) {
           <Image
             alt={name || ''}
             height={80}
-            src={thumbnail?.url || '/placeholder.svg'}
+            src={thumbnail?.url || placeholderImg}
             width={80}
           />
         </TableCell>
