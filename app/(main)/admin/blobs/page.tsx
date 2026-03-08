@@ -1,7 +1,6 @@
 'use client';
-
 import { Box, CircularProgress, Grid, Typography } from '@mui/material';
-import Blob from '@/app/admin/blobs/Blob';
+import Blob from '@/app/(main)/admin/blobs/Blob';
 import useBlobs from '@/src/queries/blobs/useBlobs';
 
 export default function Blobs() {

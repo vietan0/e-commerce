@@ -27,9 +27,9 @@ export default function ProductRow({ product }: { product: Product }) {
         <TableCell>
           <Image
             alt={name || ''}
-            height={50}
-            src={thumbnail || ''}
-            width={50}
+            height={80}
+            src={thumbnail?.url || '/placeholder.svg'}
+            width={80}
           />
         </TableCell>
         <TableCell>{name}</TableCell>

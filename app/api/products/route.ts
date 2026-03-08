@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
       orderBy: [orderByObj],
       include: {
         manufacturer: true,
+        thumbnail: true,
         product_image: {
           include: {
             file: true,

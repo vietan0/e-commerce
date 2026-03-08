@@ -287,7 +287,7 @@ export default function ProductEditForm({
                 <Image
                   alt="Product thumbnail"
                   height={100}
-                  src={thumbnail || ''}
+                  src={thumbnail?.url || '/placeholder.svg'}
                   width={100}
                 />
                 <Icon

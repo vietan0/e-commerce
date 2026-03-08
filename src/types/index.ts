@@ -7,6 +7,8 @@ type ProductComputedFields = { final_price: string };
 export type Product = ProductComputedFields &
   productGetPayload<{
     include: {
+      manufacturer: true;
+      thumbnail: true;
       product_image: {
         include: {
           file: true;
@@ -21,7 +23,6 @@ export type Product = ProductComputedFields &
           };
         };
       };
-      manufacturer: true;
       product_category: {
         include: {
           category: true;
