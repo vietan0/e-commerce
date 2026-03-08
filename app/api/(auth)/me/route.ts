@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import checkSession from '@/app/api/(auth)/_lib/checkSession';
+import getSession from '@/app/api/(auth)/_lib/getSession';
 
 export async function GET() {
   try {
-    const checkSessionResult = await checkSession();
+    const sessionResult = await getSession();
 
-    return NextResponse.json(checkSessionResult, {
-      status: checkSessionResult.error ? 401 : 200,
+    return NextResponse.json(sessionResult, {
+      status: sessionResult.error ? 401 : 200,
     });
   } catch (error) {
     console.error(error);

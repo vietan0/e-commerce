@@ -1,14 +1,14 @@
 import { Container } from '@mui/material';
 import { redirect } from 'next/navigation';
-import checkSession from '@/app/api/(auth)/_lib/checkSession';
+import getSession from '@/app/api/(auth)/_lib/getSession';
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const checkSessionResult = await checkSession();
-  if (checkSessionResult.session) redirect('/');
+  const sessionResult = await getSession();
+  if (sessionResult.session) redirect('/');
 
   return (
     <Container

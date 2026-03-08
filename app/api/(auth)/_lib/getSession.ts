@@ -7,13 +7,13 @@ dayjs.extend(isSameOrBefore);
 
 /**
  *
- * @returns `{ session: Session }` or `{ error: string }`
+ * @returns `{ session: Session, error: null }` or `{ session: null, error: string }`
  */
-export default async function checkSession() {
+export default async function getSession() {
   const cookieStore = cookies();
   const session_id = (await cookieStore).get('session_id')?.value;
   if (!session_id) {
-    return { error: 'Not logged in' };
+    return { session: null, error: 'Not logged in' };
   }
 
   const session = await prisma.session.findUnique({
@@ -30,7 +30,7 @@ export default async function checkSession() {
   });
 
   if (!session) {
-    return { error: 'Session not found in DB' };
+    return { session: null, error: 'Session not found in DB' };
   }
 
   const now = dayjs();
@@ -38,8 +38,8 @@ export default async function checkSession() {
   const isExpired = expiredAt.isSameOrBefore(now);
 
   if (isExpired) {
-    return { error: 'Session expired' };
+    return { session: null, error: 'Session expired' };
   }
 
-  return { session };
+  return { session, error: null };
 }
