@@ -10,7 +10,7 @@ export default function useProduct(id: string) {
   });
 }
 
-async function getProduct(id: string) {
+export async function getProduct(id: string) {
   const data = await apiFetch<ProductRes>(`/products/${id}`);
 
   if ('error' in data) throw new Error(data.error);

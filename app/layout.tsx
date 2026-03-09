@@ -26,7 +26,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning // mismatch from className injected to <html> by a browser extension
+    >
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
           <Stack sx={{ minHeight: '100vh' }}>
