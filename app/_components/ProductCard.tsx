@@ -7,6 +7,7 @@ import {
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Image from 'next/image';
 import Link from 'next/link';
 import { placeholderImg, productCardWidth } from '@/src/constants/ui';
 import { formatPrice } from '@/src/lib/price';
@@ -43,11 +44,14 @@ export default function ProductCard({ product, hasShadow }: Props) {
         prefetch={false}
         sx={{ height: 1 }}
       >
-        <CardMedia
-          image={thumbnail?.url || placeholderImg}
-          sx={{ height: productCardWidth }}
-          title={name || undefined}
-        />
+        <CardMedia title={name || undefined}>
+          <Image
+            alt={`Thumbnail for ${name}`}
+            height={productCardWidth}
+            src={thumbnail?.url || placeholderImg}
+            width={productCardWidth}
+          />
+        </CardMedia>
         <CardContent sx={{ p: 1.5 }}>
           <Typography
             gutterBottom
