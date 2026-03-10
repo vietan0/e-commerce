@@ -31,6 +31,8 @@ model cart_item {
   amount     Int
   product    product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   app_user   app_user @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([product_id, user_id])
 }
 
 model category {
@@ -157,7 +159,7 @@ model file {
 model session {
   id              BigInt   @id @default(autoincrement())
   session_id      String   @unique
-  expired_at      DateTime @default(dbgenerated("now() + '30 days'::interval")) @db.Timestamptz(6)
+  expired_at      DateTime @default(dbgenerated("(now() + '30 days'::interval)")) @db.Timestamptz(6)
   browser         String?  @db.VarChar(255)
   browser_version String?  @db.VarChar(255)
   os              String?  @db.VarChar(255)

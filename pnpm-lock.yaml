@@ -44,6 +44,9 @@ importers:
       es-toolkit:
         specifier: ^1.44.0
         version: 1.44.0
+      material-ui-popup-state:
+        specifier: ^5.3.6
+        version: 5.3.6(@mui/material@7.3.7(@emotion/react@11.14.0(@types/react@19.2.9)(react@19.2.3))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.9)(react@19.2.3))(@types/react@19.2.9)(react@19.2.3))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@types/react@19.2.9)(react@19.2.3)
       md-editor-rt:
         specifier: ^6.3.1
         version: 6.3.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -968,6 +971,9 @@ packages:
   citty@0.2.0:
     resolution: {integrity: sha512-8csy5IBFI2ex2hTVpaHN2j+LNE199AgiI7y4dMintrr8i0lQiFn+0AWMZrWdHKIgMOer65f8IThysYhoReqjWA==}
 
+  classnames@2.5.1:
+    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
+
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
 
@@ -1247,6 +1253,17 @@ packages:
   markdown-it@14.1.1:
     resolution: {integrity: sha512-BuU2qnTti9YKgK5N+IeMubp14ZUKUUw7yeJbkjtosvHiP0AZ5c8IAgEMk79D0eC8F23r4Ac/q8cAIFdm2FtyoA==}
     hasBin: true
+
+  material-ui-popup-state@5.3.6:
+    resolution: {integrity: sha512-tGpq417auecyK9iKMGxSQfyv6pwg0Wii2Isi9RuL92YDDkdnXlorl5c3+S4Zg8MH6Hk4NUa/5Y9PPEWgKakzOw==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@mui/material': ^5.0.0 || ^6.0.0 || ^7.0.0
+      '@types/react': ^16.8.0 || ^17 || ^18 || ^19
+      react: ^16.8.0 || ^17 || ^18 || ^19
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
 
   md-editor-rt@6.3.1:
     resolution: {integrity: sha512-HxWouTQRwEhy52mP//F2kz/hbZfDtqZciigERPO5jhtmkV/Yei4Fg9Ymn3tRMUdcKv7sVSEeGORNNZCHaydcnA==}
@@ -2765,6 +2782,8 @@ snapshots:
 
   citty@0.2.0: {}
 
+  classnames@2.5.1: {}
+
   client-only@0.0.1: {}
 
   clsx@2.1.1: {}
@@ -3004,6 +3023,17 @@ snapshots:
       mdurl: 2.0.0
       punycode.js: 2.3.1
       uc.micro: 2.1.0
+
+  material-ui-popup-state@5.3.6(@mui/material@7.3.7(@emotion/react@11.14.0(@types/react@19.2.9)(react@19.2.3))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.9)(react@19.2.3))(@types/react@19.2.9)(react@19.2.3))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@types/react@19.2.9)(react@19.2.3):
+    dependencies:
+      '@babel/runtime': 7.28.6
+      '@mui/material': 7.3.7(@emotion/react@11.14.0(@types/react@19.2.9)(react@19.2.3))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.9)(react@19.2.3))(@types/react@19.2.9)(react@19.2.3))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@types/prop-types': 15.7.15
+      classnames: 2.5.1
+      prop-types: 15.8.1
+      react: 19.2.3
+    optionalDependencies:
+      '@types/react': 19.2.9
 
   md-editor-rt@6.3.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:

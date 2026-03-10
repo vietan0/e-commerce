@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import NextLink from 'next/link';
+import CartBtn from '@/app/_components/nav/cart/CartBtn';
 import ProfileMenu from '@/app/_components/nav/ProfileMenu';
 import useMe from '@/src/queries/auth/useMe';
 
@@ -34,6 +35,7 @@ export default function RightBtns() {
 
   return (
     <Stack direction="row" spacing={1}>
+      <CartBtn />
       {data?.session.app_user.is_admin && (
         <Button
           color="inherit"

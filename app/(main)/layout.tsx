@@ -1,6 +1,6 @@
 import Nav from '@/app/_components/nav/Nav';
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
