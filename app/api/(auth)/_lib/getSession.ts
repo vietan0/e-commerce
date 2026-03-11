@@ -10,8 +10,8 @@ dayjs.extend(isSameOrBefore);
  * @returns `{ session: Session, error: null }` or `{ session: null, error: string }`
  */
 export default async function getSession() {
-  const cookieStore = cookies();
-  const session_id = (await cookieStore).get('session_id')?.value;
+  const cookieStore = await cookies();
+  const session_id = cookieStore.get('session_id')?.value;
   if (!session_id) {
     return { session: null, error: 'Not logged in' };
   }

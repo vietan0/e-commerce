@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
-import type { sessionGetPayload } from '@/src/generated/prisma/models';
+import type { app_userGetPayload } from '@/src/generated/prisma/models';
 import apiFetch from '@/src/queries/apiFetch';
 
 export default function useMe() {
@@ -14,15 +14,7 @@ export default function useMe() {
 async function getMe() {
   try {
     const data = await apiFetch<{
-      session: sessionGetPayload<{
-        include: {
-          app_user: {
-            omit: {
-              password: true;
-            };
-          };
-        };
-      }>;
+      app_user: app_userGetPayload<{ omit: { password: true } }>;
     }>('/me');
 
     return data;

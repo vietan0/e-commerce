@@ -36,7 +36,7 @@ export default function RightBtns() {
   return (
     <Stack direction="row" spacing={1}>
       <CartBtn />
-      {data?.session.app_user.is_admin && (
+      {data?.app_user.is_admin && (
         <Button
           color="inherit"
           component={NextLink}
@@ -50,9 +50,7 @@ export default function RightBtns() {
         </Button>
       )}
       {data ? (
-        <ProfileMenu
-          name={data.session.app_user.name || data.session.app_user.email}
-        />
+        <ProfileMenu name={data.app_user.name || data.app_user.email} />
       ) : (
         <Button
           color="inherit"
