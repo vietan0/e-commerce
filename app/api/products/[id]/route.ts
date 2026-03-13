@@ -1,7 +1,7 @@
 import { pick } from 'es-toolkit/object';
 import { type NextRequest, NextResponse } from 'next/server';
 import type { productUpdateInput } from '@/src/generated/prisma/models';
-import { calcPriceAfterDiscounts } from '@/src/lib/price';
+import { includeDiscount } from '@/src/lib/price';
 import { prisma } from '@/src/lib/prisma';
 
 export async function GET(
@@ -13,19 +13,11 @@ export async function GET(
     const product = await prisma.product.findUnique({
       where: { id: BigInt(id) },
       include: {
+        ...includeDiscount,
         manufacturer: true,
         product_image: {
           include: {
             file: true,
-          },
-        },
-        discount_product: {
-          include: {
-            discount: {
-              include: {
-                discount_type: true,
-              },
-            },
           },
         },
         product_category: {
@@ -43,10 +35,7 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({
-      ...product,
-      final_price: calcPriceAfterDiscounts(product),
-    });
+    return NextResponse.json(product);
   } catch (error) {
     console.error(error);
     const typedError = error as Error;

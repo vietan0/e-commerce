@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import { calcPriceAfterDiscounts } from '@/src/lib/price';
+import { includeDiscount } from '@/src/lib/price';
 import { prisma } from '@/src/lib/prisma';
 
 export async function GET(request: NextRequest) {
@@ -33,20 +33,12 @@ export async function GET(request: NextRequest) {
       skip,
       orderBy: [orderByObj],
       include: {
+        ...includeDiscount,
         manufacturer: true,
         thumbnail: true,
         product_image: {
           include: {
             file: true,
-          },
-        },
-        discount_product: {
-          include: {
-            discount: {
-              include: {
-                discount_type: true,
-              },
-            },
           },
         },
         product_category: {
@@ -57,15 +49,10 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const productsWithFinalPrice = products.map((product) => ({
-      ...product,
-      final_price: calcPriceAfterDiscounts(product),
-    }));
-
     const res = {
       rowCount: products.length,
       totalRowCount,
-      products: productsWithFinalPrice,
+      products,
     };
 
     return NextResponse.json(res);

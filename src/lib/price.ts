@@ -1,3 +1,4 @@
+import type { Prisma } from '@/src/generated/prisma/client';
 import type { productGetPayload } from '@/src/generated/prisma/models';
 
 export function stripFormat(str: string) {
@@ -40,26 +41,21 @@ export function formatPrice(
   return formatted;
 }
 
+export const includeDiscount = {
+  discount_product: {
+    include: {
+      discount: {
+        include: {
+          discount_type: true,
+        },
+      },
+    },
+  },
+} satisfies Prisma.productInclude;
+
 export function calcPriceAfterDiscounts(
   product: productGetPayload<{
-    include: {
-      manufacturer: true;
-      product_image: true;
-      discount_product: {
-        include: {
-          discount: {
-            include: {
-              discount_type: true;
-            };
-          };
-        };
-      };
-      product_category: {
-        include: {
-          category: true;
-        };
-      };
-    };
+    include: typeof includeDiscount;
   }>,
 ) {
   const base_price = Number(product.base_price);
