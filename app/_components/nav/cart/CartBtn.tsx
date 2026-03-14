@@ -14,6 +14,7 @@ import {
   usePopupState,
 } from 'material-ui-popup-state/hooks';
 import CartMenuContent from '@/app/_components/nav/cart/CartMenuContent';
+import theme from '@/app/theme';
 import useCart from '@/src/queries/cart/useCart';
 
 export default function CartBtn() {
@@ -51,7 +52,18 @@ export default function CartBtn() {
         color="inherit"
         {...bindHover(popupState)}
       >
-        <Badge badgeContent={data.cart_items.length} color="error">
+        <Badge
+          badgeContent={data.cart_items.length}
+          color="error"
+          slotProps={{
+            badge: {
+              sx: {
+                backgroundColor: 'white',
+                color: theme.palette.primary.main,
+              },
+            },
+          }}
+        >
           <Icon
             fontSize={20}
             icon="material-symbols:shopping-cart-outline-rounded"
