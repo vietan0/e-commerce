@@ -1,8 +1,10 @@
 import { Icon } from '@iconify/react';
-import { Button, Grid, IconButton, Stack, Typography } from '@mui/material';
+import { Grid, IconButton, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
+import QuantityStepper from '@/app/(main)/(public)/(user)/cart/_components/QuantityStepper';
 import type { cart_itemGetPayload } from '@/src/generated/prisma/models';
 import { formatPrice } from '@/src/lib/price';
+import useDeleteCartItem from '@/src/queries/cart/useDeleteCartItem';
 
 export default function CartItem({
   cart_item,
@@ -11,7 +13,8 @@ export default function CartItem({
     include: { product: { include: { thumbnail: true } } };
   }>;
 }) {
-  const { product, amount } = cart_item;
+  const { id, product, amount } = cart_item;
+  const deleteCartItem = useDeleteCartItem();
 
   return (
     <Grid
@@ -36,56 +39,27 @@ export default function CartItem({
           <Typography>{product.name}</Typography>
         </Stack>
       </Grid>
-      <Grid size={2}>
+      <Grid size={1.5}>
         {/* @ts-expect-error */}
         <Typography>{formatPrice(product.final_price)}</Typography>
       </Grid>
       <Grid size={1.5}>
-        <Stack
-          direction="row"
-          sx={{
-            // flexGrow: 0,
-            // flexShrink: 1,
-            mx: 'auto',
-            maxWidth: 100,
-            border: 1,
-            borderRadius: 2,
-            borderColor: 'grey.400',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <IconButton
-            aria-label="Decrease by 1"
-            size="small"
-            sx={{
-              borderRadius: 0,
-              flexGrow: 1,
-            }}
-          >
-            <Icon fontSize={16} icon="material-symbols:remove-rounded" />
-          </IconButton>
-          <Typography sx={{ minWidth: 32, textAlign: 'center' }}>
-            {amount}
-          </Typography>
-          <IconButton
-            aria-label="Increase by 1"
-            size="small"
-            sx={{
-              borderRadius: 0,
-              flexGrow: 1,
-            }}
-          >
-            <Icon fontSize={16} icon="material-symbols:add-rounded" />
-          </IconButton>
-        </Stack>
+        <QuantityStepper cart_item={cart_item} />
       </Grid>
-      <Grid size={2}>
+      <Grid size={1.5}>
         {/* @ts-expect-error */}
         <Typography>{formatPrice(product.final_price * amount)}</Typography>
       </Grid>
       <Grid>
-        <Button color="error">Xoá</Button>
+        <IconButton
+          aria-label="Xoá khỏi giỏ hàng"
+          color="error"
+          loading={deleteCartItem.isPending}
+          onClick={() => deleteCartItem.mutate(String(id))}
+          title="Xoá khỏi giỏ hàng"
+        >
+          <Icon icon="material-symbols:delete-outline-rounded" />
+        </IconButton>
       </Grid>
     </Grid>
   );

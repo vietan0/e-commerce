@@ -1,5 +1,6 @@
 import { Button, Stack } from '@mui/material';
 import NextLink from 'next/link';
+import EmptyCart from '@/app/_components/EmptyCart';
 import CartItem from '@/app/_components/nav/cart/CartItem';
 import type { cart_itemGetPayload } from '@/src/generated/prisma/models';
 
@@ -10,6 +11,8 @@ export default function CartMenuContent({
     include: { product: { include: { thumbnail: true } } };
   }>[];
 }) {
+  if (cart_items.length === 0) return <EmptyCart inMenu />;
+
   return (
     <>
       {cart_items.map((cart_item) => (

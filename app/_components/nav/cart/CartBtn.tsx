@@ -13,6 +13,7 @@ import {
   bindMenu,
   usePopupState,
 } from 'material-ui-popup-state/hooks';
+import NextLink from 'next/link';
 import CartMenuContent from '@/app/_components/nav/cart/CartMenuContent';
 import theme from '@/app/theme';
 import useCart from '@/src/queries/cart/useCart';
@@ -51,6 +52,8 @@ export default function CartBtn() {
         aria-label="Giỏ hàng"
         color="inherit"
         {...bindHover(popupState)}
+        component={NextLink}
+        href="/cart"
       >
         <Badge
           badgeContent={data.cart_items.length}

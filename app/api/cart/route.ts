@@ -21,6 +21,9 @@ export async function GET() {
           },
         },
       },
+      orderBy: {
+        id: 'desc',
+      },
     });
 
     return NextResponse.json({ cart_items });
