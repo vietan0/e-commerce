@@ -34,7 +34,7 @@ export default function ProfileBtn({ name }: { name: string }) {
         color="inherit"
         id="profile-btn"
         onClick={handleClick}
-        startIcon={<Icon icon="material-symbols:person-rounded" />}
+        startIcon={<Icon icon="material-symbols:person-outline-rounded" />}
         variant="outlined"
       >
         {name}
@@ -58,7 +58,7 @@ export default function ProfileBtn({ name }: { name: string }) {
           <ListItemIcon>
             <Icon
               fontSize={20}
-              icon="material-symbols:person-rounded"
+              icon="material-symbols:person-outline-rounded"
               style={{
                 color: theme.palette.primary.main,
               }}

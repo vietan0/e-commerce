@@ -42,7 +42,7 @@ export default function RightBtns() {
           component={NextLink}
           href="/admin"
           startIcon={
-            <Icon icon="material-symbols:admin-panel-settings-rounded" />
+            <Icon icon="material-symbols:admin-panel-settings-outline-rounded" />
           }
           variant="outlined"
         >
