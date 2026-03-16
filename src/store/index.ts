@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 
 interface GlobalState {
-  snackbar: string | null
-  displaySnackbar: (content: string) => void,
-  removeSnackbar: () => void
+  snackbar: string | null;
+  displaySnackbar: (content: string) => void;
+  removeSnackbar: () => void;
 }
 
 const useGlobalStore = create<GlobalState>((set) => ({

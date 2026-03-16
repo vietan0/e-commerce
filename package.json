@@ -1,4 +1,13 @@
 {
+  "name": "e-commerce",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "next build --turbopack",
+    "check": "biome check",
+    "dev": "next dev --turbopack",
+    "start": "next start"
+  },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
@@ -34,14 +43,5 @@
     "@types/react-dom": "^19.2.3",
     "prisma": "^7.3.0",
     "typescript": "^5.9.3"
-  },
-  "name": "e-commerce",
-  "private": true,
-  "scripts": {
-    "build": "next build --turbopack",
-    "check": "biome check --write",
-    "dev": "next dev --turbopack",
-    "start": "next start"
-  },
-  "version": "0.1.0"
+  }
 }
