@@ -1,13 +1,27 @@
 'use client';
-import { Box, Chip, CircularProgress, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Chip,
+  CircularProgress,
+  Grid,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { MdPreview } from 'md-editor-rt';
 import 'md-editor-rt/lib/preview.css';
+import { Icon } from '@iconify/react';
+import { useCounter } from 'react-use';
 import ImagesCarousel from '@/app/_components/ImagesCarousel';
+import QuantityStepper from '@/app/(main)/(public)/product/[id]/_components/QuantityStepper';
 import { formatPrice } from '@/src/lib/price';
+import useUpsertCartItem from '@/src/queries/cart/useCreateCartItem';
 import useProduct from '@/src/queries/products/useProduct';
 
 export default function ProductPage({ id }: { id: string }) {
   const { data: product, isPending, error } = useProduct(id);
+  const [amount, { inc, dec }] = useCounter(1, product?.stock, 1);
+  const createCartItem = useUpsertCartItem();
 
   if (isPending)
     return (
@@ -36,6 +50,7 @@ export default function ProductPage({ id }: { id: string }) {
     product_category,
     discount_product,
     description,
+    stock,
   } = product;
   return (
     <Grid container spacing={2}>
@@ -72,7 +87,20 @@ export default function ProductPage({ id }: { id: string }) {
         />
       </Grid>
       <Grid size={{ xs: 12, md: 5 }} sx={{ border: 1 }}>
-        Right
+        <Stack direction="row" spacing={1} sx={{ mb: 2, alignItems: 'center' }}>
+          <QuantityStepper dec={dec} inc={inc} value={amount} />
+          <Typography variant="body2">{stock} sản phẩm có sẵn</Typography>
+        </Stack>
+        <Button
+          loading={createCartItem.isPending}
+          onClick={() => createCartItem.mutate({ amount, productId: id })}
+          startIcon={
+            <Icon icon="material-symbols:add-shopping-cart-outline-rounded" />
+          }
+          variant="contained"
+        >
+          Add to Cart
+        </Button>
       </Grid>
     </Grid>
   );

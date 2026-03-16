@@ -7,8 +7,11 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const body = (await req.json()) as { action: 'increment' | 'decrement' };
-    const { action } = body;
+    const body = (await req.json()) as {
+      action: 'increment' | 'decrement';
+      amount: number;
+    };
+    const { action, amount } = body;
     const { id } = await params;
 
     const cart_item = await prisma.cart_item.findUnique({
@@ -41,7 +44,7 @@ export async function PATCH(
       },
       data: {
         amount: {
-          [action]: 1,
+          [action]: amount,
         },
       },
     };

@@ -1,22 +1,19 @@
 import { Icon } from '@iconify/react';
 import { IconButton, Stack, Typography } from '@mui/material';
-import type { cart_itemGetPayload } from '@/src/generated/prisma/models';
-import useUpdateCartItem from '@/src/queries/cart/useUpdateCartItem';
 
 export default function QuantityStepper({
-  cart_item,
+  value,
+  inc,
+  dec,
 }: {
-  cart_item: cart_itemGetPayload<{
-    include: { product: { include: { thumbnail: true } } };
-  }>;
+  value: number;
+  inc: (delta?: number | undefined) => void;
+  dec: (delta?: number | undefined) => void;
 }) {
-  const { id, amount } = cart_item;
-  const updateCartItem = useUpdateCartItem();
   return (
     <Stack
       direction="row"
       sx={{
-        mx: 'auto',
         maxWidth: 100,
         border: 1,
         borderRadius: 2,
@@ -27,10 +24,7 @@ export default function QuantityStepper({
     >
       <IconButton
         aria-label="Decrease by 1"
-        loading={updateCartItem.isPending}
-        onClick={() => {
-          updateCartItem.mutate({ id, action: 'decrement', amount: 1 });
-        }}
+        onClick={() => dec()}
         size="small"
         sx={{
           borderRadius: 0,
@@ -40,14 +34,11 @@ export default function QuantityStepper({
         <Icon fontSize={16} icon="material-symbols:remove-rounded" />
       </IconButton>
       <Typography sx={{ minWidth: 32, textAlign: 'center' }}>
-        {amount}
+        {value}
       </Typography>
       <IconButton
         aria-label="Increase by 1"
-        loading={updateCartItem.isPending}
-        onClick={() => {
-          updateCartItem.mutate({ id, action: 'increment', amount: 1 });
-        }}
+        onClick={() => inc()}
         size="small"
         sx={{
           borderRadius: 0,
