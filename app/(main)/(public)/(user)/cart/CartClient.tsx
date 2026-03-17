@@ -1,6 +1,7 @@
 'use client';
 import { Box, CircularProgress, Grid, Stack, Typography } from '@mui/material';
 import EmptyCart from '@/app/_components/EmptyCart';
+import QueryError from '@/app/_components/QueryError';
 import CartItem from '@/app/(main)/(public)/(user)/cart/_components/CartItem';
 import useCart from '@/src/queries/cart/useCart';
 
@@ -14,17 +15,7 @@ export default function CartClient() {
       </Box>
     );
 
-  if (error) {
-    return (
-      <Typography color="error.light">
-        Error fetching cart:
-        <Typography sx={{ fontFamily: 'monospace' }}>
-          {error.message}
-        </Typography>
-      </Typography>
-    );
-  }
-
+  if (error) return <QueryError error={error} />;
   if (data.cart_items.length === 0) return <EmptyCart inMenu={false} />;
 
   return (

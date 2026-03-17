@@ -6,8 +6,8 @@ import {
   MenuItem,
   Select,
   type SelectProps,
-  Typography,
 } from '@mui/material';
+import QueryError from '@/app/_components/QueryError';
 import useManufacturers from '@/src/queries/manufacturers/useManufacturers';
 
 export default function ManufacturerSelect(props: SelectProps) {
@@ -23,17 +23,7 @@ export default function ManufacturerSelect(props: SelectProps) {
         labelId={labelId}
         renderValue={(selected) => {
           if (isPending) return <CircularProgress size={16} />;
-
-          if (error) {
-            return (
-              <Typography color="error.light">
-                Error fetching manufacturers:
-                <Typography sx={{ fontFamily: 'monospace' }}>
-                  {error.message}
-                </Typography>
-              </Typography>
-            );
-          }
+          if (error) return <QueryError error={error} />;
 
           const match = data.manufacturers.find(
             (m) => String(m.id) === selected,

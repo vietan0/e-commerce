@@ -7,11 +7,11 @@ import {
   Stack,
   type SxProps,
   type Theme,
-  Typography,
 } from '@mui/material';
 import { useState } from 'react';
 import CarouselNavButton from '@/app/_components/CarouselNavButton';
 import ProductCard from '@/app/_components/ProductCard';
+import QueryError from '@/app/_components/QueryError';
 import theme from '@/app/theme';
 import { productCardWidth } from '@/src/constants/ui';
 import useProducts from '@/src/queries/products/useProducts';
@@ -47,7 +47,7 @@ export default function ProductCarousel() {
       </Box>
     );
 
-  if (error) return <Typography>Error fetching products.</Typography>;
+  if (error) return <QueryError error={error} />;
 
   return (
     <Box position="relative">

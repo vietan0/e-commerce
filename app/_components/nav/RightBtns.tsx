@@ -1,15 +1,10 @@
 'use client';
 import { Icon } from '@iconify/react';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Button, CircularProgress, Stack } from '@mui/material';
 import NextLink from 'next/link';
 import CartBtn from '@/app/_components/nav/cart/CartBtn';
 import ProfileMenu from '@/app/_components/nav/ProfileMenu';
+import QueryError from '@/app/_components/QueryError';
 import useMe from '@/src/queries/auth/useMe';
 
 export default function RightBtns() {
@@ -22,16 +17,7 @@ export default function RightBtns() {
       </Box>
     );
 
-  if (error) {
-    return (
-      <Typography color="error.light">
-        Error fetching current user:
-        <Typography sx={{ fontFamily: 'monospace' }}>
-          {error.message}
-        </Typography>
-      </Typography>
-    );
-  }
+  if (error) return <QueryError error={error} />;
 
   return (
     <Stack direction="row" spacing={1}>

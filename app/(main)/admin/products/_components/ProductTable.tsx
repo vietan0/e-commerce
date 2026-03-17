@@ -8,8 +8,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from '@mui/material';
+import QueryError from '@/app/_components/QueryError';
 import ProductRow from '@/app/(main)/admin/products/_components/ProductRow';
 import useProducts from '@/src/queries/products/useProducts';
 
@@ -23,16 +23,7 @@ export default function ProductTable() {
     );
   }
 
-  if (error) {
-    return (
-      <Typography color="error.light">
-        Error fetching products:
-        <Typography sx={{ fontFamily: 'monospace' }}>
-          {error.message}
-        </Typography>
-      </Typography>
-    );
-  }
+  if (error) return <QueryError error={error} />;
 
   return (
     <TableContainer>

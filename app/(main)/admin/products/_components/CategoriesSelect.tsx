@@ -8,8 +8,8 @@ import {
   Select,
   type SelectProps,
   Stack,
-  Typography,
 } from '@mui/material';
+import QueryError from '@/app/_components/QueryError';
 import useCategories from '@/src/queries/categories/useCategories';
 
 export default function CategoriesSelect(props: SelectProps) {
@@ -26,17 +26,7 @@ export default function CategoriesSelect(props: SelectProps) {
         multiple
         renderValue={(selected) => {
           if (isPending) return <CircularProgress size={16} />;
-
-          if (error) {
-            return (
-              <Typography color="error.light">
-                Error fetching categories:
-                <Typography sx={{ fontFamily: 'monospace' }}>
-                  {error.message}
-                </Typography>
-              </Typography>
-            );
-          }
+          if (error) return <QueryError error={error} />;
 
           const categoryNames = (selected as string[]).map((category_id) => {
             const match = data.categories.find(

@@ -1,12 +1,5 @@
 import { Icon } from '@iconify/react';
-import {
-  Badge,
-  Box,
-  CircularProgress,
-  IconButton,
-  Menu,
-  Typography,
-} from '@mui/material';
+import { Badge, Box, CircularProgress, IconButton } from '@mui/material';
 import HoverMenu from 'material-ui-popup-state/HoverMenu';
 import {
   bindHover,
@@ -15,6 +8,7 @@ import {
 } from 'material-ui-popup-state/hooks';
 import NextLink from 'next/link';
 import CartMenuContent from '@/app/_components/nav/cart/CartMenuContent';
+import QueryError from '@/app/_components/QueryError';
 import theme from '@/app/theme';
 import useCart from '@/src/queries/cart/useCart';
 
@@ -37,15 +31,25 @@ export default function CartBtn() {
   }
 
   if (error) {
-    return (
-      <Typography color="error.light">
-        Error fetching cart:
-        <Typography sx={{ fontFamily: 'monospace' }}>
-          {error.message}
-        </Typography>
-      </Typography>
-    );
+    if (error.message.includes('401 Unauthorized')) {
+      return (
+        <IconButton
+          aria-label="Giỏ hàng"
+          color="inherit"
+          {...bindHover(popupState)}
+          component={NextLink}
+          href="/login"
+        >
+          <Icon
+            fontSize={20}
+            icon="material-symbols:shopping-cart-outline-rounded"
+          />
+        </IconButton>
+      );
+    }
+    return <QueryError error={error} />;
   }
+
   return (
     <>
       <IconButton
@@ -85,17 +89,6 @@ export default function CartBtn() {
       >
         <CartMenuContent cart_items={data.cart_items} />
       </HoverMenu>
-      <Menu
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        open={false}
-        slotProps={{
-          paper: {
-            sx: { width: 400 },
-          },
-        }}
-      >
-        <CartMenuContent cart_items={data.cart_items} />
-      </Menu>
     </>
   );
 }

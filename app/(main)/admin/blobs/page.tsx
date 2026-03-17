@@ -1,5 +1,6 @@
 'use client';
 import { Box, CircularProgress, Grid, Typography } from '@mui/material';
+import QueryError from '@/app/_components/QueryError';
 import Blob from '@/app/(main)/admin/blobs/Blob';
 import useBlobs from '@/src/queries/blobs/useBlobs';
 
@@ -12,15 +13,7 @@ export default function Blobs() {
       </Box>
     );
 
-  if (error)
-    return (
-      <Typography color="error.light">
-        Error fetching blobs:
-        <Typography sx={{ fontFamily: 'monospace' }}>
-          {error.message}
-        </Typography>
-      </Typography>
-    );
+  if (error) return <QueryError error={error} />;
 
   return (
     <>

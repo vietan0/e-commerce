@@ -13,12 +13,13 @@ import 'md-editor-rt/lib/preview.css';
 import { Icon } from '@iconify/react';
 import { useCounter } from 'react-use';
 import ImagesCarousel from '@/app/_components/ImagesCarousel';
+import QueryError from '@/app/_components/QueryError';
 import QuantityStepper from '@/app/(main)/(public)/product/[id]/_components/QuantityStepper';
 import { formatPrice } from '@/src/lib/price';
 import useUpsertCartItem from '@/src/queries/cart/useCreateCartItem';
 import useProduct from '@/src/queries/products/useProduct';
 
-export default function ProductPage({ id }: { id: string }) {
+export default function ProductClient({ id }: { id: string }) {
   const { data: product, isPending, error } = useProduct(id);
   const [amount, { inc, dec }] = useCounter(1, product?.stock, 1);
   const createCartItem = useUpsertCartItem();
@@ -30,16 +31,7 @@ export default function ProductPage({ id }: { id: string }) {
       </Box>
     );
 
-  if (error) {
-    return (
-      <Typography color="error.light">
-        Error fetching product with id {id}:
-        <Typography sx={{ fontFamily: 'monospace' }}>
-          {error.message}
-        </Typography>
-      </Typography>
-    );
-  }
+  if (error) return <QueryError error={error} />;
 
   const {
     name,

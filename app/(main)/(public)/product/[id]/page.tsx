@@ -9,11 +9,18 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const product = await getProduct(id);
+  try {
+    const product = await getProduct(id);
 
-  return {
-    title: `${product.name} - CellphoneS`,
-  };
+    return {
+      title: `${product.name} - CellphoneS`,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      title: 'CellphoneS',
+    };
+  }
 }
 export default async function Product({
   params,

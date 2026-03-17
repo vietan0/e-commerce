@@ -1,6 +1,7 @@
 'use client';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import ProductCard from '@/app/_components/ProductCard';
+import QueryError from '@/app/_components/QueryError';
 import useProducts from '@/src/queries/products/useProducts';
 
 export default function AllProducts() {
@@ -14,16 +15,7 @@ export default function AllProducts() {
     );
   }
 
-  if (error) {
-    return (
-      <Typography color="error.light">
-        Error fetching products:
-        <Typography sx={{ fontFamily: 'monospace' }}>
-          {error.message}
-        </Typography>
-      </Typography>
-    );
-  }
+  if (error) return <QueryError error={error} />;
 
   return (
     <Box>
