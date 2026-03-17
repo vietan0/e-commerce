@@ -10,7 +10,7 @@ type Query = {
 
 export default function useManufacturers(query: Query = {}) {
   return useQuery({
-    queryKey: ['getManufacturers', query],
+    queryKey: ['manufacturers', query],
     queryFn: () => getManufacturers(query),
     staleTime: 1000 * 60 * 5,
   });

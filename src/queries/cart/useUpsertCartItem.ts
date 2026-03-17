@@ -8,10 +8,11 @@ export default function useUpsertCartItem() {
   const displaySnackbar = useGlobalStore((state) => state.displaySnackbar);
 
   return useMutation({
+    mutationKey: ['upsertCartItem'],
     mutationFn: (upsertCartItemBody: UpsertCartItemBody) =>
       upsertCartItem(upsertCartItemBody),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getCart'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
       displaySnackbar('Đã thêm sản phẩm vào giỏ hàng.');
     },
   });

@@ -29,7 +29,7 @@ import ProductImage from '@/app/(main)/admin/products/_components/ProductImage';
 import theme from '@/app/theme';
 import { placeholderImg } from '@/src/constants/ui';
 import { formatPrice, stripFormat } from '@/src/lib/price';
-import useUpdateProductMutation from '@/src/queries/products/useUpdateProductMutation';
+import useUpdateProduct from '@/src/queries/products/useUpdateProduct';
 import type { Product } from '@/src/types';
 
 interface UpdateProductFields {
@@ -85,7 +85,7 @@ export default function ProductEditForm({
   // not doing anything with React Hook Form
   const [text, setText] = useState(defaultValues.description);
 
-  const updateProductMutation = useUpdateProductMutation();
+  const updateProduct = useUpdateProduct();
   const onSubmit: SubmitHandler<UpdateProductFields> = (formData) => {
     // get dirty fields only
     const dirtyKeys: (keyof UpdateProductFields)[] = [];
@@ -106,7 +106,7 @@ export default function ProductEditForm({
         : undefined,
     };
 
-    updateProductMutation.mutate({ data, id });
+    updateProduct.mutate({ data, id });
   };
 
   useEffect(() => {
@@ -270,7 +270,7 @@ export default function ProductEditForm({
               <Stack direction="row" sx={{ justifyContent: 'end' }}>
                 <Button
                   disabled={!formState.isDirty}
-                  loading={updateProductMutation.isPending}
+                  loading={updateProduct.isPending}
                   type="submit"
                   variant="contained"
                 >

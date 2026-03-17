@@ -16,7 +16,7 @@ import NextLink from 'next/link';
 import { useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import HomeLink from '@/app/_components/nav/HomeLink';
-import useRegisterMutation from '@/src/queries/auth/useRegisterMutation';
+import useRegister from '@/src/queries/auth/useRegister';
 
 type RegisterFields = {
   email: string;
@@ -35,9 +35,9 @@ export default function Register() {
   const passwordField = watch('password');
   const [showPassword, setShowPassword] = useState(false);
 
-  const registerMutation = useRegisterMutation();
+  const register = useRegister();
   const onSubmit: SubmitHandler<RegisterFields> = (formData) => {
-    registerMutation.mutate(formData);
+    register.mutate(formData);
   };
 
   return (
@@ -126,7 +126,7 @@ export default function Register() {
           >
             <Button
               disabled={!emailField && !passwordField}
-              loading={registerMutation.isPending}
+              loading={register.isPending}
               onClick={handleSubmit(onSubmit)}
               variant="contained"
             >

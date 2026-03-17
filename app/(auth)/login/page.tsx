@@ -16,7 +16,7 @@ import NextLink from 'next/link';
 import { useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import HomeLink from '@/app/_components/nav/HomeLink';
-import useLoginMutation from '@/src/queries/auth/useLoginMutation';
+import useLogin from '@/src/queries/auth/useLogin';
 
 type LoginFields = {
   email: string;
@@ -35,9 +35,9 @@ export default function Login() {
   const passwordField = watch('password');
   const [showPassword, setShowPassword] = useState(false);
 
-  const loginMutation = useLoginMutation();
+  const login = useLogin();
   const onSubmit: SubmitHandler<LoginFields> = (formData) => {
-    loginMutation.mutate(formData);
+    login.mutate(formData);
   };
 
   return (
@@ -111,10 +111,10 @@ export default function Login() {
             />
           )}
         />
-        {loginMutation.error && (
+        {login.error && (
           <Typography color="error" variant="body2">
             {/** biome-ignore lint/suspicious/noExplicitAny: <Haven't define custom error type.> */}
-            {(loginMutation.error as any).data.error}
+            {(login.error as any).data.error}
           </Typography>
         )}
         <DevTool control={control} />
@@ -132,7 +132,7 @@ export default function Login() {
           >
             <Button
               disabled={!emailField && !passwordField}
-              loading={loginMutation.isPending}
+              loading={login.isPending}
               onClick={handleSubmit(onSubmit)}
               variant="contained"
             >

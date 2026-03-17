@@ -9,17 +9,18 @@ type UpdateProductParams = {
   id: product['id'];
 };
 
-export default function useUpdateProductMutation() {
+export default function useUpdateProduct() {
   const queryClient = useQueryClient();
   const displaySnackbar = useGlobalStore((state) => state.displaySnackbar);
 
   return useMutation({
+    mutationKey: ['updateProduct'],
     mutationFn: (updateProductParams: UpdateProductParams) =>
       updateProduct(updateProductParams),
     onSuccess: async ({ product }) => {
-      await queryClient.invalidateQueries({ queryKey: ['getProducts'] });
+      await queryClient.invalidateQueries({ queryKey: ['products'] });
       await queryClient.invalidateQueries({
-        queryKey: ['getProduct', product.id],
+        queryKey: ['product', product.id],
       });
       displaySnackbar('Product updated.');
     },

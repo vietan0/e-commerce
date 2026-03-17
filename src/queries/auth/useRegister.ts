@@ -9,16 +9,17 @@ type Credentials = {
   password: string;
 };
 
-export default function useRegisterMutation() {
+export default function useRegister() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const displaySnackbar = useGlobalStore((state) => state.displaySnackbar);
 
   return useMutation({
+    mutationKey: ['register'],
     mutationFn: (body: Credentials) => register(body),
     onSuccess: async ({ user }) => {
       router.push('/');
-      queryClient.invalidateQueries({ queryKey: ['getMe'] });
+      queryClient.invalidateQueries({ queryKey: ['me'] });
       displaySnackbar(`Logged in as ${user.email}.`);
     },
   });

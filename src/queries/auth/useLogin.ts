@@ -9,16 +9,17 @@ type Credentials = {
   password: string;
 };
 
-export default function useLoginMutation() {
+export default function useLogin() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const displaySnackbar = useGlobalStore((state) => state.displaySnackbar);
 
   return useMutation({
+    mutationKey: ['login'],
     mutationFn: (body: Credentials) => login(body),
     onSuccess: async ({ user }) => {
       router.push('/');
-      queryClient.invalidateQueries({ queryKey: ['getMe'] });
+      queryClient.invalidateQueries({ queryKey: ['me'] });
       displaySnackbar(`Logged in as ${user.email}.`);
     },
   });

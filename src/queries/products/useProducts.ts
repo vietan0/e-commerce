@@ -10,7 +10,7 @@ type Query = {
 
 export default function useProducts(query: Query = {}) {
   return useQuery({
-    queryKey: ['getProducts', query],
+    queryKey: ['products', query],
     queryFn: () => getProducts(query),
     staleTime: 1000 * 60 * 5,
   });

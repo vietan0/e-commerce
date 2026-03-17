@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { type MouseEvent, useState } from 'react';
 import theme from '@/app/theme';
-import useLogoutMutation from '@/src/queries/auth/useLogoutMutation';
+import useLogout from '@/src/queries/auth/useLogout';
 
 export default function ProfileBtn({ name }: { name: string }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -20,9 +20,9 @@ export default function ProfileBtn({ name }: { name: string }) {
     setAnchorEl(null);
   };
 
-  const logoutMutation = useLogoutMutation();
+  const logout = useLogout();
   const handleLogout = () => {
-    logoutMutation.mutate();
+    logout.mutate();
   };
 
   return (

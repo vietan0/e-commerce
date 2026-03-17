@@ -10,7 +10,7 @@ type Query = {
 
 export default function useCategories(query: Query = {}) {
   return useQuery({
-    queryKey: ['getCategories', query],
+    queryKey: ['categories', query],
     queryFn: () => getCategories(query),
     staleTime: 1000 * 60 * 5,
   });

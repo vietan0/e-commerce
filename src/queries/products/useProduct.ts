@@ -4,7 +4,7 @@ import type { ProductRes } from '@/src/types';
 
 export default function useProduct(id: string) {
   return useQuery({
-    queryKey: ['getProduct', id],
+    queryKey: ['product', id],
     queryFn: () => getProduct(id),
     staleTime: 1000 * 60 * 5,
   });

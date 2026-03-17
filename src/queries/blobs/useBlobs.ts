@@ -9,7 +9,7 @@ type Query = {
 
 export default function useBlobs(query: Query = {}) {
   return useQuery({
-    queryKey: ['getBlobs', query],
+    queryKey: ['blobs', query],
     queryFn: () => getBlobs(query),
     staleTime: 1000 * 60 * 5,
   });

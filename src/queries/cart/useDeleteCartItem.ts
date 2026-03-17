@@ -5,9 +5,10 @@ export default function useDeleteCartItem() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    mutationKey: ['deleteCartItem'],
     mutationFn: (id: string) => deleteCartItem(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getCart'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });
 }

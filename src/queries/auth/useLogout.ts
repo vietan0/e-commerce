@@ -3,16 +3,17 @@ import { useRouter } from 'next/navigation';
 import apiFetch from '@/src/queries/apiFetch';
 import useGlobalStore from '@/src/store';
 
-export default function useLogoutMutation() {
+export default function useLogout() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const displaySnackbar = useGlobalStore((state) => state.displaySnackbar);
 
   return useMutation({
+    mutationKey: ['logout'],
     mutationFn: logout,
     onSuccess: async () => {
       router.push('/login');
-      queryClient.invalidateQueries({ queryKey: ['getMe'] });
+      queryClient.invalidateQueries({ queryKey: ['me'] });
       displaySnackbar('Logged out successfully.');
     },
   });

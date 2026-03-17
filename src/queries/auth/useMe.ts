@@ -5,7 +5,7 @@ import apiFetch from '@/src/queries/apiFetch';
 
 export default function useMe() {
   return useQuery({
-    queryKey: ['getMe'],
+    queryKey: ['me'],
     queryFn: () => getMe(),
     staleTime: 1000 * 60 * 5,
   });

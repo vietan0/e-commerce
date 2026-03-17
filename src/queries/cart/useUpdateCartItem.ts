@@ -12,10 +12,11 @@ export default function useUpdateCartItem() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    mutationKey: ['updateCartItem'],
     mutationFn: (updateCartItemParams: UpdateCartItemParams) =>
       updateCartItem(updateCartItemParams),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getCart'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });
 }

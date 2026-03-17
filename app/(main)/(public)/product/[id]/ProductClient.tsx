@@ -16,7 +16,7 @@ import ImagesCarousel from '@/app/_components/ImagesCarousel';
 import QueryError from '@/app/_components/QueryError';
 import QuantityStepper from '@/app/(main)/(public)/product/[id]/_components/QuantityStepper';
 import { formatPrice } from '@/src/lib/price';
-import useUpsertCartItem from '@/src/queries/cart/useCreateCartItem';
+import useUpsertCartItem from '@/src/queries/cart/useUpsertCartItem';
 import useProduct from '@/src/queries/products/useProduct';
 
 export default function ProductClient({ id }: { id: string }) {

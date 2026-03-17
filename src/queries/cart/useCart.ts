@@ -4,7 +4,7 @@ import apiFetch from '@/src/queries/apiFetch';
 
 export default function useCart() {
   return useQuery({
-    queryKey: ['getCart'],
+    queryKey: ['cart'],
     queryFn: () => getCart(),
     staleTime: 1000 * 60 * 5,
   });
