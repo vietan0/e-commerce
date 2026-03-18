@@ -10,6 +10,9 @@ export async function proxy(request: NextRequest) {
   const isProtectedPage = PROTECTED_PAGES.some((pattern) =>
     pattern.startsWith(pathname),
   );
+  const isAdminProtectedPage = ADMIN_PROTECTED_PAGES.some((pattern) =>
+    pattern.startsWith(pathname),
+  );
   const isProtectedApi = PROTECTED_APIS.some((pattern) =>
     pattern.startsWith(pathname),
   );
@@ -28,8 +31,15 @@ export async function proxy(request: NextRequest) {
   }
 
   if (isProtectedPage) {
-    if (!session?.app_user.is_admin) {
+    if (!session) {
       console.log(`Redirected by proxy - ${pathname}: protected page`);
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+  }
+
+  if (isAdminProtectedPage) {
+    if (!session?.app_user.is_admin) {
+      console.log(`Redirected by proxy - ${pathname}: admin protected page`);
       return NextResponse.redirect(new URL('/', request.url));
     }
   }
@@ -43,10 +53,19 @@ export async function proxy(request: NextRequest) {
 }
 
 const PUBLIC_ONLY_PAGES = ['/login', '/register'];
-const PROTECTED_PAGES = ['/admin'];
+const PROTECTED_PAGES = ['/cart'];
+const ADMIN_PROTECTED_PAGES = ['/admin'];
 const PROTECTED_APIS = ['/api/me', '/api/cart'];
 
 export const config = {
   // add manually, can't use consts above because of matcher pattern
-  matcher: ['/login', '/register', '/admin/:path*', '/api/me', '/api/cart'],
+  matcher: [
+    '/login',
+    '/register',
+    '/cart',
+    '/checkout',
+    '/admin/:path*',
+    '/api/me',
+    '/api/cart',
+  ],
 };
