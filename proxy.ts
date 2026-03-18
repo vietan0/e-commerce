@@ -1,20 +1,21 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import getSession from '@/app/api/(auth)/_lib/getSession';
+import { proxyPaths } from '@/src/lib/proxyPaths';
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const isPublicOnlyPage = PUBLIC_ONLY_PAGES.some((pattern) =>
-    pattern.startsWith(pathname),
+  const isPublicOnlyPage = proxyPaths.publicOnlyPages.some(({ path }) =>
+    path.startsWith(pathname),
   );
-  const isProtectedPage = PROTECTED_PAGES.some((pattern) =>
-    pattern.startsWith(pathname),
+  const isProtectedPage = proxyPaths.protectedPages.some(({ path }) =>
+    path.startsWith(pathname),
   );
-  const isAdminProtectedPage = ADMIN_PROTECTED_PAGES.some((pattern) =>
-    pattern.startsWith(pathname),
+  const isAdminProtectedPage = proxyPaths.adminProtectedPages.some(({ path }) =>
+    path.startsWith(pathname),
   );
-  const isProtectedApi = PROTECTED_APIS.some((pattern) =>
-    pattern.startsWith(pathname),
+  const isProtectedApi = proxyPaths.protectedApis.some(({ path }) =>
+    path.startsWith(pathname),
   );
 
   if (!isPublicOnlyPage && !isProtectedPage && !isProtectedApi) {
@@ -33,7 +34,9 @@ export async function proxy(request: NextRequest) {
   if (isProtectedPage) {
     if (!session) {
       console.log(`Redirected by proxy - ${pathname}: protected page`);
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(
+        new URL(`/login?returnTo=${pathname}`, request.url),
+      );
     }
   }
 
@@ -52,13 +55,8 @@ export async function proxy(request: NextRequest) {
   }
 }
 
-const PUBLIC_ONLY_PAGES = ['/login', '/register'];
-const PROTECTED_PAGES = ['/cart'];
-const ADMIN_PROTECTED_PAGES = ['/admin'];
-const PROTECTED_APIS = ['/api/me', '/api/cart'];
-
 export const config = {
-  // add manually, can't use consts above because of matcher pattern
+  // add manually, can't map from proxyPaths because of matcher pattern
   matcher: [
     '/login',
     '/register',

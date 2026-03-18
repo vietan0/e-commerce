@@ -2,6 +2,7 @@
 import { DevTool } from '@hookform/devtools';
 import { Icon } from '@iconify/react';
 import {
+  Alert,
   Button,
   Card,
   CardActions,
@@ -13,9 +14,11 @@ import {
   Typography,
 } from '@mui/material';
 import NextLink from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import HomeLink from '@/app/_components/nav/HomeLink';
+import { proxyPaths } from '@/src/lib/proxyPaths';
 import useLogin from '@/src/queries/auth/useLogin';
 
 type LoginFields = {
@@ -24,6 +27,12 @@ type LoginFields = {
 };
 
 export default function Login() {
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get('returnTo');
+  const returnToMatch = proxyPaths.protectedPages.find(({ path }) =>
+    returnTo?.startsWith(path),
+  );
+
   const { control, handleSubmit, watch } = useForm<LoginFields>({
     defaultValues: {
       email: '',
@@ -52,6 +61,9 @@ export default function Login() {
         onSubmit={handleSubmit(onSubmit)}
         sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
       >
+        {returnToMatch && (
+          <Alert severity="info">{returnToMatch.message}</Alert>
+        )}
         <Stack
           direction="row"
           sx={{
