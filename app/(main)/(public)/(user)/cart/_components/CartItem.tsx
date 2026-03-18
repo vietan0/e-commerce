@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
-import { Grid, IconButton, Stack, Typography } from '@mui/material';
+import { Grid, IconButton, Link, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
+import NextLink from 'next/link';
 import QuantityStepper from '@/app/(main)/(public)/(user)/cart/_components/QuantityStepper';
 import type { cart_itemGetPayload } from '@/src/generated/prisma/models';
 import { formatPrice } from '@/src/lib/price';
@@ -24,6 +25,7 @@ export default function CartItem({
         '& .MuiTypography-root': {
           fontSize: 'inherit', // override each <Typography /> inside
         },
+        px: 2,
         alignItems: 'center',
         fontSize: 14,
       }}
@@ -36,21 +38,32 @@ export default function CartItem({
             src={product.thumbnail?.url || ''}
             width={64}
           />
-          <Typography>{product.name}</Typography>
+          <Link
+            color="inherit"
+            component={NextLink}
+            href={`/product/${product.id}`}
+            underline="hover"
+          >
+            {product.name}
+          </Link>
         </Stack>
       </Grid>
       <Grid size={1.5}>
-        {/* @ts-expect-error */}
-        <Typography>{formatPrice(product.final_price)}</Typography>
+        <Typography sx={{ textAlign: 'end' }}>
+          {/* @ts-expect-error */}
+          {formatPrice(product.final_price)}
+        </Typography>
       </Grid>
       <Grid size={1.5}>
         <QuantityStepper cart_item={cart_item} />
       </Grid>
       <Grid size={1.5}>
-        {/* @ts-expect-error */}
-        <Typography>{formatPrice(product.final_price * amount)}</Typography>
+        <Typography sx={{ textAlign: 'end' }}>
+          {/* @ts-expect-error */}
+          {formatPrice(product.final_price * amount)}
+        </Typography>
       </Grid>
-      <Grid>
+      <Grid size={2.5} sx={{ textAlign: 'end' }}>
         <IconButton
           aria-label="Xoá khỏi giỏ hàng"
           color="error"
