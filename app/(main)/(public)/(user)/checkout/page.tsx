@@ -4,6 +4,7 @@ import { Box, CircularProgress, Grid, Stack, Typography } from '@mui/material';
 import QueryError from '@/app/_components/QueryError';
 import CartItem from '@/app/(main)/(public)/(user)/cart/_components/CartItem';
 import Address from '@/app/(main)/(public)/(user)/checkout/_components/Address';
+import EmptyCartInCheckout from '@/app/(main)/(public)/(user)/checkout/_components/EmptyCartInCheckout';
 import PaymentMethod from '@/app/(main)/(public)/(user)/checkout/_components/PaymentMethod';
 import useCart from '@/src/queries/cart/useCart';
 import usePaymentMethods from '@/src/queries/payment_methods/usePaymentMethods';
@@ -26,6 +27,7 @@ export default function Checkout() {
   }
 
   if (error) return <QueryError error={error} />;
+  if (cart_items.length === 0) return <EmptyCartInCheckout />;
 
   return (
     <Box>

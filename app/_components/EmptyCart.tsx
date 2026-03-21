@@ -22,7 +22,7 @@ export default function EmptyCart({ inMenu }: { inMenu: boolean }) {
       </Typography>
       {!inMenu && (
         <Button component={NextLink} href="/">
-          Về trang chủ
+          Mua ngay
         </Button>
       )}
     </Stack>
