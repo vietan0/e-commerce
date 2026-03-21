@@ -267,7 +267,16 @@ export default function ProductEditForm({
               <VisuallyHiddenInput {...register('description')} />
             </Grid>
             <Grid size={12}>
-              <Stack direction="row" sx={{ justifyContent: 'end' }}>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ justifyContent: 'end', alignItems: 'center' }}
+              >
+                {updateProduct.error && (
+                  <Typography color="error" variant="body2">
+                    {updateProduct.error.message}
+                  </Typography>
+                )}
                 <Button
                   disabled={!formState.isDirty}
                   loading={updateProduct.isPending}

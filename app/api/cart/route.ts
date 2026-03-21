@@ -48,16 +48,8 @@ export async function POST(req: NextRequest) {
         },
       },
       create: {
-        app_user: {
-          connect: {
-            id: session?.app_user.id,
-          },
-        },
-        product: {
-          connect: {
-            id: BigInt(body.productId),
-          },
-        },
+        user_id: session!.app_user.id,
+        product_id: BigInt(body.productId),
         amount: body.amount,
       },
       update: {

@@ -12,13 +12,9 @@ export default async function createSession(req: NextRequest, user: app_user) {
   const userAgentInfo = userAgent(req);
   const { browser, os, device } = userAgentInfo;
 
-  const sessionCreateInput: Prisma.sessionCreateInput = {
+  const sessionCreateInput: Prisma.sessionUncheckedCreateInput = {
     session_id,
-    app_user: {
-      connect: {
-        id: user.id,
-      },
-    },
+    user_id: user.id,
     browser: browser.name,
     browser_version: browser.version,
     os: os.name,

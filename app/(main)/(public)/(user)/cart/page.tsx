@@ -56,7 +56,6 @@ export default function Cart() {
             Thao tác
           </Grid>
         </Grid>
-        <Typography>Phương thức thanh toán</Typography>
         {cart_items.map((cart_item) => (
           <CartItem cart_item={cart_item} key={cart_item.id} />
         ))}
@@ -74,9 +73,7 @@ export default function Cart() {
       >
         <Grid size={5}></Grid>
         <Grid size={4.5} sx={{ textAlign: 'end' }}>
-          <Typography component="span">
-            Tổng cộng ({cart_items.length} sản phẩm):
-          </Typography>
+          <Typography>Tổng cộng ({cart_items.length} sản phẩm)</Typography>
           <Typography
             color="primary"
             component="span"
