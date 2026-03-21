@@ -2,9 +2,9 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { includeDiscount } from '@/src/lib/price';
 import { prisma } from '@/src/lib/prisma';
 
-export async function GET(request: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const url = request.nextUrl;
+    const url = req.nextUrl;
     const { searchParams } = url;
     const page = searchParams.get('page');
     const limit = searchParams.get('limit');

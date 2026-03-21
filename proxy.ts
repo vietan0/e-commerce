@@ -2,8 +2,8 @@ import { type NextRequest, NextResponse } from 'next/server';
 import getSession from '@/app/api/(auth)/_lib/getSession';
 import { proxyPaths } from '@/src/lib/proxyPaths';
 
-export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+export async function proxy(req: NextRequest) {
+  const { pathname } = req.nextUrl;
 
   const isPublicOnlyPage = proxyPaths.publicOnlyPages.some(({ path }) =>
     path.startsWith(pathname),
@@ -27,7 +27,7 @@ export async function proxy(request: NextRequest) {
   if (isPublicOnlyPage) {
     if (session) {
       console.log(`Redirected by proxy - ${pathname}: public only page`);
-      return NextResponse.redirect(new URL('/', request.url));
+      return NextResponse.redirect(new URL('/', req.url));
     }
   }
 
@@ -35,7 +35,7 @@ export async function proxy(request: NextRequest) {
     if (!session) {
       console.log(`Redirected by proxy - ${pathname}: protected page`);
       return NextResponse.redirect(
-        new URL(`/login?returnTo=${pathname}`, request.url),
+        new URL(`/login?returnTo=${pathname}`, req.url),
       );
     }
   }
@@ -43,7 +43,7 @@ export async function proxy(request: NextRequest) {
   if (isAdminProtectedPage) {
     if (!session?.app_user.is_admin) {
       console.log(`Redirected by proxy - ${pathname}: admin protected page`);
-      return NextResponse.redirect(new URL('/', request.url));
+      return NextResponse.redirect(new URL('/', req.url));
     }
   }
 

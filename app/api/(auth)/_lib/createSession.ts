@@ -7,12 +7,9 @@ import { prisma } from '@/src/lib/prisma';
 /**
  * Create a session record, pass `session_id` to client using `set-cookie` header
  */
-export default async function createSession(
-  request: NextRequest,
-  user: app_user,
-) {
+export default async function createSession(req: NextRequest, user: app_user) {
   const session_id = randomBytes(512).toString('hex');
-  const userAgentInfo = userAgent(request);
+  const userAgentInfo = userAgent(req);
   const { browser, os, device } = userAgentInfo;
 
   const sessionCreateInput: Prisma.sessionCreateInput = {
@@ -26,7 +23,7 @@ export default async function createSession(
     browser_version: browser.version,
     os: os.name,
     platform: device.type || 'desktop',
-    ip: (request.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0],
+    ip: (req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0],
   };
 
   await prisma.session.create({
