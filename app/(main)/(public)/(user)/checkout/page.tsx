@@ -7,7 +7,7 @@ import Address from '@/app/(main)/(public)/(user)/checkout/_components/Address';
 import EmptyCartInCheckout from '@/app/(main)/(public)/(user)/checkout/_components/EmptyCartInCheckout';
 import PaymentMethod from '@/app/(main)/(public)/(user)/checkout/_components/PaymentMethod';
 import useCart from '@/src/queries/cart/useCart';
-import usePaymentMethods from '@/src/queries/payment_methods/usePaymentMethods';
+import usePaymentMethods from '@/src/queries/payment-methods/usePaymentMethods';
 
 export default function Checkout() {
   const { data: cart_items, isPending, error, refetch } = useCart();

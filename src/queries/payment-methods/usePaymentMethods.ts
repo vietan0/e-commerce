@@ -13,7 +13,7 @@ export default function usePaymentMethods() {
 
 async function getPaymentMethods() {
   const data = await apiFetch<{ payment_methods: payment_method[] }>(
-    '/payment_methods',
+    '/payment-methods',
   );
 
   return data;
