@@ -17,7 +17,7 @@ import { productCardWidth } from '@/src/constants/ui';
 import useProducts from '@/src/queries/products/useProducts';
 
 export default function ProductCarousel() {
-  const { data, isPending, error } = useProducts({ limit: 8 });
+  const { data: products, isPending, error } = useProducts({ limit: 8 });
   const [offset, setOffset] = useState(0);
   const btnW = 52; // size of one CarouselNavButton, may change if "size" prop or child icon size changes
   const spacing = 2;
@@ -67,7 +67,7 @@ export default function ProductCarousel() {
         />
       </CarouselNavButton>
       <CarouselNavButton
-        disabled={offset === data.products.length - 1}
+        disabled={offset === products.length - 1}
         onClick={offsetLeft}
         size="large"
         sx={{
@@ -94,7 +94,7 @@ export default function ProductCarousel() {
             transform: `translateX(${-offset * (productCardWidth + gap)}px)`,
           }}
         >
-          {data.products.map((p) => (
+          {products.map((p) => (
             <ProductCard hasShadow={false} key={p.id} product={p} />
           ))}
         </Stack>

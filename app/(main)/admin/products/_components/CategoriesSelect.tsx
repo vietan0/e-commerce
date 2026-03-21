@@ -13,7 +13,7 @@ import QueryError from '@/app/_components/QueryError';
 import useCategories from '@/src/queries/categories/useCategories';
 
 export default function CategoriesSelect(props: SelectProps) {
-  const { data, isPending, error } = useCategories();
+  const { data: categories, isPending, error } = useCategories();
   const labelId = 'categories-select';
 
   return (
@@ -29,9 +29,7 @@ export default function CategoriesSelect(props: SelectProps) {
           if (error) return <QueryError error={error} />;
 
           const categoryNames = (selected as string[]).map((category_id) => {
-            const match = data.categories.find(
-              (m) => String(m.id) === category_id,
-            )!;
+            const match = categories.find((m) => String(m.id) === category_id)!;
             return <Chip key={match.id} label={match.name} />;
           });
 
@@ -48,11 +46,21 @@ export default function CategoriesSelect(props: SelectProps) {
         }}
         size="small"
       >
-        {data?.categories.map((c) => (
-          <MenuItem key={c.id} value={c.id as unknown as string}>
-            {c.name}
+        {isPending ? (
+          <MenuItem>
+            <CircularProgress size={16} />
           </MenuItem>
-        ))}
+        ) : error ? (
+          <MenuItem>
+            <QueryError error={error} />
+          </MenuItem>
+        ) : (
+          categories.map((c) => (
+            <MenuItem key={c.id} value={c.id as unknown as string}>
+              {c.name}
+            </MenuItem>
+          ))
+        )}
       </Select>
     </FormControl>
   );

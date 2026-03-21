@@ -13,7 +13,7 @@ import theme from '@/app/theme';
 import useCart from '@/src/queries/cart/useCart';
 
 export default function CartBtn() {
-  const { data, isPending, error } = useCart();
+  const { data: cart_items, isPending, error } = useCart();
 
   const popupState = usePopupState({
     variant: 'popover',
@@ -60,7 +60,7 @@ export default function CartBtn() {
         href="/cart"
       >
         <Badge
-          badgeContent={data.cart_items.length}
+          badgeContent={cart_items.length}
           color="error"
           slotProps={{
             badge: {
@@ -87,7 +87,7 @@ export default function CartBtn() {
         }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <CartMenuContent cart_items={data.cart_items} />
+        <CartMenuContent cart_items={cart_items} />
       </HoverMenu>
     </>
   );

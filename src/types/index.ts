@@ -31,6 +31,8 @@ export type Product = ProductComputedFields &
     };
   }>;
 
+type ProductSuccessRes = { product: Product };
+
 export interface ProductsSuccessRes {
   rowCount: number;
   totalRowCount: number;
@@ -41,7 +43,7 @@ export interface ErrorRes {
   error: string;
 }
 
-export type ProductRes = Product | ErrorRes;
+export type ProductRes = ProductSuccessRes | ErrorRes;
 export type ProductsRes = ProductsSuccessRes | ErrorRes;
 
 export interface ManufacturersSuccessRes {

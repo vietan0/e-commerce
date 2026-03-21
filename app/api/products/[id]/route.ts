@@ -35,7 +35,7 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(product);
+    return NextResponse.json({ product });
   } catch (error) {
     console.error(error);
     const typedError = error as Error;

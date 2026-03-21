@@ -12,6 +12,7 @@ export default function useCategories(query: Query = {}) {
   return useQuery({
     queryKey: ['categories', query],
     queryFn: () => getCategories(query),
+    select: (data) => data.categories,
     staleTime: 1000 * 60 * 5,
   });
 }

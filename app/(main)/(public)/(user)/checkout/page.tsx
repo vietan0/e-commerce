@@ -9,7 +9,7 @@ import useCart from '@/src/queries/cart/useCart';
 import usePaymentMethods from '@/src/queries/payment_methods/usePaymentMethods';
 
 export default function Checkout() {
-  const { data, isPending, error, refetch } = useCart();
+  const { data: cart_items, isPending, error, refetch } = useCart();
   refetch(); // fetch manually once to ensure product data is fresh
   const {
     data: paymentMethods,
@@ -56,7 +56,7 @@ export default function Checkout() {
             Thao tác
           </Grid>
         </Grid>
-        {data.cart_items.map((cart_item) => (
+        {cart_items.map((cart_item) => (
           <CartItem cart_item={cart_item} key={cart_item.id} />
         ))}
       </Stack>

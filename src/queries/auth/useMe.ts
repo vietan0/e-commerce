@@ -7,6 +7,7 @@ export default function useMe() {
   return useQuery({
     queryKey: ['me'],
     queryFn: () => getMe(),
+    // shouldn't use select because queryFn returns { app_user } | null
     staleTime: 1000 * 60 * 5,
   });
 }

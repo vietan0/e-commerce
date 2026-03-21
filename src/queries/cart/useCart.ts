@@ -6,6 +6,7 @@ export default function useCart() {
   return useQuery({
     queryKey: ['cart'],
     queryFn: () => getCart(),
+    select: (data) => data.cart_items,
     staleTime: 1000 * 60 * 5,
   });
 }

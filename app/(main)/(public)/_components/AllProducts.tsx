@@ -5,7 +5,7 @@ import QueryError from '@/app/_components/QueryError';
 import useProducts from '@/src/queries/products/useProducts';
 
 export default function AllProducts() {
-  const { data, isPending, error } = useProducts();
+  const { data: products, isPending, error } = useProducts();
 
   if (isPending) {
     return (
@@ -31,7 +31,7 @@ export default function AllProducts() {
           mx: 'auto',
         }}
       >
-        {data.products.map((p) => (
+        {products.map((p) => (
           <ProductCard hasShadow={false} key={p.id} product={p} />
         ))}
       </Box>

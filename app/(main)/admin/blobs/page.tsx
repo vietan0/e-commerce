@@ -5,7 +5,7 @@ import Blob from '@/app/(main)/admin/blobs/Blob';
 import useBlobs from '@/src/queries/blobs/useBlobs';
 
 export default function Blobs() {
-  const { data, isPending, error } = useBlobs({ sort: '-uploadedAt' });
+  const { data: blobs, isPending, error } = useBlobs({ sort: '-uploadedAt' });
   if (isPending)
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -21,7 +21,7 @@ export default function Blobs() {
         Blobs
       </Typography>
       <Grid container spacing={0.5}>
-        {data.blobs.map((blob) => (
+        {blobs.map((blob) => (
           <Grid key={blob.url} size={3}>
             <Blob blob={blob} />
           </Grid>

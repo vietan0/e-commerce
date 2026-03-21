@@ -12,6 +12,7 @@ export default function useProducts(query: Query = {}) {
   return useQuery({
     queryKey: ['products', query],
     queryFn: () => getProducts(query),
+    select: (data) => data.products,
     staleTime: 1000 * 60 * 5,
   });
 }

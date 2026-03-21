@@ -11,6 +11,7 @@ export default function useBlobs(query: Query = {}) {
   return useQuery({
     queryKey: ['blobs', query],
     queryFn: () => getBlobs(query),
+    select: (data) => data.blobs,
     staleTime: 1000 * 60 * 5,
   });
 }

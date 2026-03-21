@@ -15,7 +15,7 @@ import { formatPrice } from '@/src/lib/price';
 import useCart from '@/src/queries/cart/useCart';
 
 export default function Cart() {
-  const { data, isPending, error } = useCart();
+  const { data: cart_items, isPending, error } = useCart();
 
   if (isPending)
     return (
@@ -25,9 +25,9 @@ export default function Cart() {
     );
 
   if (error) return <QueryError error={error} />;
-  if (data.cart_items.length === 0) return <EmptyCart inMenu={false} />;
+  if (cart_items.length === 0) return <EmptyCart inMenu={false} />;
 
-  const totalAmount = data.cart_items.reduce((prev, curr) => {
+  const totalAmount = cart_items.reduce((prev, curr) => {
     // @ts-expect-error
     return prev + Number(curr.product.final_price) * curr.amount;
   }, 0);
@@ -57,7 +57,7 @@ export default function Cart() {
           </Grid>
         </Grid>
         <Typography>Phương thức thanh toán</Typography>
-        {data.cart_items.map((cart_item) => (
+        {cart_items.map((cart_item) => (
           <CartItem cart_item={cart_item} key={cart_item.id} />
         ))}
       </Stack>
@@ -75,7 +75,7 @@ export default function Cart() {
         <Grid size={5}></Grid>
         <Grid size={4.5} sx={{ textAlign: 'end' }}>
           <Typography component="span">
-            Tổng cộng ({data.cart_items.length} sản phẩm):
+            Tổng cộng ({cart_items.length} sản phẩm):
           </Typography>
           <Typography
             color="primary"
