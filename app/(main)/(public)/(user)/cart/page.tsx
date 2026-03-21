@@ -50,12 +50,13 @@ export default function Cart() {
             Số lượng
           </Grid>
           <Grid size={1.5} sx={{ textAlign: 'end' }}>
-            Số tiền
+            Thành tiền
           </Grid>
           <Grid size={2.5} sx={{ textAlign: 'end' }}>
             Thao tác
           </Grid>
         </Grid>
+        <Typography>Phương thức thanh toán</Typography>
         {data.cart_items.map((cart_item) => (
           <CartItem cart_item={cart_item} key={cart_item.id} />
         ))}
