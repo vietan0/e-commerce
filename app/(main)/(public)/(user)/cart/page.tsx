@@ -39,8 +39,14 @@ export default function Cart() {
       <Stack spacing={1}>
         <Grid
           container
-          spacing={1}
-          sx={{ mb: 1, px: 2, fontSize: 14, color: 'grey.600' }}
+          spacing={2}
+          sx={{
+            mb: 1,
+            px: 2,
+            alignItems: 'center',
+            fontSize: 14,
+            color: 'grey.600',
+          }}
         >
           <Grid size={5}>Sản phẩm</Grid>
           <Grid size={1.5} sx={{ textAlign: 'end' }}>
@@ -74,11 +80,7 @@ export default function Cart() {
         <Grid size={5}></Grid>
         <Grid size={4.5} sx={{ textAlign: 'end' }}>
           <Typography>Tổng cộng ({cart_items.length} sản phẩm)</Typography>
-          <Typography
-            color="primary"
-            component="span"
-            sx={{ ml: 2, fontSize: 20, fontWeight: 700 }}
-          >
+          <Typography color="primary" sx={{ fontSize: 18 }}>
             {formatPrice(totalAmount.toString())}
           </Typography>
         </Grid>

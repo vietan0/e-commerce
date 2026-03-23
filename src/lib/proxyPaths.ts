@@ -11,5 +11,9 @@ export const proxyPaths = {
     },
   ],
   adminProtectedPages: [{ path: '/admin' }],
-  protectedApis: [{ path: '/api/me' }, { path: '/api/cart' }],
+  protectedApis: [
+    { path: '/api/me' },
+    { path: '/api/cart' },
+    { path: '/api/orders' },
+  ],
 };
