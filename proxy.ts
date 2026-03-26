@@ -62,6 +62,7 @@ export const config = {
     '/register',
     '/cart',
     '/checkout',
+    '/me',
     '/admin/:path*',
     '/api/me',
     '/api/cart',

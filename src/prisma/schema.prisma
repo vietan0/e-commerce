@@ -12,6 +12,7 @@ model app_user {
   name        String?     @db.VarChar(255)
   email       String      @unique @db.VarChar(255)
   phone       String?     @unique @db.VarChar(15)
+  address     String?     @db.VarChar(255)
   profile_pic BigInt?
   profilePic  file?       @relation(fields: [profile_pic], references: [id], name: "profilePic")
   created_at  DateTime    @default(now()) @db.Timestamptz(6)

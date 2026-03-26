@@ -18,11 +18,11 @@ export default function useUpdateProduct() {
     mutationFn: (updateProductParams: UpdateProductParams) =>
       updateProduct(updateProductParams),
     onSuccess: async ({ product }) => {
+      displaySnackbar('Product updated.');
       await queryClient.invalidateQueries({ queryKey: ['products'] });
       await queryClient.invalidateQueries({
         queryKey: ['product', product.id],
       });
-      displaySnackbar('Product updated.');
     },
   });
 }

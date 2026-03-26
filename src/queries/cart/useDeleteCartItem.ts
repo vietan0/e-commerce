@@ -10,8 +10,8 @@ export default function useDeleteCartItem() {
     mutationKey: ['deleteCartItem'],
     mutationFn: (id: string) => deleteCartItem(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart'] });
       displaySnackbar('Đã xoá sản phẩm khỏi giỏ hàng.');
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });
 }

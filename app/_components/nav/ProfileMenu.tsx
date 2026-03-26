@@ -5,7 +5,9 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  Typography,
 } from '@mui/material';
+import NextLink from 'next/link';
 import { type MouseEvent, useState } from 'react';
 import theme from '@/app/theme';
 import useLogout from '@/src/queries/auth/useLogout';
@@ -35,9 +37,14 @@ export default function ProfileBtn({ name }: { name: string }) {
         id="profile-btn"
         onClick={handleClick}
         startIcon={<Icon icon="material-symbols:person-outline-rounded" />}
+        sx={{
+          maxWidth: 150,
+        }}
         variant="outlined"
       >
-        {name}
+        <Typography noWrap variant="inherit">
+          {name}
+        </Typography>
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -54,7 +61,7 @@ export default function ProfileBtn({ name }: { name: string }) {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem component={NextLink} href="/me">
           <ListItemIcon>
             <Icon
               fontSize={20}

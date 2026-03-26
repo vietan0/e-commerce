@@ -12,11 +12,18 @@ export default function useMe() {
   });
 }
 
-async function getMe() {
+/**
+ *
+ * @param headers pass cookies manually if called from server
+ */
+export async function getMe(headers?: HeadersInit) {
   try {
     const data = await apiFetch<{
-      app_user: app_userGetPayload<{ omit: { password: true } }>;
-    }>('/me');
+      app_user: app_userGetPayload<{
+        omit: { password: true };
+        include: { profilePic: true };
+      }>;
+    }>('/me', { headers });
 
     return data;
   } catch (error) {

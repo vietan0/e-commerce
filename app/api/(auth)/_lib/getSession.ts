@@ -25,6 +25,9 @@ export default async function getSession() {
         omit: {
           password: true,
         },
+        include: {
+          profilePic: true,
+        },
       },
     },
   });

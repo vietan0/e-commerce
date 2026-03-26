@@ -9,6 +9,10 @@ export const proxyPaths = {
       path: '/checkout',
       message: 'You need to be logged in to view the checkout page.',
     },
+    {
+      path: '/me',
+      message: 'You need to be logged in to view your profile.',
+    },
   ],
   adminProtectedPages: [{ path: '/admin' }],
   protectedApis: [

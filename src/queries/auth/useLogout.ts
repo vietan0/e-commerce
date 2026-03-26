@@ -14,9 +14,9 @@ export default function useLogout() {
     mutationKey: ['logout'],
     mutationFn: logout,
     onSuccess: async () => {
+      displaySnackbar('Logged out successfully.');
       await queryClient.invalidateQueries({ queryKey: ['me'] });
       router.push(`/login?returnTo=${returnTo}`);
-      displaySnackbar('Logged out successfully.');
     },
   });
 }
