@@ -1,15 +1,37 @@
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { cookies } from 'next/headers';
+import type { sessionGetPayload } from '@/src/generated/prisma/models';
 import { prisma } from '@/src/lib/prisma';
 
 dayjs.extend(isSameOrBefore);
+
+type SessionResult =
+  | {
+      session: sessionGetPayload<{
+        include: {
+          app_user: {
+            omit: {
+              password: true;
+            };
+            include: {
+              profilePic: true;
+            };
+          };
+        };
+      }>;
+      error: null;
+    }
+  | {
+      session: null;
+      error: 'Not logged in' | 'Session not found in DB' | 'Session expired';
+    };
 
 /**
  *
  * @returns `{ session: Session, error: null }` or `{ session: null, error: string }`
  */
-export default async function getSession() {
+export default async function getSession(): Promise<SessionResult> {
   const cookieStore = await cookies();
   const session_id = cookieStore.get('session_id')?.value;
   if (!session_id) {

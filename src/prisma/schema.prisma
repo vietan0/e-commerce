@@ -163,7 +163,7 @@ model file {
   url           String
   download_url  String
   size          Int
-  created_at    DateTime        @db.Timestamptz(6)
+  created_at    DateTime        @default(now()) @db.Timestamptz(6)
   user_id       String          @db.Uuid
   app_user      app_user        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, name: "createdBy")
   productImages product_image[]
