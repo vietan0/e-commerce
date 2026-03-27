@@ -11,7 +11,7 @@ export default function CheckoutCartItem({
     include: { product: { include: { thumbnail: true } } };
   }>;
 }) {
-  const { product, amount } = cart_item;
+  const { product, quantity } = cart_item;
 
   return (
     <Grid
@@ -50,12 +50,12 @@ export default function CheckoutCartItem({
         </Typography>
       </Grid>
       <Grid size={2}>
-        <Typography sx={{ textAlign: 'center' }}>{amount}</Typography>
+        <Typography sx={{ textAlign: 'center' }}>{quantity}</Typography>
       </Grid>
       <Grid size={2}>
         <Typography sx={{ textAlign: 'end' }}>
           {/* @ts-expect-error */}
-          {formatPrice(product.final_price * amount)}
+          {formatPrice(product.final_price * quantity)}
         </Typography>
       </Grid>
     </Grid>

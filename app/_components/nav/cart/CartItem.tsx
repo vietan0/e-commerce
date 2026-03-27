@@ -10,7 +10,7 @@ export default function CartItem({
     include: { product: { include: { thumbnail: true } } };
   }>;
 }) {
-  const { product, amount } = cart_item;
+  const { product, quantity } = cart_item;
   return (
     <MenuItem dense>
       <Grid
@@ -45,7 +45,7 @@ export default function CartItem({
             sx={{ fontSize: 14, textAlign: 'right' }}
             variant="inherit"
           >
-            {amount}
+            {quantity}
           </Typography>
         </Grid>
         <Grid size={4}>
@@ -54,7 +54,7 @@ export default function CartItem({
             variant="inherit"
           >
             {/* @ts-expect-error */}
-            {formatPrice(product.final_price * amount)}
+            {formatPrice(product.final_price * quantity)}
           </Typography>
         </Grid>
       </Grid>

@@ -29,7 +29,7 @@ export default function Cart() {
 
   const totalAmount = cart_items.reduce((prev, curr) => {
     // @ts-expect-error
-    return prev + Number(curr.product.final_price) * curr.amount;
+    return prev + Number(curr.product.final_price) * curr.quantity;
   }, 0);
   return (
     <Box>

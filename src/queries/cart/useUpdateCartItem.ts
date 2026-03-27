@@ -5,7 +5,7 @@ import apiFetch from '@/src/queries/apiFetch';
 type UpdateCartItemParams = {
   id: cart_item['id'];
   action: 'increment' | 'decrement';
-  amount: number;
+  quantity: number;
 };
 
 export default function useUpdateCartItem() {
@@ -21,10 +21,10 @@ export default function useUpdateCartItem() {
   });
 }
 
-async function updateCartItem({ id, action, amount }: UpdateCartItemParams) {
+async function updateCartItem({ id, action, quantity }: UpdateCartItemParams) {
   const res = await apiFetch(`/cart/items/${id}`, {
     method: 'PATCH',
-    body: { action, amount },
+    body: { action, quantity },
   });
 
   return res;

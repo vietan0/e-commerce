@@ -29,7 +29,7 @@ model cart_item {
   id         BigInt   @id @default(autoincrement())
   product_id BigInt
   user_id    String   @db.Uuid
-  amount     Int
+  quantity   Int
   product    product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   app_user   app_user @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
@@ -76,8 +76,9 @@ model manufacturer {
 model order_product {
   order_id   BigInt
   product_id BigInt
-  amount     Int
+  quantity   Int
   unit_price Decimal @db.Decimal(14, 3)
+  line_total Decimal @db.Decimal(14, 3)
   id         BigInt  @id @default(autoincrement())
   order      order   @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   product    product @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)

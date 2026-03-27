@@ -1,4 +1,4 @@
 export type UpsertCartItemBody = {
   productId: string;
-  amount: number;
+  quantity: number;
 };

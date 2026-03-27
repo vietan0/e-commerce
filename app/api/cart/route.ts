@@ -50,11 +50,11 @@ export async function POST(req: NextRequest) {
       create: {
         user_id: session!.app_user.id,
         product_id: BigInt(body.productId),
-        amount: body.amount,
+        quantity: body.quantity,
       },
       update: {
-        amount: {
-          increment: body.amount,
+        quantity: {
+          increment: body.quantity,
         },
       },
     });

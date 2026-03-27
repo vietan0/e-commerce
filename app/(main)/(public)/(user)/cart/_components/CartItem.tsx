@@ -14,7 +14,7 @@ export default function CartItem({
     include: { product: { include: { thumbnail: true } } };
   }>;
 }) {
-  const { id, product, amount } = cart_item;
+  const { id, product, quantity } = cart_item;
   const deleteCartItem = useDeleteCartItem();
 
   return (
@@ -60,7 +60,7 @@ export default function CartItem({
       <Grid size={1.5}>
         <Typography sx={{ textAlign: 'end' }}>
           {/* @ts-expect-error */}
-          {formatPrice(product.final_price * amount)}
+          {formatPrice(product.final_price * quantity)}
         </Typography>
       </Grid>
       <Grid size={2.5} sx={{ textAlign: 'end' }}>

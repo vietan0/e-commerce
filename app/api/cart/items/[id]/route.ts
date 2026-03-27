@@ -9,9 +9,9 @@ export async function PATCH(
   try {
     const body = (await req.json()) as {
       action: 'increment' | 'decrement';
-      amount: number;
+      quantity: number;
     };
-    const { action, amount } = body;
+    const { action, quantity } = body;
     const { id } = await params;
 
     const cart_item = await prisma.cart_item.findUnique({
@@ -26,7 +26,7 @@ export async function PATCH(
       );
     }
 
-    if (cart_item.amount === 1 && action === 'decrement') {
+    if (cart_item.quantity === 1 && action === 'decrement') {
       // delete, not update
       const deletedCartItem = await prisma.cart_item.delete({
         where: { id: BigInt(id) },
@@ -43,8 +43,8 @@ export async function PATCH(
         id: BigInt(id),
       },
       data: {
-        amount: {
-          [action]: amount,
+        quantity: {
+          [action]: quantity,
         },
       },
     };
