@@ -1,32 +1,12 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import getSession from '@/app/api/(auth)/_lib/getSession';
-import { includeDiscount } from '@/src/lib/price';
+import getCartItems from '@/src/lib/getCartItems';
 import { prisma } from '@/src/lib/prisma';
 import type { UpsertCartItemBody } from '@/src/types/cart';
 
 export async function GET() {
   try {
-    const { session } = await getSession();
-
-    const cart_items = await prisma.cart_item.findMany({
-      where: {
-        app_user: {
-          id: session!.app_user.id,
-        },
-      },
-      include: {
-        product: {
-          include: {
-            ...includeDiscount,
-            thumbnail: true,
-          },
-        },
-      },
-      orderBy: {
-        id: 'desc',
-      },
-    });
-
+    const cart_items = await getCartItems();
     return NextResponse.json({ cart_items });
   } catch (error) {
     console.error(error);

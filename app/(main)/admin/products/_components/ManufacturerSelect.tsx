@@ -15,7 +15,7 @@ export default function ManufacturerSelect(props: SelectProps) {
   const labelId = 'manufacturer-select';
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth size="small">
       <InputLabel id={labelId}>Manufacturer</InputLabel>
       <Select
         {...props}

@@ -3,7 +3,9 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { type SyntheticEvent, useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import QueryError from '@/app/_components/QueryError';
+import type { OrderFields } from '@/app/(main)/(public)/(user)/checkout/page';
 import usePaymentMethods from '@/src/queries/payment-methods/usePaymentMethods';
 
 interface TabPanelProps {
@@ -27,15 +29,19 @@ export default function PaymentMethods() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     string | null
   >(null);
+  const { setValue } = useFormContext<OrderFields>();
 
   useEffect(() => {
     // init state when query completes
-    if (paymentMethods && selectedPaymentMethod === null)
+    if (paymentMethods && selectedPaymentMethod === null) {
       setSelectedPaymentMethod(String(paymentMethods[0].id));
-  }, [paymentMethods, selectedPaymentMethod]);
+      setValue('payment_method_id', String(paymentMethods[0].id));
+    }
+  }, [paymentMethods, selectedPaymentMethod, setValue]);
 
   const handleChange = (_e: SyntheticEvent, newValue: string) => {
     setSelectedPaymentMethod(newValue);
+    setValue('payment_method_id', newValue);
   };
 
   if (isPending || selectedPaymentMethod === null) {
@@ -61,9 +67,6 @@ export default function PaymentMethods() {
               disabled={payment_method.code !== 'COD'}
               key={payment_method.id}
               label={payment_method.name}
-              // sx={{
-              //   textTransform: 'none',
-              // }}
               value={payment_method.id}
             />
           ))}

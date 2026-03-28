@@ -1,6 +1,10 @@
 import { Box, CircularProgress, Tab, Tabs } from '@mui/material';
 import { type SyntheticEvent, useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import QueryError from '@/app/_components/QueryError';
+import HomeDelivery from '@/app/(main)/(public)/(user)/checkout/_components/HomeDelivery';
+import StorePickup from '@/app/(main)/(public)/(user)/checkout/_components/StorePickup';
+import type { OrderFields } from '@/app/(main)/(public)/(user)/checkout/page';
 import useDeliveryTypes from '@/src/queries/delivery-types/useDeliveryTypes';
 
 interface TabPanelProps {
@@ -24,15 +28,19 @@ export default function DeliveryTypes() {
   const [selectedDeliveryType, setSelectedDeliveryType] = useState<
     string | null
   >(null);
+  const { setValue } = useFormContext<OrderFields>();
 
   useEffect(() => {
     // init state when query completes
-    if (deliveryTypes && selectedDeliveryType === null)
+    if (deliveryTypes && selectedDeliveryType === null) {
       setSelectedDeliveryType(String(deliveryTypes[0].id));
-  }, [deliveryTypes, selectedDeliveryType]);
+      setValue('delivery_type_id', String(deliveryTypes[0].id));
+    }
+  }, [deliveryTypes, selectedDeliveryType, setValue]);
 
   const handleChange = (_e: SyntheticEvent, newValue: string) => {
     setSelectedDeliveryType(newValue);
+    setValue('delivery_type_id', newValue);
   };
 
   if (isPending || selectedDeliveryType === null) {
@@ -53,22 +61,18 @@ export default function DeliveryTypes() {
           onChange={handleChange}
           value={selectedDeliveryType}
         >
-          {deliveryTypes.map((delivery_type) => (
-            <Tab
-              key={delivery_type.id}
-              label={delivery_type.name}
-              value={delivery_type.id}
-            />
+          {deliveryTypes.map(({ id, name }) => (
+            <Tab key={id} label={name} value={id} />
           ))}
         </Tabs>
       </Box>
-      {deliveryTypes.map((delivery_type) => (
+      {deliveryTypes.map(({ id, code }) => (
         <CustomTabPanel
-          index={Number(delivery_type.id)}
-          key={delivery_type.id}
+          index={Number(id)}
+          key={id}
           value={selectedDeliveryType}
         >
-          Tab content for {delivery_type.name}
+          {code === 'HOME_DELIVERY' ? <HomeDelivery /> : <StorePickup />}
         </CustomTabPanel>
       ))}
     </Box>
