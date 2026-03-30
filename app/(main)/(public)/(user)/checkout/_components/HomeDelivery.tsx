@@ -15,8 +15,8 @@ export default function HomeDelivery() {
   const returnTo = useReturnTo();
 
   useEffect(() => {
-    setValue('shipping_address', data!.app_user.address || '');
-  }, [data?.app_user.address, setValue]);
+    if (data) setValue('shipping_address', data.app_user.address || '');
+  }, [data, setValue]);
 
   useEffect(() => {
     if (data === null) router.push(`/login?returnTo=${returnTo}`);

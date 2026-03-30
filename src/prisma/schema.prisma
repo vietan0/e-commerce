@@ -142,6 +142,8 @@ model order {
   order_status_id   BigInt
   payment_status_id BigInt
   payment_method_id BigInt
+  subtotal          Decimal         @db.Decimal(14, 3)
+  shipping_fee      Decimal?        @db.Decimal(14, 3)
   total_value       Decimal         @db.Decimal(14, 3)
   store_id          BigInt?
   shipping_address  String?
@@ -204,8 +206,9 @@ model payment_method {
 }
 
 model delivery_type {
-  id     BigInt  @id @default(autoincrement())
-  code   String  @unique @db.VarChar(255)
-  name   String  @db.VarChar(255)
-  orders order[]
+  id           BigInt  @id @default(autoincrement())
+  code         String  @unique @db.VarChar(255)
+  name         String  @db.VarChar(255)
+  shipping_fee Decimal @db.Decimal(14, 3)
+  orders       order[]
 }

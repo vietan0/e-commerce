@@ -24,10 +24,10 @@ export default function StoresSelect(props: SelectProps) {
   if (error) return <QueryError error={error} />;
   return (
     <FormControl fullWidth size="small">
-      <InputLabel id={labelId}>Store</InputLabel>
+      <InputLabel id={labelId}>Cửa hàng</InputLabel>
       <Select
         {...props}
-        label="Store"
+        label="Cửa hàng"
         labelId={labelId}
         renderValue={(selected) => {
           if (isPending) return <CircularProgress size={16} />;

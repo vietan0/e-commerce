@@ -7,9 +7,17 @@ import {
   Divider,
   Grid,
   Stack,
+  TextField,
   Typography,
 } from '@mui/material';
-import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
+import { useMemo } from 'react';
+import {
+  Controller,
+  FormProvider,
+  type SubmitHandler,
+  useForm,
+  useWatch,
+} from 'react-hook-form';
 import QueryError from '@/app/_components/QueryError';
 import VisuallyHiddenInput from '@/app/_components/VisuallyHiddenInput';
 import CheckoutCartItem from '@/app/(main)/(public)/(user)/checkout/_components/CheckoutCartItem';
@@ -17,8 +25,11 @@ import CustomerInfo from '@/app/(main)/(public)/(user)/checkout/_components/Cust
 import DeliveryTypes from '@/app/(main)/(public)/(user)/checkout/_components/DeliveryTypes';
 import EmptyCartInCheckout from '@/app/(main)/(public)/(user)/checkout/_components/EmptyCartInCheckout';
 import PaymentMethods from '@/app/(main)/(public)/(user)/checkout/_components/PaymentMethods';
+import { calcOrderValues } from '@/app/api/orders/orderCalc';
 import { formatPrice } from '@/src/lib/price';
 import useCart from '@/src/queries/cart/useCart';
+import useDeliveryTypes from '@/src/queries/delivery-types/useDeliveryTypes';
+import useCreateOrder from '@/src/queries/orders/useCreateOrder';
 
 export type OrderFields = {
   delivery_type_id: string;
@@ -31,16 +42,28 @@ export type OrderFields = {
 export default function Checkout() {
   const { data: cart_items, isPending, error, refetch } = useCart();
   refetch(); // fetch manually once to ensure product data is fresh
-  const methods = useForm<OrderFields>({
-    defaultValues: {
-      store_id: '',
-    },
-  });
-  const { register, control, handleSubmit, watch } = methods;
-  const onSubmit: SubmitHandler<OrderFields> = (data) => console.log(data);
+  const methods = useForm<OrderFields>();
+  const { register, control, handleSubmit } = methods;
+  const createOrder = useCreateOrder();
+  const onSubmit: SubmitHandler<OrderFields> = (data) => {
+    createOrder.mutate(data);
+  };
 
-  const formData = watch();
-  console.log('formData', formData);
+  const {
+    data: deliveryTypes,
+    isPending: isDeliveryTypesPending,
+    error: deliveryTypesError,
+  } = useDeliveryTypes();
+
+  const deliveryTypeId = useWatch({ control, name: 'delivery_type_id' });
+
+  const shipping_fee = useMemo(() => {
+    const selectedDeliveryType = deliveryTypes?.find(
+      (delivery_type) => String(delivery_type.id) === deliveryTypeId,
+    );
+
+    return selectedDeliveryType?.shipping_fee;
+  }, [deliveryTypes, deliveryTypeId]);
 
   if (isPending) {
     return (
@@ -53,10 +76,10 @@ export default function Checkout() {
   if (error) return <QueryError error={error} />;
   if (cart_items.length === 0) return <EmptyCartInCheckout />;
 
-  const totalAmount = cart_items.reduce((prev, curr) => {
-    // @ts-expect-error
-    return prev + Number(curr.product.final_price) * curr.quantity;
-  }, 0);
+  const { subtotal, total_value } = calcOrderValues(
+    cart_items,
+    Number(shipping_fee) || 0,
+  );
 
   return (
     <FormProvider {...methods}>
@@ -113,7 +136,7 @@ export default function Checkout() {
                   Tổng cộng ({cart_items.length} sản phẩm)
                 </Typography>
                 <Typography color="primary" sx={{ fontSize: 18 }}>
-                  {formatPrice(totalAmount.toString())}
+                  {formatPrice(subtotal.toString())}
                 </Typography>
               </Grid>
             </Grid>
@@ -134,36 +157,59 @@ export default function Checkout() {
               backgroundColor: 'grey.100',
             }}
           >
-            <Grid
-              container
-              spacing={1}
-              sx={{ width: 0.4, ml: 'auto', alignItems: 'end' }}
-            >
-              <Grid size={7} sx={{ color: 'grey.600' }}>
-                Tổng tiền hàng
+            <Grid container spacing={4}>
+              <Grid size={6}>
+                <Controller
+                  control={control}
+                  name="note"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      id="outlined-multiline-static"
+                      label="Ghi chú (nếu có)"
+                      multiline
+                      placeholder="Note cho người giao hàng"
+                      rows={2}
+                      size="small"
+                      variant="outlined"
+                    />
+                  )}
+                />
               </Grid>
-              <Grid size={5} sx={{ textAlign: 'end' }}>
-                {formatPrice(totalAmount.toString())}
-              </Grid>
-              <Grid size={7} sx={{ color: 'grey.600' }}>
-                Tổng tiền phí vận chuyển
-              </Grid>
-              <Grid size={5} sx={{ textAlign: 'end' }}>
-                1000
-              </Grid>
-              <Grid size={7} sx={{ color: 'grey.600' }}>
-                Tổng thanh toán
-              </Grid>
-              <Grid
-                size={5}
-                sx={{ textAlign: 'end', color: 'primary.main', fontSize: 24 }}
-              >
-                {formatPrice(totalAmount.toString())}
+              <Grid container size={6} spacing={1} sx={{ alignItems: 'end' }}>
+                <Grid size={7} sx={{ color: 'grey.600' }}>
+                  Tổng tiền hàng
+                </Grid>
+                <Grid size={5} sx={{ textAlign: 'end' }}>
+                  {formatPrice(subtotal.toString())}
+                </Grid>
+                <Grid size={7} sx={{ color: 'grey.600' }}>
+                  Tổng tiền phí vận chuyển
+                </Grid>
+                <Grid size={5} sx={{ textAlign: 'end' }}>
+                  {isDeliveryTypesPending || !shipping_fee ? (
+                    <CircularProgress size={16} />
+                  ) : deliveryTypesError ? (
+                    <QueryError error={deliveryTypesError} />
+                  ) : (
+                    formatPrice(shipping_fee.toString())
+                  )}
+                </Grid>
+                <Grid size={7} sx={{ color: 'grey.600' }}>
+                  Tổng thanh toán
+                </Grid>
+                <Grid
+                  size={5}
+                  sx={{ textAlign: 'end', color: 'primary.main', fontSize: 24 }}
+                >
+                  {formatPrice(total_value.toString())}
+                </Grid>
               </Grid>
             </Grid>
-            <Box>Note</Box>
             <Divider sx={{ my: 2 }} />
             <Button
+              loading={createOrder.isPending}
               onClick={handleSubmit(onSubmit)}
               size="large"
               sx={{ display: 'block', ml: 'auto' }}

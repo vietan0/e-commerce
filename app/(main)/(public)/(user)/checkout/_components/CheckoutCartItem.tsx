@@ -44,10 +44,20 @@ export default function CheckoutCartItem({
         </Stack>
       </Grid>
       <Grid size={2}>
-        <Typography sx={{ textAlign: 'end' }}>
+        <Stack sx={{ alignItems: 'end' }}>
           {/* @ts-expect-error */}
-          {formatPrice(product.final_price)}
-        </Typography>
+          {product.base_price !== product.final_price && (
+            <Typography
+              color="grey.500"
+              sx={{ textDecorationLine: 'line-through' }}
+              variant="body2"
+            >
+              {formatPrice(String(product.base_price))}
+            </Typography>
+          )}
+          {/* @ts-expect-error */}
+          <Typography>{formatPrice(product.final_price)}</Typography>
+        </Stack>
       </Grid>
       <Grid size={2}>
         <Typography sx={{ textAlign: 'center' }}>{quantity}</Typography>

@@ -81,6 +81,26 @@ export default function ProfileBtn({ name }: { name: string }) {
             Tài khoản
           </ListItemText>
         </MenuItem>
+        <MenuItem component={NextLink} href="/me/orders">
+          <ListItemIcon>
+            <Icon
+              fontSize={20}
+              icon="material-symbols:shopping-bag-outline"
+              style={{
+                color: theme.palette.primary.main,
+              }}
+            />
+          </ListItemIcon>
+          <ListItemText
+            slotProps={{
+              primary: {
+                fontSize: 14,
+              },
+            }}
+          >
+            Đơn hàng
+          </ListItemText>
+        </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Icon
