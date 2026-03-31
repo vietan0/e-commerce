@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import type { OrderFields } from '@/app/(main)/(public)/(user)/checkout/page';
-import type { orderGetPayload } from '@/src/generated/prisma/models';
-import type { includeDiscount } from '@/src/lib/price';
 import apiFetch from '@/src/queries/apiFetch';
 import useGlobalStore from '@/src/store';
+import type { OrderCommon } from '@/src/types';
 
 export default function useCreateOrder() {
   const queryClient = useQueryClient();
@@ -25,24 +24,7 @@ export default function useCreateOrder() {
 }
 
 async function createOrder(body: OrderFields) {
-  const res = await apiFetch<{
-    order: orderGetPayload<{
-      include: {
-        delivery_type: true;
-        order_product: {
-          include: {
-            product: {
-              include: typeof includeDiscount;
-            };
-          };
-        };
-        order_status: true;
-        payment_method: true;
-        payment_status: true;
-        store: true;
-      };
-    }>;
-  }>('/orders', {
+  const res = await apiFetch<{ order: OrderCommon }>('/orders', {
     method: 'POST',
     body,
   });

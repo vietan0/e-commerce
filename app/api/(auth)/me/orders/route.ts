@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import getSession from '@/app/api/(auth)/_lib/getSession';
-import { includeDiscount } from '@/src/lib/price';
+import { orderInclude } from '@/src/lib/commonIncludes';
 import { prisma } from '@/src/lib/prisma';
 
 export async function GET() {
@@ -10,20 +10,7 @@ export async function GET() {
       where: {
         user_id: session!.app_user.id,
       },
-      include: {
-        delivery_type: true,
-        order_product: {
-          include: {
-            product: {
-              include: includeDiscount,
-            },
-          },
-        },
-        order_status: true,
-        payment_method: true,
-        payment_status: true,
-        store: true,
-      },
+      include: orderInclude,
     });
 
     return NextResponse.json({ orders });

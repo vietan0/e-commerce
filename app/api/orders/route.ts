@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import getSession from '@/app/api/(auth)/_lib/getSession';
 import { calcLineTotal, calcOrderValues } from '@/app/api/orders/orderCalc';
 import type { orderUncheckedCreateInput } from '@/src/generated/prisma/models';
+import { orderInclude } from '@/src/lib/commonIncludes';
 import { omitEmpty } from '@/src/lib/empty';
 import getCartItems from '@/src/lib/getCartItems';
 import { prisma } from '@/src/lib/prisma';
@@ -105,9 +106,7 @@ export async function POST(req: NextRequest) {
           })),
         },
       },
-      include: {
-        order_product: true,
-      },
+      include: orderInclude,
     });
 
     const emptyCartPromise = prisma.cart_item.deleteMany({

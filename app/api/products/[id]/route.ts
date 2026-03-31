@@ -1,7 +1,7 @@
 import { omit } from 'es-toolkit/object';
 import { type NextRequest, NextResponse } from 'next/server';
 import type { Prisma } from '@/src/generated/prisma/client';
-import { includeDiscount } from '@/src/lib/price';
+import { includeDiscount } from '@/src/lib/commonIncludes';
 import { prisma } from '@/src/lib/prisma';
 
 export async function GET(

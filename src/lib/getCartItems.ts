@@ -1,5 +1,5 @@
 import getSession from '@/app/api/(auth)/_lib/getSession';
-import { includeDiscount } from '@/src/lib/price';
+import { includeDiscount } from '@/src/lib/commonIncludes';
 import { prisma } from '@/src/lib/prisma';
 
 export default async function getCartItems() {
