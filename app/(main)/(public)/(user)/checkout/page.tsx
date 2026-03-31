@@ -142,12 +142,12 @@ export default function Checkout() {
             </Grid>
           </Stack>
           <Box>
-            <Typography variant="h6">Phương thức thanh toán</Typography>
-            <PaymentMethods />
-          </Box>
-          <Box>
             <Typography variant="h6">Thông tin nhận hàng</Typography>
             <DeliveryTypes />
+          </Box>
+          <Box>
+            <Typography variant="h6">Phương thức thanh toán</Typography>
+            <PaymentMethods />
           </Box>
           <Box
             sx={{
