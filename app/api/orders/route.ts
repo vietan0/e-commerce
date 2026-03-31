@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import getSession from '@/app/api/(auth)/_lib/getSession';
 import { calcLineTotal, calcOrderValues } from '@/app/api/orders/orderCalc';
+import sendEmail from '@/app/api/send-email/sendEmail';
 import type { orderUncheckedCreateInput } from '@/src/generated/prisma/models';
 import { orderInclude } from '@/src/lib/commonIncludes';
 import { omitEmpty } from '@/src/lib/empty';
@@ -119,6 +120,12 @@ export async function POST(req: NextRequest) {
       createOrderPromise,
       emptyCartPromise,
     ]);
+
+    await sendEmail({
+      templateName: 'OrderPlaced',
+      templateProps: { order },
+      subject: `Thông báo đơn hàng #${order.code} của quý khách đã được tiếp nhận`,
+    });
 
     return NextResponse.json({ order });
   } catch (error) {

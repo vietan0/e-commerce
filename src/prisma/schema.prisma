@@ -138,19 +138,20 @@ model store {
 
 model order {
   id                BigInt          @id @default(autoincrement())
+  code              String          @unique @default(dbgenerated("random_string(15)")) @db.VarChar(15)
+  subtotal          Decimal         @db.Decimal(14, 3)
+  shipping_fee      Decimal?        @db.Decimal(14, 3)
+  total_value       Decimal         @db.Decimal(14, 3)
+  shipping_address  String?
+  created_at        DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime?       @db.Timestamptz(6)
   user_id           String          @db.Uuid
   order_status_id   BigInt
   payment_status_id BigInt
   payment_method_id BigInt
-  subtotal          Decimal         @db.Decimal(14, 3)
-  shipping_fee      Decimal?        @db.Decimal(14, 3)
-  total_value       Decimal         @db.Decimal(14, 3)
   store_id          BigInt?
-  shipping_address  String?
   delivery_type_id  BigInt
   note              String?
-  created_at        DateTime        @default(now()) @db.Timestamptz(6)
-  updated_at        DateTime?       @db.Timestamptz(6)
   order_product     order_product[]
   delivery_type     delivery_type   @relation(fields: [delivery_type_id], references: [id])
   order_status      order_status    @relation(fields: [order_status_id], references: [id], onUpdate: NoAction)
