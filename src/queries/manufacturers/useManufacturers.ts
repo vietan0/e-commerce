@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import apiFetch from '@/src/queries/apiFetch';
+import { staleTime } from '@/src/queries/options';
 import type { ManufacturersRes } from '@/src/types';
 
 type Query = {
@@ -13,7 +14,7 @@ export default function useManufacturers(query: Query = {}) {
     queryKey: ['manufacturers', query],
     queryFn: () => getManufacturers(query),
     select: (data) => data.manufacturers,
-    staleTime: 1000 * 60 * 5,
+    staleTime,
   });
 }
 

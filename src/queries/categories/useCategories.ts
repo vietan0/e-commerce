@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import apiFetch from '@/src/queries/apiFetch';
+import { staleTime } from '@/src/queries/options';
 import type { CategoriesRes } from '@/src/types';
 
 type Query = {
@@ -13,7 +14,7 @@ export default function useCategories(query: Query = {}) {
     queryKey: ['categories', query],
     queryFn: () => getCategories(query),
     select: (data) => data.categories,
-    staleTime: 1000 * 60 * 5,
+    staleTime,
   });
 }
 

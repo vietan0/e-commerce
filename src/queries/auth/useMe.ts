@@ -2,13 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import type { app_userGetPayload } from '@/src/generated/prisma/models';
 import apiFetch from '@/src/queries/apiFetch';
+import { staleTime } from '@/src/queries/options';
 
 export default function useMe() {
   return useQuery({
     queryKey: ['me'],
     queryFn: () => getMe(),
     // shouldn't use select because queryFn returns { app_user } | null
-    staleTime: 1000 * 60 * 5,
+    staleTime,
   });
 }
 

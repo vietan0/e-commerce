@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import apiFetch from '@/src/queries/apiFetch';
+import { staleTime } from '@/src/queries/options';
 import type { OrderCommon } from '@/src/types';
 
 export default function useUserOrders() {
@@ -7,7 +8,7 @@ export default function useUserOrders() {
     queryKey: ['userOrders'],
     queryFn: getUserOrders,
     select: (data) => data.orders,
-    staleTime: 1000 * 60 * 5,
+    staleTime,
   });
 }
 

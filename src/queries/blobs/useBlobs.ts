@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import apiFetch from '@/src/queries/apiFetch';
+import { staleTime } from '@/src/queries/options';
 import type { BlobsRes } from '@/src/types';
 
 type Query = {
@@ -12,7 +13,7 @@ export default function useBlobs(query: Query = {}) {
     queryKey: ['blobs', query],
     queryFn: () => getBlobs(query),
     select: (data) => data.blobs,
-    staleTime: 1000 * 60 * 5,
+    staleTime,
   });
 }
 
