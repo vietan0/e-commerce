@@ -7,12 +7,19 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
+import Image from 'next/image';
 import NextLink from 'next/link';
 import { type MouseEvent, useState } from 'react';
 import theme from '@/app/theme';
 import useLogout from '@/src/queries/auth/useLogout';
 
-export default function ProfileBtn({ name }: { name: string }) {
+export default function ProfileBtn({
+  name,
+  profilePicUrl,
+}: {
+  name: string;
+  profilePicUrl: string | undefined;
+}) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -36,7 +43,19 @@ export default function ProfileBtn({ name }: { name: string }) {
         color="inherit"
         id="profile-btn"
         onClick={handleClick}
-        startIcon={<Icon icon="material-symbols:person-outline-rounded" />}
+        startIcon={
+          profilePicUrl ? (
+            <Image
+              alt={`${name}'s profile pic`}
+              height={20}
+              src={profilePicUrl}
+              style={{ borderRadius: 9999 }}
+              width={20}
+            />
+          ) : (
+            <Icon icon="material-symbols:person-outline-rounded" />
+          )
+        }
         sx={{
           maxWidth: 150,
         }}
