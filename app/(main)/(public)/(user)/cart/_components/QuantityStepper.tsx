@@ -10,7 +10,7 @@ export default function QuantityStepper({
     include: { product: { include: { thumbnail: true } } };
   }>;
 }) {
-  const { id, amount } = cart_item;
+  const { id, quantity } = cart_item;
   const updateCartItem = useUpdateCartItem();
   return (
     <Stack
@@ -29,7 +29,7 @@ export default function QuantityStepper({
         aria-label="Decrease by 1"
         loading={updateCartItem.isPending}
         onClick={() => {
-          updateCartItem.mutate({ id, action: 'decrement', amount: 1 });
+          updateCartItem.mutate({ id, action: 'decrement', quantity: 1 });
         }}
         size="small"
         sx={{
@@ -40,13 +40,13 @@ export default function QuantityStepper({
         <Icon fontSize={16} icon="material-symbols:remove-rounded" />
       </IconButton>
       <Typography sx={{ minWidth: 32, textAlign: 'center' }}>
-        {amount}
+        {quantity}
       </Typography>
       <IconButton
         aria-label="Increase by 1"
         loading={updateCartItem.isPending}
         onClick={() => {
-          updateCartItem.mutate({ id, action: 'increment', amount: 1 });
+          updateCartItem.mutate({ id, action: 'increment', quantity: 1 });
         }}
         size="small"
         sx={{

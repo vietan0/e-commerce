@@ -1,15 +1,34 @@
-import dayjs from 'dayjs';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { cookies } from 'next/headers';
+import type { sessionGetPayload } from '@/src/generated/prisma/models';
+import { dayjsExt } from '@/src/lib/dayjs';
 import { prisma } from '@/src/lib/prisma';
 
-dayjs.extend(isSameOrBefore);
+type SessionResult =
+  | {
+      session: sessionGetPayload<{
+        include: {
+          app_user: {
+            omit: {
+              password: true;
+            };
+            include: {
+              profilePic: true;
+            };
+          };
+        };
+      }>;
+      error: null;
+    }
+  | {
+      session: null;
+      error: 'Not logged in' | 'Session not found in DB' | 'Session expired';
+    };
 
 /**
  *
  * @returns `{ session: Session, error: null }` or `{ session: null, error: string }`
  */
-export default async function getSession() {
+export default async function getSession(): Promise<SessionResult> {
   const cookieStore = await cookies();
   const session_id = cookieStore.get('session_id')?.value;
   if (!session_id) {
@@ -25,6 +44,9 @@ export default async function getSession() {
         omit: {
           password: true,
         },
+        include: {
+          profilePic: true,
+        },
       },
     },
   });
@@ -33,8 +55,8 @@ export default async function getSession() {
     return { session: null, error: 'Session not found in DB' };
   }
 
-  const now = dayjs();
-  const expiredAt = dayjs(session.expired_at);
+  const now = dayjsExt();
+  const expiredAt = dayjsExt(session.expired_at);
   const isExpired = expiredAt.isSameOrBefore(now);
 
   if (isExpired) {

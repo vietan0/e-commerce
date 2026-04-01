@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import type { payment_method } from '@/src/generated/prisma/client';
 import apiFetch from '@/src/queries/apiFetch';
+import { staleTime } from '@/src/queries/options';
 
 export default function usePaymentMethods() {
   return useQuery({
     queryKey: ['payment_methods'],
     queryFn: getPaymentMethods,
     select: (data) => data.payment_methods,
-    staleTime: 1000 * 60 * 5,
+    staleTime,
   });
 }
 

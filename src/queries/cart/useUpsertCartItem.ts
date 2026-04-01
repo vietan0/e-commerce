@@ -12,8 +12,8 @@ export default function useUpsertCartItem() {
     mutationFn: (upsertCartItemBody: UpsertCartItemBody) =>
       upsertCartItem(upsertCartItemBody),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart'] });
       displaySnackbar('Đã thêm sản phẩm vào giỏ hàng.');
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });
 }

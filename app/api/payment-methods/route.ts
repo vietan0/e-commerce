@@ -3,7 +3,9 @@ import { prisma } from '@/src/lib/prisma';
 
 export async function GET() {
   try {
-    const payment_methods = await prisma.payment_method.findMany();
+    const payment_methods = await prisma.payment_method.findMany({
+      orderBy: { index: 'asc' },
+    });
     return NextResponse.json({ payment_methods });
   } catch (error) {
     console.error(error);

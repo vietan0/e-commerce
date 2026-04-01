@@ -1,4 +1,3 @@
-import { DevTool } from '@hookform/devtools';
 import { Icon } from '@iconify/react';
 import {
   Box,
@@ -22,6 +21,7 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import DevT from '@/app/_components/DevT';
 import VisuallyHiddenInput from '@/app/_components/VisuallyHiddenInput';
 import CategoriesSelect from '@/app/(main)/admin/products/_components/CategoriesSelect';
 import ManufacturerSelect from '@/app/(main)/admin/products/_components/ManufacturerSelect';
@@ -267,7 +267,16 @@ export default function ProductEditForm({
               <VisuallyHiddenInput {...register('description')} />
             </Grid>
             <Grid size={12}>
-              <Stack direction="row" sx={{ justifyContent: 'end' }}>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ justifyContent: 'end', alignItems: 'center' }}
+              >
+                {updateProduct.error && (
+                  <Typography color="error" variant="body2">
+                    {updateProduct.error.message}
+                  </Typography>
+                )}
                 <Button
                   disabled={!formState.isDirty}
                   loading={updateProduct.isPending}
@@ -278,7 +287,7 @@ export default function ProductEditForm({
                 </Button>
               </Stack>
             </Grid>
-            <DevTool control={control} />
+            <DevT control={control} />
           </Grid>
           <Divider />
           <Stack spacing={2}>

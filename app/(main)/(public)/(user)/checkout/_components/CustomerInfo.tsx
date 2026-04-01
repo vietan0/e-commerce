@@ -5,13 +5,13 @@ import QueryError from '@/app/_components/QueryError';
 import useReturnTo from '@/src/hooks/useReturnTo';
 import useMe from '@/src/queries/auth/useMe';
 
-export default function Address() {
+export default function CustomerInfo() {
   const { data, isPending, error } = useMe();
   const router = useRouter();
   const returnTo = useReturnTo();
 
   useEffect(() => {
-    if (!data) router.push(`/login?returnTo=${returnTo}`);
+    if (data === null) router.push(`/login?returnTo=${returnTo}`);
   }, [data, returnTo, router]);
 
   if (isPending) {
@@ -27,8 +27,9 @@ export default function Address() {
   return (
     <Stack direction="row" spacing={2}>
       <Typography>{data!.app_user.name}</Typography>
-      <Typography>{data!.app_user.phone || '0xxxxxxxxx'}</Typography>
-      <Typography>23 Ng......</Typography>
+      <Typography>{data!.app_user.phone || 'No phone number'}</Typography>
+      <Typography>{data!.app_user.email || 'No email'}</Typography>
+      <Typography>{data!.app_user.address || 'No address'}</Typography>
     </Stack>
   );
 }

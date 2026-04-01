@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import apiFetch from '@/src/queries/apiFetch';
+import { staleTime } from '@/src/queries/options';
 import type { ProductRes } from '@/src/types';
 
 export default function useProduct(id: string) {
@@ -7,7 +8,7 @@ export default function useProduct(id: string) {
     queryKey: ['product', id],
     queryFn: () => getProduct(id),
     select: (data) => data.product,
-    staleTime: 1000 * 60 * 5,
+    staleTime,
   });
 }
 

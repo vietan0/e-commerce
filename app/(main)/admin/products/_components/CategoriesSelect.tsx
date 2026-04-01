@@ -17,7 +17,7 @@ export default function CategoriesSelect(props: SelectProps) {
   const labelId = 'categories-select';
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth size="small">
       <InputLabel id={labelId}>Categories</InputLabel>
       <Select
         {...props}

@@ -1,7 +1,7 @@
-import { pick } from 'es-toolkit/object';
+import { omit } from 'es-toolkit/object';
 import { type NextRequest, NextResponse } from 'next/server';
-import type { productUpdateInput } from '@/src/generated/prisma/models';
-import { includeDiscount } from '@/src/lib/price';
+import type { Prisma } from '@/src/generated/prisma/client';
+import { includeDiscount } from '@/src/lib/commonIncludes';
 import { prisma } from '@/src/lib/prisma';
 
 export async function GET(
@@ -52,27 +52,16 @@ export async function PATCH(
     const { id } = await params;
     // TODO: validate
     // 1. get scalar fields
-    const scalarBody = pick(body, [
-      'name',
-      'base_price',
-      'description',
-      'thumbnail',
-      'stock',
-    ]);
+    const scalarBody = omit(body, ['categories']);
 
-    const data: productUpdateInput = Object.fromEntries(
+    const data: Prisma.XOR<
+      Prisma.productUpdateInput,
+      Prisma.productUncheckedUpdateInput
+    > = Object.fromEntries(
       Object.entries(scalarBody).filter(([_, value]) => value !== undefined),
     );
 
     // 2. append relation fields manually
-    if (body.manufacturer_id) {
-      data.manufacturer = {
-        connect: {
-          id: body.manufacturer_id,
-        },
-      };
-    }
-
     if (body.categories) {
       // 'set' doesn't work because I defined these relations explicitly
       data.product_category = {
@@ -89,6 +78,7 @@ export async function PATCH(
         id: BigInt(id),
       },
       data,
+      include: includeDiscount,
     });
 
     return NextResponse.json({ product });

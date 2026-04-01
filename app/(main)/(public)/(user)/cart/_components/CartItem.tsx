@@ -14,13 +14,13 @@ export default function CartItem({
     include: { product: { include: { thumbnail: true } } };
   }>;
 }) {
-  const { id, product, amount } = cart_item;
+  const { id, product, quantity } = cart_item;
   const deleteCartItem = useDeleteCartItem();
 
   return (
     <Grid
       container
-      spacing={1}
+      spacing={2}
       sx={{
         '& .MuiTypography-root': {
           fontSize: 'inherit', // override each <Typography /> inside
@@ -49,10 +49,20 @@ export default function CartItem({
         </Stack>
       </Grid>
       <Grid size={1.5}>
-        <Typography sx={{ textAlign: 'end' }}>
+        <Stack sx={{ alignItems: 'end' }}>
           {/* @ts-expect-error */}
-          {formatPrice(product.final_price)}
-        </Typography>
+          {product.base_price !== product.final_price && (
+            <Typography
+              color="grey.500"
+              sx={{ textDecorationLine: 'line-through' }}
+              variant="body2"
+            >
+              {formatPrice(String(product.base_price))}
+            </Typography>
+          )}
+          {/* @ts-expect-error */}
+          <Typography>{formatPrice(product.final_price)}</Typography>
+        </Stack>
       </Grid>
       <Grid size={1.5}>
         <QuantityStepper cart_item={cart_item} />
@@ -60,7 +70,7 @@ export default function CartItem({
       <Grid size={1.5}>
         <Typography sx={{ textAlign: 'end' }}>
           {/* @ts-expect-error */}
-          {formatPrice(product.final_price * amount)}
+          {formatPrice(product.final_price * quantity)}
         </Typography>
       </Grid>
       <Grid size={2.5} sx={{ textAlign: 'end' }}>

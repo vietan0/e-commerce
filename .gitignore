@@ -44,3 +44,6 @@ next-env.d.ts
 
 /ignore
 /src/generated/prisma/*
+
+# empty file only for Tailwind IntelliSense extension to work
+tailwind.config.js

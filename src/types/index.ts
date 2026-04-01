@@ -1,6 +1,10 @@
 import type { ListBlobResultBlob } from '@vercel/blob';
 import type { category, manufacturer } from '@/src/generated/prisma/client';
-import type { productGetPayload } from '@/src/generated/prisma/models';
+import type {
+  orderGetPayload,
+  productGetPayload,
+} from '@/src/generated/prisma/models';
+import type { orderInclude } from '@/src/lib/commonIncludes';
 
 type ProductComputedFields = { final_price: string };
 
@@ -68,3 +72,7 @@ export interface CategoriesSuccessRes {
 }
 
 export type CategoriesRes = CategoriesSuccessRes | ErrorRes;
+
+export type OrderCommon = orderGetPayload<{
+  include: typeof orderInclude;
+}>;

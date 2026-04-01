@@ -12,6 +12,7 @@ model app_user {
   name        String?     @db.VarChar(255)
   email       String      @unique @db.VarChar(255)
   phone       String?     @unique @db.VarChar(15)
+  address     String?     @db.VarChar(255)
   profile_pic BigInt?
   profilePic  file?       @relation(fields: [profile_pic], references: [id], name: "profilePic")
   created_at  DateTime    @default(now()) @db.Timestamptz(6)
@@ -28,7 +29,7 @@ model cart_item {
   id         BigInt   @id @default(autoincrement())
   product_id BigInt
   user_id    String   @db.Uuid
-  amount     Int
+  quantity   Int
   product    product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   app_user   app_user @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
@@ -75,8 +76,9 @@ model manufacturer {
 model order_product {
   order_id   BigInt
   product_id BigInt
-  amount     Int
+  quantity   Int
   unit_price Decimal @db.Decimal(14, 3)
+  line_total Decimal @db.Decimal(14, 3)
   id         BigInt  @id @default(autoincrement())
   order      order   @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   product    product @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -87,6 +89,7 @@ model order_status {
   code        String  @unique @db.VarChar(255)
   name        String  @unique @db.VarChar(255)
   is_terminal Boolean
+  index       Int?
   order       order[]
 }
 
@@ -135,21 +138,26 @@ model store {
 
 model order {
   id                BigInt          @id @default(autoincrement())
+  code              String          @unique @default(dbgenerated("random_string(15)")) @db.VarChar(15)
+  subtotal          Decimal         @db.Decimal(14, 3)
+  shipping_fee      Decimal?        @db.Decimal(14, 3)
+  total_value       Decimal         @db.Decimal(14, 3)
+  shipping_address  String?
+  created_at        DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime?       @db.Timestamptz(6)
   user_id           String          @db.Uuid
-  store_id          BigInt
   order_status_id   BigInt
   payment_status_id BigInt
   payment_method_id BigInt
-  total_value       Decimal         @db.Decimal(14, 3)
-  shipping_address  String
+  store_id          BigInt?
+  delivery_type_id  BigInt
   note              String?
-  created_at        DateTime        @db.Timestamptz(6)
-  updated_at        DateTime        @db.Timestamptz(6)
   order_product     order_product[]
+  delivery_type     delivery_type   @relation(fields: [delivery_type_id], references: [id])
   order_status      order_status    @relation(fields: [order_status_id], references: [id], onUpdate: NoAction)
   payment_status    payment_status  @relation(fields: [payment_status_id], references: [id])
   payment_method    payment_method  @relation(fields: [payment_method_id], references: [id])
-  store             store           @relation(fields: [store_id], references: [id], onUpdate: NoAction)
+  store             store?          @relation(fields: [store_id], references: [id], onUpdate: NoAction)
   app_user          app_user        @relation(fields: [user_id], references: [id], onUpdate: NoAction)
 }
 
@@ -159,7 +167,7 @@ model file {
   url           String
   download_url  String
   size          Int
-  created_at    DateTime        @db.Timestamptz(6)
+  created_at    DateTime        @default(now()) @db.Timestamptz(6)
   user_id       String          @db.Uuid
   app_user      app_user        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, name: "createdBy")
   productImages product_image[]
@@ -186,6 +194,7 @@ model payment_status {
   code        String  @unique @db.VarChar(255)
   name        String  @db.VarChar(255)
   is_terminal Boolean
+  index       Int?
   orders      order[]
 }
 
@@ -193,5 +202,14 @@ model payment_method {
   id     BigInt  @id @default(autoincrement())
   code   String  @unique @db.VarChar(255)
   name   String  @db.VarChar(255)
+  index  Int?
   orders order[]
+}
+
+model delivery_type {
+  id           BigInt  @id @default(autoincrement())
+  code         String  @unique @db.VarChar(255)
+  name         String  @db.VarChar(255)
+  shipping_fee Decimal @db.Decimal(14, 3)
+  orders       order[]
 }

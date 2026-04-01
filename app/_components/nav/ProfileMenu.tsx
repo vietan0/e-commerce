@@ -5,12 +5,21 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  Typography,
 } from '@mui/material';
+import Image from 'next/image';
+import NextLink from 'next/link';
 import { type MouseEvent, useState } from 'react';
 import theme from '@/app/theme';
 import useLogout from '@/src/queries/auth/useLogout';
 
-export default function ProfileBtn({ name }: { name: string }) {
+export default function ProfileBtn({
+  name,
+  profilePicUrl,
+}: {
+  name: string;
+  profilePicUrl: string | undefined;
+}) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -34,10 +43,27 @@ export default function ProfileBtn({ name }: { name: string }) {
         color="inherit"
         id="profile-btn"
         onClick={handleClick}
-        startIcon={<Icon icon="material-symbols:person-outline-rounded" />}
+        startIcon={
+          profilePicUrl ? (
+            <Image
+              alt={`${name}'s profile pic`}
+              height={20}
+              src={profilePicUrl}
+              style={{ borderRadius: 9999 }}
+              width={20}
+            />
+          ) : (
+            <Icon icon="material-symbols:person-outline-rounded" />
+          )
+        }
+        sx={{
+          maxWidth: 150,
+        }}
         variant="outlined"
       >
-        {name}
+        <Typography noWrap variant="inherit">
+          {name}
+        </Typography>
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -54,7 +80,7 @@ export default function ProfileBtn({ name }: { name: string }) {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem component={NextLink} href="/me">
           <ListItemIcon>
             <Icon
               fontSize={20}
@@ -72,6 +98,26 @@ export default function ProfileBtn({ name }: { name: string }) {
             }}
           >
             Tài khoản
+          </ListItemText>
+        </MenuItem>
+        <MenuItem component={NextLink} href="/me/orders">
+          <ListItemIcon>
+            <Icon
+              fontSize={20}
+              icon="material-symbols:shopping-bag-outline"
+              style={{
+                color: theme.palette.primary.main,
+              }}
+            />
+          </ListItemIcon>
+          <ListItemText
+            slotProps={{
+              primary: {
+                fontSize: 14,
+              },
+            }}
+          >
+            Đơn hàng
           </ListItemText>
         </MenuItem>
         <MenuItem onClick={handleLogout}>

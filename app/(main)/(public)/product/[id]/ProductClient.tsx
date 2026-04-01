@@ -21,7 +21,7 @@ import useProduct from '@/src/queries/products/useProduct';
 
 export default function ProductClient({ id }: { id: string }) {
   const { data: product, isPending, error } = useProduct(id);
-  const [amount, { inc, dec }] = useCounter(1, product?.stock, 1);
+  const [quantity, { inc, dec }] = useCounter(1, product?.stock, 1);
   const createCartItem = useUpsertCartItem();
 
   if (isPending)
@@ -80,12 +80,14 @@ export default function ProductClient({ id }: { id: string }) {
       </Grid>
       <Grid size={{ xs: 12, md: 5 }} sx={{ border: 1 }}>
         <Stack direction="row" spacing={1} sx={{ mb: 2, alignItems: 'center' }}>
-          <QuantityStepper dec={dec} inc={inc} value={amount} />
+          <QuantityStepper dec={dec} inc={inc} value={quantity} />
           <Typography variant="body2">{stock} sản phẩm có sẵn</Typography>
         </Stack>
         <Button
           loading={createCartItem.isPending}
-          onClick={() => createCartItem.mutate({ amount, productId: id })}
+          onClick={() =>
+            createCartItem.mutate({ quantity: quantity, productId: id })
+          }
           startIcon={
             <Icon icon="material-symbols:add-shopping-cart-outline-rounded" />
           }

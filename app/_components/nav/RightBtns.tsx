@@ -36,7 +36,10 @@ export default function RightBtns() {
         </Button>
       )}
       {data ? (
-        <ProfileMenu name={data.app_user.name || data.app_user.email} />
+        <ProfileMenu
+          name={data.app_user.name || data.app_user.email}
+          profilePicUrl={data.app_user.profilePic?.url}
+        />
       ) : (
         <Button
           color="inherit"
