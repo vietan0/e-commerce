@@ -1,15 +1,13 @@
 import { NextResponse } from 'next/server';
-import getSession from '@/app/api/(auth)/_lib/getSession';
 import { orderInclude } from '@/src/lib/commonIncludes';
+import getUserId from '@/src/lib/getUserId';
 import { prisma } from '@/src/lib/prisma';
 
 export async function GET() {
   try {
-    const { session } = await getSession();
+    const user_id = await getUserId();
     const orders = await prisma.order.findMany({
-      where: {
-        user_id: session!.app_user.id,
-      },
+      where: { user_id },
       include: orderInclude,
     });
 

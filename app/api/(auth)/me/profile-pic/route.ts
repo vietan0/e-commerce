@@ -1,17 +1,15 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import getSession from '@/app/api/(auth)/_lib/getSession';
+import getUserId from '@/src/lib/getUserId';
 import { prisma } from '@/src/lib/prisma';
 import uploadFiles from '@/src/lib/uploadFiles';
 
 export async function PATCH(req: NextRequest) {
   try {
-    const { session, error } = await getSession();
-    if (error) throw new Error(error);
-
+    const user_id = await getUserId();
     const [file] = await uploadFiles(req);
     const user = await prisma.app_user.update({
       where: {
-        id: session.app_user.id,
+        id: user_id,
       },
       data: {
         profile_pic: file.id,

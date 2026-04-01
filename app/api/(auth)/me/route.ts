@@ -1,14 +1,12 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import getSession from '@/app/api/(auth)/_lib/getSession';
+import getUserId from '@/src/lib/getUserId';
 import { prisma } from '@/src/lib/prisma';
 
 export async function GET() {
   try {
-    const sessionResult = await getSession();
-    return NextResponse.json(
-      { app_user: sessionResult.session!.app_user },
-      { status: 200 },
-    );
+    const { session } = await getSession();
+    return NextResponse.json({ app_user: session!.app_user }, { status: 200 });
   } catch (error) {
     console.error(error);
     const typedError = error as Error;
@@ -18,12 +16,12 @@ export async function GET() {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const sessionResult = await getSession();
+    const user_id = await getUserId();
     const body = await req.json();
 
     const user = await prisma.app_user.update({
       where: {
-        id: sessionResult.session!.app_user.id,
+        id: user_id,
       },
       data: body,
     });

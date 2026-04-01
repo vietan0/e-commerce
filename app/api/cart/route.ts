@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import getSession from '@/app/api/(auth)/_lib/getSession';
 import getCartItems from '@/src/lib/getCartItems';
+import getUserId from '@/src/lib/getUserId';
 import { prisma } from '@/src/lib/prisma';
 import type { UpsertCartItemBody } from '@/src/types/cart';
 
@@ -18,17 +18,17 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as UpsertCartItemBody;
-    const { session } = await getSession();
+    const user_id = await getUserId();
 
     const cart_item = await prisma.cart_item.upsert({
       where: {
         product_id_user_id: {
           product_id: BigInt(body.productId),
-          user_id: session!.app_user.id,
+          user_id,
         },
       },
       create: {
-        user_id: session!.app_user.id,
+        user_id,
         product_id: BigInt(body.productId),
         quantity: body.quantity,
       },

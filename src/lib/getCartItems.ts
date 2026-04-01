@@ -1,14 +1,12 @@
-import getSession from '@/app/api/(auth)/_lib/getSession';
 import { includeDiscount } from '@/src/lib/commonIncludes';
+import getUserId from '@/src/lib/getUserId';
 import { prisma } from '@/src/lib/prisma';
 
 export default async function getCartItems() {
-  const { session } = await getSession();
+  const userId = await getUserId();
   const cart_items = await prisma.cart_item.findMany({
     where: {
-      app_user: {
-        id: session!.app_user.id,
-      },
+      user_id: userId,
     },
     include: {
       product: {

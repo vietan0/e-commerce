@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import getSession from '@/app/api/(auth)/_lib/getSession';
 import { includeDiscount } from '@/src/lib/commonIncludes';
+import getUserId from '@/src/lib/getUserId';
 import { prisma } from '@/src/lib/prisma';
 
 export async function GET(
@@ -8,12 +8,12 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { session } = await getSession();
+    const user_id = await getUserId();
     const { id } = await params;
     const order = await prisma.order.findUnique({
       where: {
         id: BigInt(id),
-        user_id: session!.app_user.id,
+        user_id,
       },
       include: {
         delivery_type: true,

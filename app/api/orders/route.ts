@@ -1,11 +1,11 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import getSession from '@/app/api/(auth)/_lib/getSession';
 import { calcLineTotal, calcOrderValues } from '@/app/api/orders/orderCalc';
 import sendEmail from '@/app/api/send-email/sendEmail';
 import type { orderUncheckedCreateInput } from '@/src/generated/prisma/models';
 import { orderInclude } from '@/src/lib/commonIncludes';
 import { omitEmpty } from '@/src/lib/empty';
 import getCartItems from '@/src/lib/getCartItems';
+import getUserId from '@/src/lib/getUserId';
 import { prisma } from '@/src/lib/prisma';
 
 export async function POST(req: NextRequest) {
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const cleanBody = omitEmpty(body);
-    const { session } = await getSession();
+    const user_id = await getUserId();
 
     const [pendingOrderStatus, pendingPaymentStatus, deliveryType] =
       await Promise.all([
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
         shipping_fee: deliveryType.shipping_fee,
         subtotal,
         total_value,
-        user_id: session!.app_user.id,
+        user_id,
         order_status_id: pendingOrderStatus.id,
         payment_status_id: pendingPaymentStatus.id,
         order_product: {
@@ -111,9 +111,7 @@ export async function POST(req: NextRequest) {
     });
 
     const emptyCartPromise = prisma.cart_item.deleteMany({
-      where: {
-        user_id: session!.app_user.id,
-      },
+      where: { user_id },
     });
 
     const [order, _cart] = await prisma.$transaction([

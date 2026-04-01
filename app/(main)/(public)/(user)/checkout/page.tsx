@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   Controller,
   FormProvider,
@@ -41,7 +41,10 @@ export type OrderFields = {
 
 export default function Checkout() {
   const { data: cart_items, isPending, error, refetch } = useCart();
-  refetch(); // fetch manually once to ensure product data is fresh
+  useEffect(() => {
+    refetch(); // fetch manually once to ensure product data is fresh
+  }, [refetch]);
+
   const methods = useForm<OrderFields>();
   const { register, control, handleSubmit } = methods;
   const createOrder = useCreateOrder();

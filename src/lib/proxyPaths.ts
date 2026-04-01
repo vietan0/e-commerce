@@ -13,6 +13,10 @@ export const proxyPaths = {
       path: '/me',
       message: 'You need to be logged in to view your profile.',
     },
+    {
+      path: '/admin',
+      message: 'You need to be logged in as admin to view the admin page.',
+    },
   ],
   adminProtectedPages: [{ path: '/admin' }],
   protectedApis: [
