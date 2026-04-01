@@ -1,5 +1,4 @@
 'use client';
-import { DevTool } from '@hookform/devtools';
 import {
   Box,
   Button,
@@ -18,6 +17,7 @@ import {
   useForm,
   useWatch,
 } from 'react-hook-form';
+import DevT from '@/app/_components/DevT';
 import QueryError from '@/app/_components/QueryError';
 import VisuallyHiddenInput from '@/app/_components/VisuallyHiddenInput';
 import CheckoutCartItem from '@/app/(main)/(public)/(user)/checkout/_components/CheckoutCartItem';
@@ -225,7 +225,7 @@ export default function Checkout() {
       <VisuallyHiddenInput {...register('shipping_address')} />
       <VisuallyHiddenInput {...register('store_id')} />
       <VisuallyHiddenInput {...register('payment_method_id')} />
-      <DevTool control={control} />
+      <DevT control={control} />
     </FormProvider>
   );
 }

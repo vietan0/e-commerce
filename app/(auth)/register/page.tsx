@@ -1,5 +1,4 @@
 'use client';
-import { DevTool } from '@hookform/devtools';
 import { Icon } from '@iconify/react';
 import {
   Button,
@@ -15,6 +14,7 @@ import {
 import NextLink from 'next/link';
 import { useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import DevT from '@/app/_components/DevT';
 import HomeLink from '@/app/_components/nav/HomeLink';
 import useRegister from '@/src/queries/auth/useRegister';
 
@@ -111,7 +111,7 @@ export default function Register() {
             />
           )}
         />
-        <DevTool control={control} />
+        <DevT control={control} />
       </CardContent>
       <CardActions
         sx={{ p: 2, flexDirection: 'column', alignItems: 'stretch' }}

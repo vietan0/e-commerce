@@ -1,4 +1,3 @@
-import { DevTool } from '@hookform/devtools';
 import {
   Button,
   Card,
@@ -11,6 +10,7 @@ import {
 } from '@mui/material';
 import { type Dispatch, type SetStateAction, useEffect, useMemo } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import DevT from '@/app/_components/DevT';
 import type { app_userGetPayload } from '@/src/generated/prisma/models';
 import useUpdateUser from '@/src/queries/users/useUpdateUser';
 
@@ -128,7 +128,7 @@ export default function UserEditForm({
               )}
             />
           </Grid>
-          <DevTool control={control} />
+          <DevT control={control} />
         </Grid>
       </CardContent>
       <CardActions

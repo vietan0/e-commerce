@@ -1,5 +1,4 @@
 'use client';
-import { DevTool } from '@hookform/devtools';
 import { Icon } from '@iconify/react';
 import {
   Alert,
@@ -17,6 +16,7 @@ import NextLink from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import DevT from '@/app/_components/DevT';
 import HomeLink from '@/app/_components/nav/HomeLink';
 import { proxyPaths } from '@/src/lib/proxyPaths';
 import useLogin from '@/src/queries/auth/useLogin';
@@ -129,7 +129,7 @@ export default function Login() {
             {(login.error as any).data.error}
           </Typography>
         )}
-        <DevTool control={control} />
+        <DevT control={control} />
       </CardContent>
       <CardActions
         sx={{ p: 2, flexDirection: 'column', alignItems: 'stretch' }}

@@ -1,4 +1,3 @@
-import { DevTool } from '@hookform/devtools';
 import { Icon } from '@iconify/react';
 import {
   Box,
@@ -22,6 +21,7 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import DevT from '@/app/_components/DevT';
 import VisuallyHiddenInput from '@/app/_components/VisuallyHiddenInput';
 import CategoriesSelect from '@/app/(main)/admin/products/_components/CategoriesSelect';
 import ManufacturerSelect from '@/app/(main)/admin/products/_components/ManufacturerSelect';
@@ -287,7 +287,7 @@ export default function ProductEditForm({
                 </Button>
               </Stack>
             </Grid>
-            <DevTool control={control} />
+            <DevT control={control} />
           </Grid>
           <Divider />
           <Stack spacing={2}>
