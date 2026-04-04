@@ -1,8 +1,9 @@
+import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import MeClient from '@/app/(main)/(public)/(user)/me/MeClient';
 import { getMe } from '@/src/queries/auth/useMe';
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   const cookieStore = await cookies();
   try {
     const data = await getMe({ Cookie: cookieStore.toString() });

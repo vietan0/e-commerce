@@ -12,6 +12,15 @@ export const includeDiscount = {
   },
 } satisfies Prisma.productInclude;
 
+export const orderProductInclude = {
+  product: {
+    include: {
+      ...includeDiscount,
+      thumbnail: true,
+    },
+  },
+};
+
 export const orderInclude = {
   delivery_type: true,
   order_status: true,
@@ -19,11 +28,7 @@ export const orderInclude = {
   payment_status: true,
   store: true,
   order_product: {
-    include: {
-      product: {
-        include: includeDiscount,
-      },
-    },
+    include: orderProductInclude,
   },
   app_user: {
     omit: {

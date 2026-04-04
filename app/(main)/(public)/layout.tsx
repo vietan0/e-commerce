@@ -10,7 +10,9 @@ export default function RootLayout({
       sx={{
         py: {
           xs: 2,
-          md: 4,
+        },
+        maxWidth: {
+          lg: 1500,
         },
       }}
     >

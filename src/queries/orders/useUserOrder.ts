@@ -11,7 +11,13 @@ export default function useUserOrder(id: string) {
   });
 }
 
-async function getUserOrder(id: string) {
-  const data = await apiFetch<{ order: OrderCommon }>(`/me/orders/${id}`);
+/**
+ *
+ * @param headers pass cookies manually if called from server
+ */
+export async function getUserOrder(id: string, headers?: HeadersInit) {
+  const data = await apiFetch<{ order: OrderCommon }>(`/me/orders/${id}`, {
+    headers,
+  });
   return data;
 }

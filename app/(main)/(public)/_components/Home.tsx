@@ -5,7 +5,10 @@ import HotSale from '@/app/(main)/(public)/_components/HotSale';
 
 export default function Home() {
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} sx={{
+      maxWidth: 1200,
+      mx: 'auto'
+    }}>
       <Stack
         direction="row"
         spacing={2}

@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import { includeDiscount } from '@/src/lib/commonIncludes';
+import { orderInclude } from '@/src/lib/commonIncludes';
 import getUserId from '@/src/lib/getUserId';
 import { prisma } from '@/src/lib/prisma';
 
@@ -15,20 +15,7 @@ export async function GET(
         id: BigInt(id),
         user_id,
       },
-      include: {
-        delivery_type: true,
-        order_product: {
-          include: {
-            product: {
-              include: includeDiscount,
-            },
-          },
-        },
-        order_status: true,
-        payment_method: true,
-        payment_status: true,
-        store: true,
-      },
+      include: orderInclude,
     });
 
     return NextResponse.json({ order });
