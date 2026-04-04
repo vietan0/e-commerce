@@ -47,6 +47,6 @@
     "@types/react-dom": "^19.2.3",
     "prisma": "^7.3.0",
     "react-email": "5.2.10",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   }
 }
