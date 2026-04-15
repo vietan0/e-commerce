@@ -8,6 +8,9 @@ export async function GET() {
     const user_id = await getUserId();
     const orders = await prisma.order.findMany({
       where: { user_id },
+      orderBy: {
+        created_at: 'desc',
+      },
       include: orderInclude,
     });
 

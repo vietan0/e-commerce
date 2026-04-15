@@ -17,7 +17,7 @@ export default function OrderProduct({
     <Stack
       component={NextLink}
       direction="row"
-      href={`/me/orders/${order_product.order_id.toString()}`}
+      href={`/product/${order_product.product.id}`}
       spacing={2}
       sx={{
         textDecoration: 'none',
