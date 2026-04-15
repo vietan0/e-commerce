@@ -1,12 +1,14 @@
 'use client';
 import { Icon } from '@iconify/react';
 import { Button, Menu } from '@mui/material';
+import { useTranslations } from 'next-intl';
 import { type MouseEvent, useState } from 'react';
 import Categories from '@/app/_components/Categories';
 
 export default function NavCategories() {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
+  const t = useTranslations('common');
 
   function openMenu(e: MouseEvent<HTMLButtonElement>) {
     setAnchorEl(e.currentTarget);
@@ -34,7 +36,7 @@ export default function NavCategories() {
         startIcon={<Icon icon="material-symbols:widgets-outline-rounded" />}
         variant="text"
       >
-        Danh mục
+        {t('Categories')}
       </Button>
       <Menu
         anchorEl={anchorEl}

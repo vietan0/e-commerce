@@ -1,51 +1,59 @@
 'use client';
 import { Icon } from '@iconify/react';
-import { ListItemIcon, ListItemText, MenuItem, MenuList } from '@mui/material';
+import {
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  MenuList,
+  Typography,
+} from '@mui/material';
+import { useTranslations } from 'next-intl';
 import theme from '@/app/theme';
 
 export default function Categories({ closeMenu }: { closeMenu?: () => void }) {
+  const t = useTranslations('categories');
   const menus = [
     {
       icon: 'material-symbols:phone-android-outline-rounded',
-      name: 'Điện thoại, Tablet',
+      name: t('Mobiles, Tablets'),
     },
     {
       icon: 'material-symbols:laptop-windows-outline-rounded',
-      name: 'Laptop',
+      name: t('Laptops'),
     },
     {
       icon: 'material-symbols:headphones-outline-rounded',
-      name: 'Âm thanh, Mic thu âm',
+      name: t('Audio, Headphones'),
     },
     {
       icon: 'material-symbols:watch-outline-rounded',
-      name: 'Đồng hồ, Camera',
+      name: t('Smartwatches, Cameras'),
     },
     {
       icon: 'material-symbols:add-home-outline-rounded',
-      name: 'Đồ gia dụng, Làm đẹp',
+      name: t('Smart Home, Beauty Products'),
     },
-    { icon: 'material-symbols:cable-rounded', name: 'Phụ kiện' },
+    { icon: 'material-symbols:cable-rounded', name: t('Accessories') },
     {
       icon: 'material-symbols:desktop-mac-outline-rounded',
-      name: 'PC, Màn hình, Máy in',
+      name: t('PC, Monitors, Printers'),
     },
     {
       icon: 'material-symbols:connected-tv-outline-rounded',
-      name: 'Tivi, Điện máy',
+      name: t('TV & Electronics'),
     },
-    { icon: 'material-symbols:repeat-rounded', name: 'Thu cũ đổi mới' },
+    { icon: 'material-symbols:repeat-rounded', name: t('Trade-in') },
     {
       icon: 'material-symbols:home-storage-outline-rounded',
-      name: 'Hàng cũ',
+      name: t('Used'),
     },
     {
       icon: 'material-symbols:percent-discount-outline-rounded',
-      name: 'Khuyến mãi',
+      name: t('Deals'),
     },
     {
       icon: 'material-symbols:newsmode-outline-rounded',
-      name: 'Tin công nghệ',
+      name: t('Tech News'),
     },
   ];
 
@@ -54,7 +62,7 @@ export default function Categories({ closeMenu }: { closeMenu?: () => void }) {
       sx={{
         backgroundColor: 'background.default',
         color: 'text.primary',
-        maxWidth: 250,
+        maxWidth: 280,
         borderRadius: 1,
         border: closeMenu ? 0 : 1,
         borderColor: closeMenu ? undefined : 'grey.300',
@@ -71,14 +79,10 @@ export default function Categories({ closeMenu }: { closeMenu?: () => void }) {
               }}
             />
           </ListItemIcon>
-          <ListItemText
-            slotProps={{
-              primary: {
-                fontSize: 14,
-              },
-            }}
-          >
-            {m.name}
+          <ListItemText>
+            <Typography noWrap variant="body2">
+              {m.name}
+            </Typography>
           </ListItemText>
           <ListItemIcon
             sx={{

@@ -11,20 +11,22 @@ import {
 } from '@mui/material';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import theme from '@/app/theme';
 
 export default function MeLayout({ children }: { children: React.ReactNode }) {
   const currentPath = '/me';
   const pathname = usePathname();
   const segmentAfterMe = pathname.split(currentPath)[1];
+  const t = useTranslations('profile');
   const links = [
     {
-      name: 'Thông tin tài khoản',
+      name: t('Account info'),
       path: '',
       icon: 'material-symbols:person-outline-rounded',
     },
     {
-      name: 'Lịch sử đơn hàng',
+      name: t('Order history'),
       path: '/orders',
       icon: 'material-symbols:shopping-bag-outline',
     },

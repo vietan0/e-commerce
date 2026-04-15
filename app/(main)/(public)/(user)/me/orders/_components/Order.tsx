@@ -1,11 +1,14 @@
 import { Box, Divider, Link, Stack, Typography } from '@mui/material';
 import NextLink from 'next/link';
+import { useTranslations } from 'next-intl';
 import OrderProduct from '@/app/(main)/(public)/(user)/me/orders/_components/OrderProduct';
-import { dayjsExt } from '@/src/lib/dayjs';
+import useDayjs from '@/src/hooks/useDayjs';
 import { formatPrice } from '@/src/lib/price';
 import type { OrderCommon } from '@/src/types';
 
 export default function Order({ order }: { order: OrderCommon }) {
+  const t = useTranslations('order');
+  const dayjs = useDayjs();
   return (
     <Box
       sx={{
@@ -24,7 +27,7 @@ export default function Order({ order }: { order: OrderCommon }) {
         #{order.code}
       </Link>
       <Typography color="grey.600" variant="body2">
-        {dayjsExt(order.created_at).format('l')}
+        {dayjs(order.created_at).format('l')}
       </Typography>
       <Stack spacing={2} sx={{ mt: 1 }}>
         {order.order_product.map((order_product) => (
@@ -33,7 +36,7 @@ export default function Order({ order }: { order: OrderCommon }) {
       </Stack>
       <Divider sx={{ my: 2 }} />
       <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
-        <Typography variant="body2">Thành tiền</Typography>
+        <Typography variant="body2">{t('Total')}</Typography>
         <Typography sx={{ fontWeight: 700 }}>
           {formatPrice(order.total_value.toString())}
         </Typography>

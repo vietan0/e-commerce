@@ -1,0 +1,107 @@
+{
+  "common": {
+    "Categories": "Danh mục",
+    "Account": "Tài khoản",
+    "Orders": "Đơn hàng",
+    "Order": "Đơn hàng",
+    "Login": "Đăng nhập",
+    "Log out": "Đăng xuất",
+    "Register": "Đăng ký",
+    "Password": "Mật khẩu",
+    "Show password": "Hiện mật khẩu",
+    "Hide password": "Ẩn mật khẩu",
+    "Forgot password?": "Quên mật khẩu?",
+    "Don't have an account?": "Chưa có tài khoản?",
+    "Already have an account?": "Đã có tài khoản?",
+    "Toggle language": "Đổi ngôn ngữ",
+    "Save": "Lưu",
+    "Cancel": "Huỷ",
+    "Go back": "Quay lại",
+    "Customer": "Khách hàng"
+  },
+  "snackbar": {
+    "Order created": "Đã tạo đơn hàng",
+    "Product updated": "Đã cập nhật sản phẩm",
+    "Profile picture updated": "Đã cập nhật ảnh đại diện",
+    "Profile updated": "Đã cập nhật hồ sơ",
+    "Added product to cart": "Đã thêm sản phẩm vào giỏ hàng",
+    "Removed product from cart": "Đã xoá sản phẩm khỏi giỏ hàng",
+    "Logged in as": "Đăng nhập dưới email {email}",
+    "Logged out successfully": "Đăng xuất thành công"
+  },
+  "categories": {
+    "Mobiles, Tablets": "Điện thoại, Tablet",
+    "Laptops": "Laptop",
+    "Audio, Headphones": "Âm thanh, Mic thu âm",
+    "Smartwatches, Cameras": "Đồng hồ, Camera",
+    "Smart Home, Beauty Products": "Đồ gia dụng, Làm đẹp",
+    "Accessories": "Phụ kiện",
+    "PC, Monitors, Printers": "PC, Màn hình, Máy in",
+    "TV & Electronics": "Tivi, Điện máy",
+    "Trade-in": "Thu cũ đổi mới",
+    "Used": "Hàng cũ",
+    "Deals": "Khuyến mãi",
+    "Tech News": "Tin công nghệ"
+  },
+  "cart": {
+    "Cart": "Giỏ hàng",
+    "Your cart is empty": "Giỏ hàng của bạn còn trống",
+    "Shop now": "Mua ngay",
+    "View cart": "Xem giỏ hàng",
+    "Product": "Sản phẩm",
+    "Unit Price": "Đơn giá",
+    "Quantity": "Số lượng",
+    "Quantity-short": "SL",
+    "Amount": "Thành tiền",
+    "Actions": "Thao tác",
+    "Subtotal": "Tổng phụ",
+    "products": "sản phẩm",
+    "Checkout": "Thanh toán",
+    "Remove from cart": "Xoá khỏi giỏ hàng",
+    "Customer info": "Thông tin khách hàng",
+    "Delivery info": "Thông tin nhận hàng",
+    "Payment method": "Phương thức thanh toán",
+    "Subtotal-main": "Tổng tiền hàng",
+    "Shipping fee": "Tổng tiền phí vận chuyển",
+    "Total": "Tổng thanh toán",
+    "Order": "Đặt hàng"
+  },
+  "product": {
+    "Price": "Giá sản phẩm",
+    "Add to Cart": "Thêm vào Giỏ hàng",
+    "Stock available": "{count} sản phẩm có sẵn"
+  },
+  "profile": {
+    "Account info": "Thông tin tài khoản",
+    "Order history": "Lịch sử đơn hàng",
+    "Name": "Tên",
+    "Phone": "Số điện thoại",
+    "Address": "Địa chỉ",
+    "Edit profile": "Sửa hồ sơ",
+    "Stop editing": "Dừng sửa hồ sơ",
+    "Change profile pic": "Thay đổi ảnh đại diện",
+    "Enter your name": "Nhập tên của bạn",
+    "Enter your email": "Nhập email của bạn",
+    "Enter your phone number": "Nhập số điện thoại",
+    "Enter your address": "Nhập địa chỉ"
+  },
+  "order": {
+    "Order information": "Thông tin đơn hàng",
+    "Order details": "Chi tiết đơn hàng",
+    "Copy order code": "Copy mã đơn hàng",
+    "Created at": "Thời gian đặt",
+    "Recipient": "Tên người nhận",
+    "Email": "Địa chỉ Email",
+    "Shipping address": "Địa chỉ giao hàng",
+    "Note": "Ghi chú",
+    "Subtotal": "Tổng giá trị sản phẩm",
+    "Shipping fee": "Phí giao hàng",
+    "Total": "Thành tiền",
+    "View your order history": "Xem lịch sử đơn hàng của bạn"
+  },
+  "email": {
+    "OrderPlaced": {
+      "subject": "Đơn hàng #{order_code} của quý khách đã được tiếp nhận"
+    }
+  }
+}

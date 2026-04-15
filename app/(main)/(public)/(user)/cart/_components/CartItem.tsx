@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react';
 import { Grid, IconButton, Link, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { useTranslations } from 'next-intl';
 import QuantityStepper from '@/app/(main)/(public)/(user)/cart/_components/QuantityStepper';
 import type { cart_itemGetPayload } from '@/src/generated/prisma/models';
 import { formatPrice } from '@/src/lib/price';
@@ -16,6 +17,7 @@ export default function CartItem({
 }) {
   const { id, product, quantity } = cart_item;
   const deleteCartItem = useDeleteCartItem();
+  const t = useTranslations('cart');
 
   return (
     <Grid
@@ -75,11 +77,11 @@ export default function CartItem({
       </Grid>
       <Grid size={2.5} sx={{ textAlign: 'end' }}>
         <IconButton
-          aria-label="Xoá khỏi giỏ hàng"
+          aria-label={t('Remove from cart')}
           color="error"
           loading={deleteCartItem.isPending}
           onClick={() => deleteCartItem.mutate(String(id))}
-          title="Xoá khỏi giỏ hàng"
+          title={t('Remove from cart')}
         >
           <Icon icon="material-symbols:delete-outline-rounded" />
         </IconButton>

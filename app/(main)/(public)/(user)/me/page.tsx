@@ -9,12 +9,12 @@ export async function generateMetadata(): Promise<Metadata> {
     const data = await getMe({ Cookie: cookieStore.toString() });
 
     return {
-      title: `${data!.app_user.name} - CellphoneS`,
+      title: data!.app_user.name,
     };
   } catch (error) {
     console.error(error);
     return {
-      title: 'CellphoneS',
+      title: 'User',
     };
   }
 }

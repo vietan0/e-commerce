@@ -14,11 +14,12 @@ import {
 } from '@mui/material';
 import NextLink from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import DevT from '@/app/_components/DevT';
 import HomeLink from '@/app/_components/nav/HomeLink';
-import { proxyPaths } from '@/src/lib/proxyPaths';
+import { proxyPaths } from '@/src/lib/proxy/proxyPaths';
 import useLogin from '@/src/queries/auth/useLogin';
 
 type LoginFields = {
@@ -49,6 +50,8 @@ export default function Login() {
     login.mutate(formData);
   };
 
+  const t = useTranslations('common');
+
   return (
     <Card
       sx={{
@@ -72,7 +75,7 @@ export default function Login() {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h5">Login</Typography>
+          <Typography variant="h5">{t('Login')}</Typography>
           <HomeLink variant="body1" />
         </Stack>
         <Controller
@@ -84,7 +87,7 @@ export default function Login() {
               autoFocus
               fullWidth
               label="Email"
-              placeholder="Enter your email"
+              placeholder="Email"
             />
           )}
         />
@@ -95,16 +98,20 @@ export default function Login() {
             <TextField
               {...field}
               fullWidth
-              label="Password"
-              placeholder="Enter your password"
+              label={t('Password')}
+              placeholder={t('Password')}
               slotProps={{
                 input: {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        aria-label={`${showPassword ? 'Hide' : 'Show'} password`}
+                        aria-label={t(
+                          showPassword ? 'Hide password' : 'Show password',
+                        )}
                         onClick={() => setShowPassword((b) => !b)}
-                        title={`${showPassword ? 'Hide' : 'Show'} password`}
+                        title={t(
+                          showPassword ? 'Hide password' : 'Show password',
+                        )}
                       >
                         <Icon
                           fontSize={20}
@@ -148,12 +155,12 @@ export default function Login() {
               onClick={handleSubmit(onSubmit)}
               variant="contained"
             >
-              Login
+              {t('Login')}
             </Button>
-            <Button>Forgot password?</Button>
+            <Button>{t('Forgot password?')}</Button>
           </Stack>
           <Button component={NextLink} href="/register">
-            Don't have an account? Register
+            {t("Don't have an account?")} {t('Register')}
           </Button>
         </Stack>
       </CardActions>

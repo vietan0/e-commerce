@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import type { Prisma, product } from '@/src/generated/prisma/client';
 import type { prisma } from '@/src/lib/prisma';
 import apiFetch from '@/src/queries/apiFetch';
@@ -12,13 +13,14 @@ type UpdateProductParams = {
 export default function useUpdateProduct() {
   const queryClient = useQueryClient();
   const displaySnackbar = useGlobalStore((state) => state.displaySnackbar);
+  const t = useTranslations('snackbar');
 
   return useMutation({
     mutationKey: ['updateProduct'],
     mutationFn: (updateProductParams: UpdateProductParams) =>
       updateProduct(updateProductParams),
     onSuccess: async ({ product }) => {
-      displaySnackbar('Product updated.');
+      displaySnackbar(t('Product updated'));
       await queryClient.invalidateQueries({ queryKey: ['products'] });
       await queryClient.invalidateQueries({
         queryKey: ['product', product.id],

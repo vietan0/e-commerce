@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { type ChangeEvent, useState } from 'react';
 import QueryError from '@/app/_components/QueryError';
 import VisuallyHiddenInput from '@/app/_components/VisuallyHiddenInput';
@@ -23,6 +24,7 @@ export default function MeClient() {
   const { data, isPending, error } = useMe();
   const updateProfilePic = useUpdateProfilePic();
   const [editFormOpen, setEditFormOpen] = useState(false);
+  const t = useTranslations('profile');
 
   async function onImageSelected(e: ChangeEvent<HTMLInputElement>) {
     const formData = new FormData();
@@ -79,9 +81,9 @@ export default function MeClient() {
             <CircularProgress />
           </Box>
         )}
-        <Tooltip title="Change profile pic">
+        <Tooltip title={t('Change profile pic')}>
           <IconButton
-            aria-label="Change profile pic"
+            aria-label={t('Change profile pic')}
             component="label"
             disabled={updateProfilePic.isPending}
             size="small"
@@ -123,12 +125,16 @@ export default function MeClient() {
             />
           }
         >
-          {editFormOpen ? 'Stop editing' : 'Edit profile'}
+          {editFormOpen ? t('Stop editing') : t('Edit profile')}
         </Button>
       </Stack>
       <Typography>Email: {app_user.email}</Typography>
-      <Typography>Phone: {app_user.phone}</Typography>
-      <Typography>Address: {app_user.address}</Typography>
+      <Typography>
+        {t('Phone')}: {app_user.phone}
+      </Typography>
+      <Typography>
+        {t('Address')}: {app_user.address}
+      </Typography>
       {editFormOpen && (
         <UserEditForm app_user={app_user} setEditFormOpen={setEditFormOpen} />
       )}

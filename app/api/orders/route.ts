@@ -1,4 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
+import { createTranslator } from 'next-intl';
+import { getLocale } from 'next-intl/server';
 import { calcLineTotal, calcOrderValues } from '@/app/api/orders/orderCalc';
 import sendEmail from '@/app/api/send-email/sendEmail';
 import type { orderUncheckedCreateInput } from '@/src/generated/prisma/models';
@@ -119,10 +121,18 @@ export async function POST(req: NextRequest) {
       emptyCartPromise,
     ]);
 
+    const locale = await getLocale();
+
+    const t = createTranslator({
+      messages: await import(`@/messages/${locale}.json`),
+      locale,
+    });
+
     await sendEmail({
       templateName: 'OrderPlaced',
       templateProps: { order },
-      subject: `Thông báo đơn hàng #${order.code} của quý khách đã được tiếp nhận`,
+      subject: t('email.OrderPlaced.subject', { order_code: order.code }),
+      locale,
     });
 
     return NextResponse.json({ order });

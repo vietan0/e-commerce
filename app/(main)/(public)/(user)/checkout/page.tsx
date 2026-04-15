@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useTranslations } from 'next-intl';
 import { useEffect, useMemo } from 'react';
 import {
   Controller,
@@ -40,6 +41,7 @@ export type OrderFields = {
 };
 
 export default function Checkout() {
+  const t = useTranslations('cart');
   const { data: cart_items, isPending, error, refetch } = useCart();
   useEffect(() => {
     refetch(); // fetch manually once to ensure product data is fresh
@@ -88,11 +90,11 @@ export default function Checkout() {
     <FormProvider {...methods}>
       <Box>
         <Typography sx={{ mb: 3 }} variant="h5">
-          Thanh toán
+          {t('Checkout')}
         </Typography>
         <Stack spacing={3}>
           <Box>
-            <Typography variant="h6">Thông tin khách hàng</Typography>
+            <Typography variant="h6">{t('Customer info')}</Typography>
             <CustomerInfo />
           </Box>
           <Stack spacing={1}>
@@ -108,17 +110,17 @@ export default function Checkout() {
             >
               <Grid size={6}>
                 <Typography color="textPrimary" variant="h6">
-                  Sản phẩm
+                  {t('Product')}
                 </Typography>
               </Grid>
               <Grid size={2} sx={{ textAlign: 'end' }}>
-                Đơn giá
+                {t('Unit Price')}
               </Grid>
               <Grid size={2} sx={{ textAlign: 'center' }}>
-                Số lượng
+                {t('Quantity')}
               </Grid>
               <Grid size={2} sx={{ textAlign: 'end' }}>
-                Thành tiền
+                {t('Amount')}
               </Grid>
             </Grid>
             {cart_items.map((cart_item) => (
@@ -136,7 +138,8 @@ export default function Checkout() {
             >
               <Grid size={12} sx={{ textAlign: 'end' }}>
                 <Typography>
-                  Tổng cộng ({cart_items.length} sản phẩm)
+                  {t('Subtotal')} ({cart_items.length}{' '}
+                  {t('products', { count: cart_items.length })})
                 </Typography>
                 <Typography color="primary" sx={{ fontSize: 18 }}>
                   {formatPrice(subtotal.toString())}
@@ -145,11 +148,11 @@ export default function Checkout() {
             </Grid>
           </Stack>
           <Box>
-            <Typography variant="h6">Thông tin nhận hàng</Typography>
+            <Typography variant="h6">{t('Delivery info')}</Typography>
             <DeliveryTypes />
           </Box>
           <Box>
-            <Typography variant="h6">Phương thức thanh toán</Typography>
+            <Typography variant="h6">{t('Payment method')}</Typography>
             <PaymentMethods />
           </Box>
           <Box
@@ -182,13 +185,13 @@ export default function Checkout() {
               </Grid>
               <Grid container size={6} spacing={1} sx={{ alignItems: 'end' }}>
                 <Grid size={7} sx={{ color: 'grey.600' }}>
-                  Tổng tiền hàng
+                  {t('Subtotal-main')}
                 </Grid>
                 <Grid size={5} sx={{ textAlign: 'end' }}>
                   {formatPrice(subtotal.toString())}
                 </Grid>
                 <Grid size={7} sx={{ color: 'grey.600' }}>
-                  Tổng tiền phí vận chuyển
+                  {t('Shipping fee')}
                 </Grid>
                 <Grid size={5} sx={{ textAlign: 'end' }}>
                   {isDeliveryTypesPending || !shipping_fee ? (
@@ -200,7 +203,7 @@ export default function Checkout() {
                   )}
                 </Grid>
                 <Grid size={7} sx={{ color: 'grey.600' }}>
-                  Tổng thanh toán
+                  {t('Total')}
                 </Grid>
                 <Grid
                   size={5}
@@ -211,15 +214,16 @@ export default function Checkout() {
               </Grid>
             </Grid>
             <Divider sx={{ my: 2 }} />
-            <Button
-              loading={createOrder.isPending}
-              onClick={handleSubmit(onSubmit)}
-              size="large"
-              sx={{ display: 'block', ml: 'auto' }}
-              variant="contained"
-            >
-              Đặt hàng
-            </Button>
+            <Stack direction="row" sx={{ justifyContent: 'end' }}>
+              <Button
+                loading={createOrder.isPending}
+                onClick={handleSubmit(onSubmit)}
+                size="large"
+                variant="contained"
+              >
+                {t('Order')}
+              </Button>
+            </Stack>
           </Box>
         </Stack>
       </Box>

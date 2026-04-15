@@ -2,13 +2,16 @@
 import { Icon } from '@iconify/react';
 import { Box, Button, CircularProgress, Stack } from '@mui/material';
 import NextLink from 'next/link';
+import { useTranslations } from 'next-intl';
 import CartBtn from '@/app/_components/nav/cart/CartBtn';
+import LanguageMenu from '@/app/_components/nav/LanguageMenu';
 import ProfileMenu from '@/app/_components/nav/ProfileMenu';
 import QueryError from '@/app/_components/QueryError';
 import useMe from '@/src/queries/auth/useMe';
 
 export default function RightBtns() {
   const { data, isPending, error } = useMe();
+  const t = useTranslations('common');
 
   if (isPending)
     return (
@@ -21,6 +24,7 @@ export default function RightBtns() {
 
   return (
     <Stack direction="row" spacing={1}>
+      <LanguageMenu />
       <CartBtn />
       {data?.app_user.is_admin && (
         <Button
@@ -48,7 +52,7 @@ export default function RightBtns() {
           startIcon={<Icon icon="material-symbols:login-rounded" />}
           variant="outlined"
         >
-          Đăng nhập
+          {t('Login')}
         </Button>
       )}
     </Stack>

@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import apiFetch from '@/src/queries/apiFetch';
 import useGlobalStore from '@/src/store';
 
@@ -12,12 +13,13 @@ type UserFields = {
 export default function useUpdateUser() {
   const queryClient = useQueryClient();
   const displaySnackbar = useGlobalStore((state) => state.displaySnackbar);
+  const t = useTranslations('snackbar');
 
   return useMutation({
     mutationKey: ['updateUser'],
     mutationFn: (body: UserFields) => updateUser(body),
     onSuccess: () => {
-      displaySnackbar('User updated.');
+      displaySnackbar(t('User updated'));
       queryClient.invalidateQueries({
         queryKey: ['me'],
       });

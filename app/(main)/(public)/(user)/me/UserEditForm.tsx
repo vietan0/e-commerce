@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useTranslations } from 'next-intl';
 import { type Dispatch, type SetStateAction, useEffect, useMemo } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import DevT from '@/app/_components/DevT';
@@ -31,6 +32,7 @@ export default function UserEditForm({
   }>;
   setEditFormOpen: Dispatch<SetStateAction<boolean>>;
 }) {
+  const t = useTranslations();
   // defaultValues is updated when product updates (e.g. after successful edit),
   // which will reset form
   const defaultValues = useMemo(
@@ -77,8 +79,8 @@ export default function UserEditForm({
                   {...field}
                   autoFocus
                   fullWidth
-                  label="Name"
-                  placeholder="Enter your name"
+                  label={t('profile.Name')}
+                  placeholder={t('profile.Enter your name')}
                 />
               )}
             />
@@ -94,7 +96,7 @@ export default function UserEditForm({
                   fullWidth
                   helperText={!emailField.trim() && "Email can't be empty"}
                   label="Email"
-                  placeholder="Enter your email"
+                  placeholder={t('profile.Enter your email')}
                   required
                 />
               )}
@@ -108,8 +110,8 @@ export default function UserEditForm({
                 <TextField
                   {...field}
                   fullWidth
-                  label="Phone"
-                  placeholder="Enter your phone number"
+                  label={t('profile.Phone')}
+                  placeholder={t('profile.Enter your phone number')}
                 />
               )}
             />
@@ -122,8 +124,8 @@ export default function UserEditForm({
                 <TextField
                   {...field}
                   fullWidth
-                  label="Address"
-                  placeholder="Enter your address"
+                  label={t('profile.Address')}
+                  placeholder={t('profile.Enter your address')}
                 />
               )}
             />
@@ -144,7 +146,7 @@ export default function UserEditForm({
             }}
           >
             <Button color="inherit" onClick={() => setEditFormOpen(false)}>
-              Cancel
+              {t('common.Cancel')}
             </Button>
             <Button
               disabled={!emailField || !formState.isDirty || !formState.isValid}
@@ -152,7 +154,7 @@ export default function UserEditForm({
               onClick={handleSubmit(onSubmit)}
               variant="contained"
             >
-              Save
+              {t('common.Save')}
             </Button>
           </Stack>
           {updateUser.error && (

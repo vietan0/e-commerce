@@ -1,0 +1,107 @@
+{
+  "common": {
+    "Categories": "Categories",
+    "Account": "Account",
+    "Orders": "Orders",
+    "Order": "Order",
+    "Login": "Login",
+    "Log out": "Log out",
+    "Register": "Register",
+    "Password": "Password",
+    "Show password": "Show password",
+    "Hide password": "Hide password",
+    "Forgot password?": "Forgot password?",
+    "Don't have an account?": "Don't have an account?",
+    "Already have an account?": "Already have an account?",
+    "Toggle language": "Toggle language",
+    "Save": "Save",
+    "Cancel": "Cancel",
+    "Go back": "Go back",
+    "Customer": "Customer"
+  },
+  "snackbar": {
+    "Order created": "Order created",
+    "Product updated": "Product updated",
+    "Profile picture updated": "Profile picture updated",
+    "Profile updated": "Profile updated",
+    "Added product to cart": "Added product to cart",
+    "Removed product from cart": "Removed product from cart",
+    "Logged in as": "Logged in as {email}",
+    "Logged out successfully": "Logged out successfully"
+  },
+  "categories": {
+    "Mobiles, Tablets": "Mobiles, Tablets",
+    "Laptops": "Laptops",
+    "Audio, Headphones": "Audio, Headphones",
+    "Smartwatches, Cameras": "Smartwatches & Cameras",
+    "Smart Home, Beauty Products": "Smart Home, Beauty Products",
+    "Accessories": "Accessories",
+    "PC, Monitors, Printers": "PC, Monitors, Printers",
+    "TV & Electronics": "TV & Electronics",
+    "Trade-in": "Trade-in",
+    "Used": "Used",
+    "Deals": "Deals",
+    "Tech News": "Tech News"
+  },
+  "cart": {
+    "Cart": "Cart",
+    "Your cart is empty": "Your cart is empty",
+    "Shop now": "Shop now",
+    "View cart": "View cart",
+    "Product": "Product",
+    "Unit Price": "Unit Price",
+    "Quantity": "Quantity",
+    "Quantity-short": "Qty.",
+    "Amount": "Amount",
+    "Actions": "Actions",
+    "Subtotal": "Subtotal",
+    "products": "{count, plural, =1 {product} other {products}}",
+    "Checkout": "Checkout",
+    "Remove from cart": "Remove from cart",
+    "Customer info": "Customer info",
+    "Delivery info": "Delivery info",
+    "Payment method": "Payment method",
+    "Subtotal-main": "Subtotal",
+    "Shipping fee": "Shipping fee",
+    "Total": "Total",
+    "Order": "Order"
+  },
+  "product": {
+    "Price": "Price",
+    "Add to Cart": "Add to Cart",
+    "Stock available": "{count, plural, =1 {1 product} other {# products}} available"
+  },
+  "profile": {
+    "Account info": "Account info",
+    "Order history": "Order history",
+    "Name": "Name",
+    "Phone": "Phone",
+    "Address": "Address",
+    "Edit profile": "Edit profile",
+    "Stop editing": "Stop editing",
+    "Change profile pic": "Change profile pic",
+    "Enter your name": "Enter your name",
+    "Enter your email": "Enter your email",
+    "Enter your phone number": "Enter your phone number",
+    "Enter your address": "Enter your address"
+  },
+  "order": {
+    "Order information": "Order information",
+    "Order details": "Order details",
+    "Copy order code": "Copy order code",
+    "Created at": "Created at",
+    "Recipient": "Recipient",
+    "Email": "Email",
+    "Shipping address": "Shipping address",
+    "Note": "Note",
+    "Subtotal": "Subtotal",
+    "Shipping fee": "Shipping fee",
+    "Total": "Total",
+    "View your order history": "View your order history"
+  },
+  "email": {
+    "OrderPlaced": {
+      "subject": "Your order #{order_code} has been placed"
+    }
+  }
+}

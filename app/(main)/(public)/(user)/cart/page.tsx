@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import NextLink from 'next/link';
+import { useTranslations } from 'next-intl';
 import EmptyCart from '@/app/_components/EmptyCart';
 import QueryError from '@/app/_components/QueryError';
 import CartItem from '@/app/(main)/(public)/(user)/cart/_components/CartItem';
@@ -16,6 +17,7 @@ import useCart from '@/src/queries/cart/useCart';
 
 export default function Cart() {
   const { data: cart_items, isPending, error } = useCart();
+  const t = useTranslations('cart');
 
   if (isPending)
     return (
@@ -34,7 +36,7 @@ export default function Cart() {
   return (
     <Box>
       <Typography sx={{ mb: 3 }} variant="h5">
-        Giỏ hàng
+        {t('Cart')}
       </Typography>
       <Stack spacing={1}>
         <Grid
@@ -48,18 +50,18 @@ export default function Cart() {
             color: 'grey.600',
           }}
         >
-          <Grid size={5}>Sản phẩm</Grid>
+          <Grid size={5}>{t('Product')}</Grid>
           <Grid size={1.5} sx={{ textAlign: 'end' }}>
-            Đơn giá
+            {t('Unit Price')}
           </Grid>
           <Grid size={1.5} sx={{ textAlign: 'center' }}>
-            Số lượng
+            {t('Quantity')}
           </Grid>
           <Grid size={1.5} sx={{ textAlign: 'end' }}>
-            Thành tiền
+            {t('Amount')}
           </Grid>
           <Grid size={2.5} sx={{ textAlign: 'end' }}>
-            Thao tác
+            {t('Actions')}
           </Grid>
         </Grid>
         {cart_items.map((cart_item) => (
@@ -79,14 +81,17 @@ export default function Cart() {
       >
         <Grid size={5}></Grid>
         <Grid size={4.5} sx={{ textAlign: 'end' }}>
-          <Typography>Tổng cộng ({cart_items.length} sản phẩm)</Typography>
+          <Typography>
+            {t('Subtotal')} ({cart_items.length}{' '}
+            {t('products', { count: cart_items.length })}):
+          </Typography>
           <Typography color="primary" sx={{ fontSize: 18 }}>
             {formatPrice(totalAmount.toString())}
           </Typography>
         </Grid>
         <Grid size={2.5} sx={{ textAlign: 'end' }}>
           <Button component={NextLink} href="/checkout" variant="contained">
-            Mua hàng
+            {t('Checkout')}
           </Button>
         </Grid>
       </Grid>

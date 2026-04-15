@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import NextLink from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import DevT from '@/app/_components/DevT';
@@ -40,6 +41,8 @@ export default function Register() {
     register.mutate(formData);
   };
 
+  const t = useTranslations('common');
+
   return (
     <Card
       sx={{
@@ -60,7 +63,7 @@ export default function Register() {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h5">Register</Typography>
+          <Typography variant="h5">{t('Register')}</Typography>
           <HomeLink variant="body1" />
         </Stack>
         <Controller
@@ -72,7 +75,7 @@ export default function Register() {
               autoFocus
               fullWidth
               label="Email"
-              placeholder="Enter your email"
+              placeholder="Email"
             />
           )}
         />
@@ -83,16 +86,20 @@ export default function Register() {
             <TextField
               {...field}
               fullWidth
-              label="Password"
-              placeholder="Enter your password"
+              label={t('Password')}
+              placeholder={t('Password')}
               slotProps={{
                 input: {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        aria-label={`${showPassword ? 'Hide' : 'Show'} password`}
+                        aria-label={t(
+                          showPassword ? 'Hide password' : 'Show password',
+                        )}
                         onClick={() => setShowPassword((b) => !b)}
-                        title={`${showPassword ? 'Hide' : 'Show'} password`}
+                        title={t(
+                          showPassword ? 'Hide password' : 'Show password',
+                        )}
                       >
                         <Icon
                           fontSize={20}
@@ -130,12 +137,12 @@ export default function Register() {
               onClick={handleSubmit(onSubmit)}
               variant="contained"
             >
-              Register
+              {t('Register')}
             </Button>
-            <Button>Forgot password?</Button>
+            <Button>{t('Forgot password?')}</Button>
           </Stack>
           <Button component={NextLink} href="/login">
-            Already have an account? Login
+            {t('Already have an account?')} {t('Login')}
           </Button>
         </Stack>
       </CardActions>

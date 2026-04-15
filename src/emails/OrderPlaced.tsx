@@ -11,11 +11,33 @@ import {
   Tailwind,
   Text,
 } from '@react-email/components';
-import { dayjsExt } from '@/src/lib/dayjs';
+import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import { createTranslator } from 'next-intl';
 import { formatPrice } from '@/src/lib/price';
 import type { OrderCommon } from '@/src/types';
+import 'dayjs/locale/vi';
 
-export default function OrderPlaced({ order }: { order: OrderCommon }) {
+dayjs.extend(isSameOrBefore);
+dayjs.extend(localizedFormat);
+
+export default async function OrderPlaced({
+  order,
+  locale,
+}: {
+  order: OrderCommon;
+  locale: string;
+}) {
+  const finalLocale = locale || 'vi-VN';
+  dayjs.locale(finalLocale.slice(0, 2));
+
+  const t = createTranslator({
+    messages: await import(`../../messages/${finalLocale}.json`),
+    namespace: undefined,
+    locale: finalLocale,
+  });
+
   const exampleOrder = {
     id: '14',
     code: 'UYRC66J0V9UAJ9W',
@@ -144,25 +166,13 @@ export default function OrderPlaced({ order }: { order: OrderCommon }) {
   return (
     <Html>
       <Head>
-        <title>My email title</title>
-        <link href="https://fonts.googleapis.com" rel="preconnect"></link>
-        <link
-          crossOrigin="anonymous"
-          href="https://fonts.gstatic.com"
-          rel="preconnect"
-        ></link>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
-          rel="stylesheet"
-        ></link>
+        <title>
+          {t('email.OrderPlaced.subject', { order_code: finalOrder.code })} -
+          CellphoneS
+        </title>
       </Head>
       <Tailwind>
-        <Body
-          className="p-3 max-w-3xl block mx-auto"
-          style={{
-            fontFamily: 'Geist, sans-serif',
-          }}
-        >
+        <Body className="p-3 max-w-3xl block mx-auto">
           <Section>
             <Link
               className="font-bold text-2xl text-center block mx-auto"
@@ -174,37 +184,46 @@ export default function OrderPlaced({ order }: { order: OrderCommon }) {
           <Hr className="my-4 border-gray-300 border-t-2" />
           <Section>
             <Heading as="h3" className="inline-block">
-              Thông tin đơn hàng{' '}
+              {t('order.Order information')}{' '}
               <Link href="https://cellphones.com.vn">#{finalOrder.code}</Link>
             </Heading>
             <Section>
-              Khách hàng: {finalOrder.app_user.name} (
+              {t('common.Customer')}: {finalOrder.app_user.name} (
               <Text className="inline text-neutral-500">
                 {finalOrder.app_user.email}
               </Text>
               )
             </Section>
-            <Text>SĐT: {finalOrder.app_user.phone}</Text>
-            <Text>Địa chỉ: {finalOrder.app_user.address}</Text>
             <Text>
-              Thời gian: {dayjsExt(finalOrder.created_at).format('LT, dddd LL')}
+              {t('profile.Phone')}: {finalOrder.app_user.phone}
             </Text>
             <Text>
-              Phương thức thanh toán: {finalOrder.payment_method.name} (
+              {t('profile.Address')}: {finalOrder.app_user.address}
+            </Text>
+            <Text>
+              {t('order.Created at')}:{' '}
+              {dayjs(finalOrder.created_at).format('LT, dddd LL')}
+            </Text>
+            <Text>
+              {t('cart.Payment method')}: {finalOrder.payment_method.name} (
               {finalOrder.payment_method.code})
             </Text>
-            {finalOrder.note && <Text>Ghi chú: {finalOrder.note}</Text>}
-            <Heading as="h3">Chi tiết đơn hàng</Heading>
+            {finalOrder.note && (
+              <Text>
+                {t('order.Note')}: {finalOrder.note}
+              </Text>
+            )}
+            <Heading as="h3">{t('order.Order details')}</Heading>
             <Row cellSpacing={8} className="font-bold bg-neutral-200">
-              <Column className="w-1/4">Sản phẩm</Column>
+              <Column className="w-1/4">{t('cart.Product')}</Column>
               <Column align="right" className="w-1/8">
-                Đơn giá
+                {t('cart.Unit Price')}
               </Column>
               <Column align="center" className="w-1/12">
-                SL
+                {t('cart.Quantity-short')}
               </Column>
               <Column align="right" className="w-1/8">
-                Thành tiền
+                {t('cart.Amount')}
               </Column>
             </Row>
             {finalOrder.order_product.map(
@@ -224,13 +243,13 @@ export default function OrderPlaced({ order }: { order: OrderCommon }) {
               ),
             )}
             <Row cellSpacing={8}>
-              <Column className="w-1/6">Phí giao hàng</Column>
+              <Column className="w-1/6">{t('cart.Shipping fee')}</Column>
               <Column align="right" className="w-1/6">
                 {formatPrice((finalOrder.shipping_fee || 0).toString())}
               </Column>
             </Row>
             <Row cellSpacing={8} className="bg-neutral-200">
-              <Column className="w-1/6 font-bold">Tổng thanh toán</Column>
+              <Column className="w-1/6 font-bold">{t('cart.Total')}</Column>
               <Column align="right" className="w-1/6 font-bold">
                 {formatPrice(finalOrder.total_value.toString())}
               </Column>
@@ -239,7 +258,7 @@ export default function OrderPlaced({ order }: { order: OrderCommon }) {
               className="mt-8 inline-block"
               href="https://cellphones.com.vn"
             >
-              Xem lịch sử đơn hàng của bạn
+              {t('order.View your order history')}
             </Link>
           </Section>
           <Hr className="my-4 border-gray-300 border-t-2" />

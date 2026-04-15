@@ -11,6 +11,7 @@ import {
 import { MdPreview } from 'md-editor-rt';
 import 'md-editor-rt/lib/preview.css';
 import { Icon } from '@iconify/react';
+import { useTranslations } from 'next-intl';
 import { useCounter } from 'react-use';
 import ImagesCarousel from '@/app/_components/ImagesCarousel';
 import QueryError from '@/app/_components/QueryError';
@@ -23,6 +24,7 @@ export default function ProductClient({ id }: { id: string }) {
   const { data: product, isPending, error } = useProduct(id);
   const [quantity, { inc, dec }] = useCounter(1, product?.stock, 1);
   const createCartItem = useUpsertCartItem();
+  const t = useTranslations('product');
 
   if (isPending)
     return (
@@ -48,7 +50,7 @@ export default function ProductClient({ id }: { id: string }) {
     <Grid container spacing={2}>
       <Grid size={{ xs: 12, md: 7 }}>
         <Typography variant="h6">{name}</Typography>
-        <Typography>Giá sản phẩm</Typography>
+        <Typography>{t('Price')}</Typography>
         {(base_price as unknown as string) !== final_price && (
           <Typography
             color="grey.500"
@@ -81,7 +83,9 @@ export default function ProductClient({ id }: { id: string }) {
       <Grid size={{ xs: 12, md: 5 }} sx={{ border: 1 }}>
         <Stack direction="row" spacing={1} sx={{ mb: 2, alignItems: 'center' }}>
           <QuantityStepper dec={dec} inc={inc} value={quantity} />
-          <Typography variant="body2">{stock} sản phẩm có sẵn</Typography>
+          <Typography variant="body2">
+            {t('Stock available', { count: stock })}
+          </Typography>
         </Stack>
         <Button
           loading={createCartItem.isPending}
@@ -93,7 +97,7 @@ export default function ProductClient({ id }: { id: string }) {
           }
           variant="contained"
         >
-          Add to Cart
+          {t('Add to Cart')}
         </Button>
       </Grid>
     </Grid>

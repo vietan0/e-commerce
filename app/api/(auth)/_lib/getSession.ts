@@ -1,6 +1,7 @@
+import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { cookies } from 'next/headers';
 import type { sessionGetPayload } from '@/src/generated/prisma/models';
-import { dayjsExt } from '@/src/lib/dayjs';
 import { prisma } from '@/src/lib/prisma';
 
 type SessionResult =
@@ -23,6 +24,8 @@ type SessionResult =
       session: null;
       error: 'Not logged in' | 'Session not found in DB' | 'Session expired';
     };
+
+dayjs.extend(isSameOrBefore);
 
 /**
  *
@@ -55,8 +58,8 @@ export default async function getSession(): Promise<SessionResult> {
     return { session: null, error: 'Session not found in DB' };
   }
 
-  const now = dayjsExt();
-  const expiredAt = dayjsExt(session.expired_at);
+  const now = dayjs();
+  const expiredAt = dayjs(session.expired_at);
   const isExpired = expiredAt.isSameOrBefore(now);
 
   if (isExpired) {

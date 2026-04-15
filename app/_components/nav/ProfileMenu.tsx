@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { useTranslations } from 'next-intl';
 import { type MouseEvent, useState } from 'react';
 import theme from '@/app/theme';
 import useLogout from '@/src/queries/auth/useLogout';
@@ -22,6 +23,8 @@ export default function ProfileBtn({
 }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const t = useTranslations('common');
+
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -97,7 +100,7 @@ export default function ProfileBtn({
               },
             }}
           >
-            Tài khoản
+            {t('Account')}
           </ListItemText>
         </MenuItem>
         <MenuItem component={NextLink} href="/me/orders">
@@ -117,7 +120,7 @@ export default function ProfileBtn({
               },
             }}
           >
-            Đơn hàng
+            {t('Orders')}
           </ListItemText>
         </MenuItem>
         <MenuItem onClick={handleLogout}>
@@ -137,7 +140,7 @@ export default function ProfileBtn({
               },
             }}
           >
-            Đăng xuất
+            {t('Log out')}
           </ListItemText>
         </MenuItem>
       </Menu>

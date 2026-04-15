@@ -13,12 +13,12 @@ export async function generateMetadata({
     const { product } = await getProduct(id);
 
     return {
-      title: `${product.name} - CellphoneS`,
+      title: product.name,
     };
   } catch (error) {
     console.error(error);
     return {
-      title: 'CellphoneS',
+      title: 'Product Name',
     };
   }
 }
