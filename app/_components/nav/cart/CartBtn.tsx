@@ -1,3 +1,4 @@
+'use client';
 import { Icon } from '@iconify/react';
 import { Badge, Box, CircularProgress, IconButton } from '@mui/material';
 import HoverMenu from 'material-ui-popup-state/HoverMenu';
