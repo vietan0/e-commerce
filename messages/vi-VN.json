@@ -83,7 +83,12 @@
     "Enter your name": "Nhập tên của bạn",
     "Enter your email": "Nhập email của bạn",
     "Enter your phone number": "Nhập số điện thoại",
-    "Enter your address": "Nhập địa chỉ"
+    "Enter your address": "Nhập địa chỉ",
+    "Missing name": "Thiếu tên",
+    "Missing phone number": "Thiếu SĐT",
+    "Missing address": "Thiếu địa chỉ",
+    "Missing name and phone number": "Thiếu tên và SĐT",
+    "Add info": "Bổ sung"
   },
   "order": {
     "Order information": "Thông tin đơn hàng",

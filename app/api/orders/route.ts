@@ -19,6 +19,9 @@ export async function POST(req: NextRequest) {
     shipping_fee, // calc from delivery_type_id
     subtotal, // calc from cart_items
     total_value, // calc from cart_items
+    user_name // record, calc from user_id
+    user_email // record, calc from user_id
+    user_phone // record, calc from user_id
     delivery_type_id, // the rest from body
     payment_method_id
     store_id?,
@@ -41,7 +44,7 @@ export async function POST(req: NextRequest) {
     const cleanBody = omitEmpty(body);
     const user_id = await getUserId();
 
-    const [pendingOrderStatus, pendingPaymentStatus, deliveryType] =
+    const [pendingOrderStatus, pendingPaymentStatus, deliveryType, user] =
       await Promise.all([
         prisma.order_status.findUnique({
           where: { code: 'PENDING' },
@@ -54,11 +57,28 @@ export async function POST(req: NextRequest) {
             id: body.delivery_type_id,
           },
         }),
+        prisma.app_user.findUnique({
+          where: {
+            id: user_id,
+          },
+        }),
       ]);
 
-    if (!pendingOrderStatus || !pendingPaymentStatus || !deliveryType) {
+    if (
+      !pendingOrderStatus ||
+      !pendingPaymentStatus ||
+      !deliveryType ||
+      !user
+    ) {
       return NextResponse.json(
         { error: 'Error while fetch data to prepare prisma.create' },
+        { status: 500 },
+      );
+    }
+
+    if (!user.name || !user.phone) {
+      return NextResponse.json(
+        { error: 'User info: name, phone required' },
         { status: 500 },
       );
     }
@@ -96,6 +116,9 @@ export async function POST(req: NextRequest) {
         shipping_fee: deliveryType.shipping_fee,
         subtotal,
         total_value,
+        user_name: user.name,
+        user_email: user.email,
+        user_phone: user.phone,
         user_id,
         order_status_id: pendingOrderStatus.id,
         payment_status_id: pendingPaymentStatus.id,

@@ -83,7 +83,12 @@
     "Enter your name": "Enter your name",
     "Enter your email": "Enter your email",
     "Enter your phone number": "Enter your phone number",
-    "Enter your address": "Enter your address"
+    "Enter your address": "Enter your address",
+    "Missing name": "Missing name",
+    "Missing phone number": "Missing phone number",
+    "Missing address": "Missing address",
+    "Missing name and phone number": "Missing name and phone number",
+    "Add info": "Add info"
   },
   "order": {
     "Order information": "Order information",

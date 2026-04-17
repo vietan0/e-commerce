@@ -4,10 +4,10 @@ import apiFetch from '@/src/queries/apiFetch';
 import useGlobalStore from '@/src/store';
 
 type UserFields = {
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
 };
 
 export default function useUpdateUser() {
@@ -19,7 +19,7 @@ export default function useUpdateUser() {
     mutationKey: ['updateUser'],
     mutationFn: (body: UserFields) => updateUser(body),
     onSuccess: () => {
-      displaySnackbar(t('User updated'));
+      displaySnackbar(t('Profile updated'));
       queryClient.invalidateQueries({
         queryKey: ['me'],
       });

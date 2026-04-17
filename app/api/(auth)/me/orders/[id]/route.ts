@@ -18,6 +18,9 @@ export async function GET(
       include: orderInclude,
     });
 
+    if (!order)
+      return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+
     return NextResponse.json({ order });
   } catch (error) {
     console.error(error);

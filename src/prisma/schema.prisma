@@ -142,7 +142,11 @@ model order {
   subtotal          Decimal         @db.Decimal(14, 3)
   shipping_fee      Decimal?        @db.Decimal(14, 3)
   total_value       Decimal         @db.Decimal(14, 3)
+  user_name         String
+  user_email        String
+  user_phone        String
   shipping_address  String?
+  note              String?
   created_at        DateTime        @default(now()) @db.Timestamptz(6)
   updated_at        DateTime?       @db.Timestamptz(6)
   user_id           String          @db.Uuid
@@ -151,7 +155,6 @@ model order {
   payment_method_id BigInt
   store_id          BigInt?
   delivery_type_id  BigInt
-  note              String?
   order_product     order_product[]
   delivery_type     delivery_type   @relation(fields: [delivery_type_id], references: [id])
   order_status      order_status    @relation(fields: [order_status_id], references: [id], onUpdate: NoAction)
