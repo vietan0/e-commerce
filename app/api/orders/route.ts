@@ -1,3 +1,4 @@
+import { flatMapDeep } from 'es-toolkit/array';
 import { type NextRequest, NextResponse } from 'next/server';
 import { createTranslator } from 'next-intl';
 import { getLocale } from 'next-intl/server';
@@ -13,20 +14,20 @@ import { prisma } from '@/src/lib/prisma';
 export async function POST(req: NextRequest) {
   /* 
     1. create record in order
-    user_id, // get from session
-    order_status_id, // fetch and set default
-    payment_status_id, // fetch and set default
-    shipping_fee, // calc from delivery_type_id
-    subtotal, // calc from cart_items
-    total_value, // calc from cart_items
-    user_name // record, calc from user_id
-    user_email // record, calc from user_id
-    user_phone // record, calc from user_id
-    delivery_type_id, // the rest from body
-    payment_method_id
-    store_id?,
-    shipping_address?,
-    note?,
+      user_id, // get from session
+      order_status_id, // fetch and set default
+      payment_status_id, // fetch and set default
+      shipping_fee, // calc from delivery_type_id
+      subtotal, // calc from cart_items
+      total_value, // calc from cart_items
+      user_name // record, calc from user_id
+      user_email // record, calc from user_id
+      user_phone // record, calc from user_id
+      delivery_type_id, // the rest from body
+      payment_method_id
+      store_id?,
+      shipping_address?,
+      note?,
 
     2. create records in order_product
     needs: 
@@ -34,6 +35,7 @@ export async function POST(req: NextRequest) {
       product_id from cart_item --> query prisma
       quantity from cart_item,
       unit_price from cart_item,
+      final_unit_price from cart_item
       line_total - calculated by quantity * unit_price
   
     3. clean out cart
@@ -126,9 +128,17 @@ export async function POST(req: NextRequest) {
           create: cart_items.map((cart_item) => ({
             product_id: cart_item.product_id,
             quantity: cart_item.quantity,
+            base_price: cart_item.product.base_price,
             /* @ts-expect-error */
             unit_price: cart_item.product.final_price,
             line_total: calcLineTotal(cart_item),
+            orderProductDiscounts: {
+              create: cart_item.product.discount_product.map((dp) => ({
+                discount_name: dp.discount.name,
+                discount_value: dp.discount.value,
+                discount_type_name: dp.discount.discount_type.name,
+              })),
+            },
           })),
         },
       },

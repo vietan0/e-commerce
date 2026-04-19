@@ -37,6 +37,15 @@ export default function OrderProduct({
         <Typography color="grey.600" variant="body2">
           x{order_product.quantity}
         </Typography>
+        {order_product.base_price !== order_product.unit_price && (
+          <Typography
+            color="grey.500"
+            sx={{ textDecorationLine: 'line-through' }}
+            variant="body2"
+          >
+            {formatPrice(order_product.base_price.toString())}
+          </Typography>
+        )}
         <Typography sx={{ fontWeight: 700 }} variant="body2">
           {formatPrice(order_product.unit_price.toString())}
         </Typography>

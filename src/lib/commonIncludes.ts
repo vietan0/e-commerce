@@ -19,6 +19,7 @@ export const orderProductInclude = {
       thumbnail: true,
     },
   },
+  orderProductDiscounts: true,
 };
 
 export const orderInclude = {
