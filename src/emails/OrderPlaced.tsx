@@ -62,10 +62,10 @@ export default async function OrderPlaced({
     },
     order_status: {
       id: '1',
-      code: 'PENDING',
-      name: 'Pending',
+      code: 'PLACED',
+      name: 'Placed',
       is_terminal: false,
-      index: null,
+      index: 1,
     },
     payment_method: {
       id: '1',

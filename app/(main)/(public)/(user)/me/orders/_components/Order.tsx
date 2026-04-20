@@ -1,4 +1,4 @@
-import { Box, Divider, Link, Stack, Typography } from '@mui/material';
+import { Box, Chip, Divider, Link, Stack, Typography } from '@mui/material';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import OrderProduct from '@/app/(main)/(public)/(user)/me/orders/_components/OrderProduct';
@@ -18,14 +18,22 @@ export default function Order({ order }: { order: OrderCommon }) {
         p: 2,
       }}
     >
-      <Link
-        component={NextLink}
-        href={`/me/orders/${order.id}`}
-        sx={{ fontWeight: 700 }}
-        underline="hover"
-      >
-        #{order.code}
-      </Link>
+      <Stack direction="row" spacing={1}>
+        <Link
+          component={NextLink}
+          href={`/me/orders/${order.id}`}
+          sx={{ fontWeight: 700 }}
+          underline="hover"
+        >
+          #{order.code}
+        </Link>
+        <Chip
+          color="warning"
+          label={order.order_status.name}
+          size="small"
+          variant="outlined"
+        ></Chip>
+      </Stack>
       <Typography color="grey.600" variant="body2">
         {dayjs(order.created_at).format('l')}
       </Typography>

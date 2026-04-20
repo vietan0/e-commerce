@@ -1,4 +1,3 @@
-import { flatMapDeep } from 'es-toolkit/array';
 import { type NextRequest, NextResponse } from 'next/server';
 import { createTranslator } from 'next-intl';
 import { getLocale } from 'next-intl/server';
@@ -46,10 +45,10 @@ export async function POST(req: NextRequest) {
     const cleanBody = omitEmpty(body);
     const user_id = await getUserId();
 
-    const [pendingOrderStatus, pendingPaymentStatus, deliveryType, user] =
+    const [placedOrderStatus, pendingPaymentStatus, deliveryType, user] =
       await Promise.all([
         prisma.order_status.findUnique({
-          where: { code: 'PENDING' },
+          where: { code: 'PLACED' },
         }),
         prisma.payment_status.findUnique({
           where: { code: 'PENDING' },
@@ -66,12 +65,7 @@ export async function POST(req: NextRequest) {
         }),
       ]);
 
-    if (
-      !pendingOrderStatus ||
-      !pendingPaymentStatus ||
-      !deliveryType ||
-      !user
-    ) {
+    if (!placedOrderStatus || !pendingPaymentStatus || !deliveryType || !user) {
       return NextResponse.json(
         { error: 'Error while fetch data to prepare prisma.create' },
         { status: 500 },
@@ -122,7 +116,7 @@ export async function POST(req: NextRequest) {
         user_email: user.email,
         user_phone: user.phone,
         user_id,
-        order_status_id: pendingOrderStatus.id,
+        order_status_id: placedOrderStatus.id,
         payment_status_id: pendingPaymentStatus.id,
         order_product: {
           create: cart_items.map((cart_item) => ({
