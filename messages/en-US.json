@@ -21,6 +21,7 @@
   },
   "snackbar": {
     "Order created": "Order created",
+    "Order updated": "Order updated",
     "Product updated": "Product updated",
     "Profile picture updated": "Profile picture updated",
     "Profile updated": "Profile updated",

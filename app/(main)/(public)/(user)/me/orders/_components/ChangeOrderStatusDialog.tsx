@@ -1,0 +1,164 @@
+import { Icon } from '@iconify/react';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Stack,
+  Typography,
+} from '@mui/material';
+import { useState } from 'react';
+import QueryError from '@/app/_components/QueryError';
+import OrderStatusChip from '@/app/(main)/(public)/(user)/me/orders/_components/OrderStatusChip';
+import theme from '@/app/theme';
+import type { order_status } from '@/src/generated/prisma/client';
+import useOrderStatuses from '@/src/queries/order-statuses/useOrderStatuses';
+import useUpdateOrder from '@/src/queries/orders/useUpdateOrder';
+
+export default function ChangeOrderStatusDialog({
+  order_id,
+  order_status,
+  open,
+  handleClose,
+}: {
+  order_id: bigint;
+  order_status: order_status;
+  open: boolean;
+  handleClose: () => void;
+}) {
+  const { data: orderStatuses, isPending, error } = useOrderStatuses();
+  const [selectedId, setSelectedId] = useState(order_status.id);
+  const updateOrder = useUpdateOrder();
+
+  const handleListItemClick = (
+    _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    index: bigint,
+  ) => {
+    setSelectedId(index);
+  };
+
+  function resetLocalSelected() {
+    setSelectedId(order_status.id);
+  }
+
+  function save() {
+    updateOrder.mutate({
+      data: {
+        order_status_id: selectedId,
+      },
+      id: order_id,
+    });
+  }
+
+  if (isPending) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) return <QueryError error={error} />;
+
+  return (
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      slotProps={{
+        paper: {
+          sx: {
+            width: 1,
+            maxWidth: 400,
+          },
+        },
+      }}
+    >
+      <DialogTitle>Update Order Status</DialogTitle>
+      <DialogContent sx={{ p: 0 }}>
+        <List aria-label="Order Status List" component="nav">
+          {orderStatuses.map((orderStatus) => {
+            const selected = selectedId === orderStatus.id;
+            return (
+              <ListItemButton
+                key={orderStatus.id}
+                onClick={(event) => handleListItemClick(event, orderStatus.id)}
+                selected={selected}
+              >
+                {selected && (
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 32,
+                    }}
+                  >
+                    <Icon
+                      fontSize={20}
+                      icon="material-symbols:check-rounded"
+                      style={{
+                        color: theme.palette.primary.main,
+                      }}
+                    />
+                  </ListItemIcon>
+                )}
+                <ListItemText
+                  inset={!selected}
+                  sx={{
+                    paddingLeft: selected ? 0 : '32px',
+                  }}
+                >
+                  <OrderStatusChip order_status={orderStatus} />
+                </ListItemText>
+              </ListItemButton>
+            );
+          })}
+        </List>
+      </DialogContent>
+      <DialogActions
+        sx={{
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+        }}
+      >
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{ justifyContent: 'flex-end', alignItems: 'center' }}
+          useFlexGap
+        >
+          <Button
+            color="inherit"
+            onClick={() => {
+              resetLocalSelected();
+              handleClose();
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            disabled={selectedId === order_status.id}
+            loading={updateOrder.isPending}
+            onClick={save}
+            variant="contained"
+          >
+            Save
+          </Button>
+        </Stack>
+        {updateOrder.error && (
+          <Typography
+            color="error"
+            sx={{ textAlign: 'right', pt: 2, pb: 1 }}
+            variant="body2"
+          >
+            {updateOrder.error.message}
+          </Typography>
+        )}
+      </DialogActions>
+    </Dialog>
+  );
+}

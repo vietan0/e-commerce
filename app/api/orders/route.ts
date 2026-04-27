@@ -10,6 +10,52 @@ import getCartItems from '@/src/lib/getCartItems';
 import getUserId from '@/src/lib/getUserId';
 import { prisma } from '@/src/lib/prisma';
 
+export async function GET(req: NextRequest) {
+  try {
+    const url = req.nextUrl;
+    const { searchParams } = url;
+    const page = searchParams.get('page');
+    const limit = searchParams.get('limit');
+    const sort = searchParams.get('sort');
+
+    let take: number | undefined;
+    let skip: number | undefined;
+    if (limit) {
+      take = Number(limit);
+      if (page) skip = (Number(page) - 1) * take;
+    }
+
+    let orderByObj = {};
+    if (sort) {
+      const sortColMatches = sort.match(/\w+$/);
+      if (sortColMatches) {
+        const [sortCol] = sortColMatches;
+        const sortDir = sort.startsWith('-') ? 'desc' : 'asc';
+        orderByObj = { [sortCol]: sortDir };
+      }
+    }
+    const totalRowCount = await prisma.order.count();
+    const orders = await prisma.order.findMany({
+      take,
+      skip,
+      orderBy: [orderByObj],
+      include: orderInclude,
+    });
+
+    const res = {
+      rowCount: orders.length,
+      totalRowCount,
+      orders,
+    };
+
+    return NextResponse.json(res);
+  } catch (error) {
+    console.error(error);
+    const typedError = error as Error;
+    return NextResponse.json({ error: typedError.message }, { status: 500 });
+  }
+}
+
 export async function POST(req: NextRequest) {
   /* 
     1. create record in order
@@ -45,27 +91,46 @@ export async function POST(req: NextRequest) {
     const cleanBody = omitEmpty(body);
     const user_id = await getUserId();
 
-    const [placedOrderStatus, pendingPaymentStatus, deliveryType, user] =
-      await Promise.all([
-        prisma.order_status.findUnique({
-          where: { code: 'PLACED' },
-        }),
-        prisma.payment_status.findUnique({
-          where: { code: 'PENDING' },
-        }),
-        prisma.delivery_type.findUnique({
-          where: {
-            id: body.delivery_type_id,
-          },
-        }),
-        prisma.app_user.findUnique({
-          where: {
-            id: user_id,
-          },
-        }),
-      ]);
+    const [
+      paymentMethod,
+      awaitingPaymentOrderStatus,
+      preparingOrderStatus,
+      pendingPaymentStatus,
+      deliveryType,
+      user,
+    ] = await Promise.all([
+      prisma.payment_method.findUnique({
+        where: { id: cleanBody.payment_method_id },
+      }),
+      prisma.order_status.findUnique({
+        where: { code: 'AWAITING_PAYMENT' },
+      }),
+      prisma.order_status.findUnique({
+        where: { code: 'PREPARING' },
+      }),
+      prisma.payment_status.findUnique({
+        where: { code: 'PENDING' },
+      }),
+      prisma.delivery_type.findUnique({
+        where: {
+          id: body.delivery_type_id,
+        },
+      }),
+      prisma.app_user.findUnique({
+        where: {
+          id: user_id,
+        },
+      }),
+    ]);
 
-    if (!placedOrderStatus || !pendingPaymentStatus || !deliveryType || !user) {
+    if (
+      !paymentMethod ||
+      !awaitingPaymentOrderStatus ||
+      !preparingOrderStatus ||
+      !pendingPaymentStatus ||
+      !deliveryType ||
+      !user
+    ) {
       return NextResponse.json(
         { error: 'Error while fetch data to prepare prisma.create' },
         { status: 500 },
@@ -85,6 +150,16 @@ export async function POST(req: NextRequest) {
       cart_items,
       Number(deliveryType.shipping_fee),
     );
+
+    /* 
+      initial order_status should depend on payment method
+      - if CoD: pending (user hasn't given cash yet), delivery continues as usual
+      - if bank: awaiting_payment, only resume delivery when payment_status becomes paid
+    */
+    const initialOrderStatus =
+      paymentMethod.code === 'COD'
+        ? preparingOrderStatus
+        : awaitingPaymentOrderStatus;
 
     /* 
       body may contain both store_id and shipping_address,
@@ -116,7 +191,7 @@ export async function POST(req: NextRequest) {
         user_email: user.email,
         user_phone: user.phone,
         user_id,
-        order_status_id: placedOrderStatus.id,
+        order_status_id: initialOrderStatus.id,
         payment_status_id: pendingPaymentStatus.id,
         order_product: {
           create: cart_items.map((cart_item) => ({

@@ -1,7 +1,9 @@
-import { Box, Chip, Divider, Link, Stack, Typography } from '@mui/material';
+import { Box, Divider, Link, Stack, Typography } from '@mui/material';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import OrderProduct from '@/app/(main)/(public)/(user)/me/orders/_components/OrderProduct';
+import OrderStatusChip from '@/app/(main)/(public)/(user)/me/orders/_components/OrderStatusChip';
+import PaymentStatusChip from '@/app/(main)/(public)/(user)/me/orders/_components/PaymentStatusChip';
 import useDayjs from '@/src/hooks/useDayjs';
 import { formatPrice } from '@/src/lib/price';
 import type { OrderCommon } from '@/src/types';
@@ -27,12 +29,8 @@ export default function Order({ order }: { order: OrderCommon }) {
         >
           #{order.code}
         </Link>
-        <Chip
-          color="warning"
-          label={order.order_status.name}
-          size="small"
-          variant="outlined"
-        ></Chip>
+        <OrderStatusChip order_status={order.order_status} />
+        <PaymentStatusChip payment_status={order.payment_status} />
       </Stack>
       <Typography color="grey.600" variant="body2">
         {dayjs(order.created_at).format('l')}
