@@ -3,16 +3,22 @@ import apiFetch from '@/src/queries/apiFetch';
 import { staleTime } from '@/src/queries/options';
 import type { OrderCommon } from '@/src/types';
 
-export default function useUserOrders() {
+type Query = {
+  status_code?: string;
+};
+
+export default function useUserOrders(query: Query = {}) {
   return useQuery({
-    queryKey: ['userOrders'],
-    queryFn: getUserOrders,
+    queryKey: ['userOrders', query],
+    queryFn: () => getUserOrders(query),
     select: (data) => data.orders,
     staleTime,
   });
 }
 
-async function getUserOrders() {
-  const data = await apiFetch<{ orders: OrderCommon[] }>('/me/orders');
+async function getUserOrders(query: Query) {
+  const data = await apiFetch<{ orders: OrderCommon[] }>('/me/orders', {
+    query,
+  });
   return data;
 }

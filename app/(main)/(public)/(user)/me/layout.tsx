@@ -66,7 +66,7 @@ export default function MeLayout({ children }: { children: React.ReactNode }) {
           </MenuList>
         </Grid>
         <Grid size={{ xs: 12, md: 'grow' }}>
-          <Typography sx={{ mb: 4 }} variant="h5">
+          <Typography gutterBottom variant="h5">
             {matchedLink!.name}
           </Typography>
           {children}
