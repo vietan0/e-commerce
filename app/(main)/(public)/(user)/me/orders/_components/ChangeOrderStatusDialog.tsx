@@ -18,23 +18,20 @@ import { useState } from 'react';
 import QueryError from '@/app/_components/QueryError';
 import OrderStatusChip from '@/app/(main)/(public)/(user)/me/orders/_components/OrderStatusChip';
 import theme from '@/app/theme';
-import type { order_status } from '@/src/generated/prisma/client';
 import useOrderStatuses from '@/src/queries/order-statuses/useOrderStatuses';
 import useUpdateOrder from '@/src/queries/orders/useUpdateOrder';
+import { useOrderStore } from '@/src/store/OrderStore';
 
 export default function ChangeOrderStatusDialog({
-  order_id,
-  order_status,
   open,
   handleClose,
 }: {
-  order_id: bigint;
-  order_status: order_status;
   open: boolean;
   handleClose: () => void;
 }) {
   const { data: orderStatuses, isPending, error } = useOrderStatuses();
-  const [selectedId, setSelectedId] = useState(order_status.id);
+  const order = useOrderStore((state) => state.order);
+  const [selectedId, setSelectedId] = useState(order.order_status_id);
   const updateOrder = useUpdateOrder();
 
   const handleListItemClick = (
@@ -45,7 +42,7 @@ export default function ChangeOrderStatusDialog({
   };
 
   function resetLocalSelected() {
-    setSelectedId(order_status.id);
+    setSelectedId(order.order_status_id);
   }
 
   function save() {
@@ -53,7 +50,7 @@ export default function ChangeOrderStatusDialog({
       data: {
         order_status_id: selectedId,
       },
-      id: order_id,
+      id: order.id,
     });
   }
 
@@ -141,7 +138,7 @@ export default function ChangeOrderStatusDialog({
             Cancel
           </Button>
           <Button
-            disabled={selectedId === order_status.id}
+            disabled={selectedId === order.order_status_id}
             loading={updateOrder.isPending}
             onClick={save}
             variant="contained"
