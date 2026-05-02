@@ -11,8 +11,11 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import NextLink from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useEffect } from 'react';
 import QueryError from '@/app/_components/QueryError';
 import OrderProduct from '@/app/(main)/(public)/(user)/me/orders/_components/OrderProduct';
 import theme from '@/app/theme';
@@ -26,6 +29,20 @@ export default function OrderClient({ id }: { id: string }) {
   const { copied, copy } = useCopy();
   const t = useTranslations();
   const dayjs = useDayjs();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const searchParams = useSearchParams();
+  const isNewOrder = searchParams.get('new');
+
+  useEffect(() => {
+    if (isNewOrder === 'true') {
+      // order was just created -> invalidate cart query
+      // because invalidate cart query in mutation's onSuccess would happen before this order page renders,
+      // producing a flash of empty cart message
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      router.replace(`/me/orders/${id}`); // remove 'new=true' search params
+    }
+  }, [isNewOrder, queryClient, router, id]);
 
   if (isPending) {
     return (
