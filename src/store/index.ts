@@ -1,14 +1,19 @@
 import { create } from 'zustand';
 
+type Snackbar = {
+  content: string;
+  action?: React.ReactNode;
+} | null;
+
 interface GlobalState {
-  snackbar: string | null;
-  displaySnackbar: (content: string) => void;
+  snackbar: Snackbar;
+  displaySnackbar: (snackbar: Snackbar) => void;
   removeSnackbar: () => void;
 }
 
 const useGlobalStore = create<GlobalState>((set) => ({
   snackbar: null,
-  displaySnackbar: (content: string) => set(() => ({ snackbar: content })),
+  displaySnackbar: (snackbar: Snackbar) => set(() => ({ snackbar })),
   removeSnackbar: () => set({ snackbar: null }),
 }));
 

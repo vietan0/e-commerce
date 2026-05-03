@@ -20,7 +20,7 @@ export default function useRegister() {
     mutationKey: ['register'],
     mutationFn: (body: Credentials) => register(body),
     onSuccess: async ({ user }) => {
-      displaySnackbar(t('Logged in as', { email: user.email }));
+      displaySnackbar({ content: t('Logged in as', { email: user.email }) });
       await queryClient.invalidateQueries({ queryKey: ['me'] });
       router.push('/');
     },

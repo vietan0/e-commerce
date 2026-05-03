@@ -12,7 +12,7 @@ export default function useUpdateProfilePic() {
     mutationKey: ['updateUser'],
     mutationFn: (formData: FormData) => updateProfilePic(formData),
     onSuccess: () => {
-      displaySnackbar(t('Profile picture updated'));
+      displaySnackbar({ content: t('Profile picture updated') });
       queryClient.invalidateQueries({
         queryKey: ['me'],
       });

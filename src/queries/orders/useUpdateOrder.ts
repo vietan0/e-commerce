@@ -20,7 +20,7 @@ export default function useUpdateOrder() {
     mutationFn: (updateOrderParams: UpdateOrderParams) =>
       updateOrder(updateOrderParams),
     onSuccess: async ({ order }) => {
-      displaySnackbar(t('Order updated'));
+      displaySnackbar({ content: t('Order updated') });
       await queryClient.invalidateQueries({ queryKey: ['orders'] });
       await queryClient.invalidateQueries({
         queryKey: ['userOrder', order.id],

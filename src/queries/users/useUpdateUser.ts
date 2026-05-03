@@ -19,7 +19,7 @@ export default function useUpdateUser() {
     mutationKey: ['updateUser'],
     mutationFn: (body: UserFields) => updateUser(body),
     onSuccess: () => {
-      displaySnackbar(t('Profile updated'));
+      displaySnackbar({ content: t('Profile updated') });
       queryClient.invalidateQueries({
         queryKey: ['me'],
       });

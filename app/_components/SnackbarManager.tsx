@@ -22,12 +22,13 @@ export default function SnackbarManager() {
       open={Boolean(snackbar)}
     >
       <Alert
+        action={snackbar?.action}
         onClose={handleClose}
         severity="success"
         sx={{ width: '100%' }}
         variant="standard"
       >
-        {snackbar}
+        {snackbar?.content}
       </Alert>
     </Snackbar>
   );

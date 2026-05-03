@@ -23,7 +23,7 @@ export default function useLogin() {
     mutationKey: ['login'],
     mutationFn: (body: Credentials) => login(body),
     onSuccess: async ({ user }) => {
-      displaySnackbar(t('Logged in as', { email: user.email }));
+      displaySnackbar({ content: t('Logged in as', { email: user.email }) });
       await queryClient.invalidateQueries({ queryKey: ['me'] });
       router.push(returnTo || '/');
     },

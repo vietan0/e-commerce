@@ -12,7 +12,7 @@ export default function useDeleteCartItem() {
     mutationKey: ['deleteCartItem'],
     mutationFn: (id: string) => deleteCartItem(id),
     onSuccess: () => {
-      displaySnackbar(t('Removed product from cart'));
+      displaySnackbar({ content: t('Removed product from cart') });
       queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });

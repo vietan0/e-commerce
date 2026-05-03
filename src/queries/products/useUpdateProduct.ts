@@ -20,7 +20,7 @@ export default function useUpdateProduct() {
     mutationFn: (updateProductParams: UpdateProductParams) =>
       updateProduct(updateProductParams),
     onSuccess: async ({ product }) => {
-      displaySnackbar(t('Product updated'));
+      displaySnackbar({ content: t('Product updated') });
       await queryClient.invalidateQueries({ queryKey: ['products'] });
       await queryClient.invalidateQueries({
         queryKey: ['product', product.id],

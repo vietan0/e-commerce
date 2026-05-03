@@ -16,7 +16,7 @@ export default function useCreateOrder() {
     mutationKey: ['createOrder'],
     mutationFn: (body: OrderFields) => createOrder(body),
     onSuccess: async ({ order }) => {
-      displaySnackbar(t('Order created'));
+      displaySnackbar({ content: t('Order created') });
       router.push(`/me/orders/${order.id}?new=true`);
       queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
