@@ -1,0 +1,17 @@
+sequenceDiagram
+  autonumber
+  actor User
+  participant App
+  participant DB@{ "type": "database" }
+  participant Payment
+  participant Delivery
+  actor Admin
+  User->>+App: Click "Order"
+  alt bank payment
+    App->>DB: Create order with status "AWAITING_PAYMENT"
+    App->>+Payment: Confirm payment?
+    Payment-->>-App: Confirmed!
+    App->>DB: Update status to "PREPARING"
+  else COD payment
+    App->>DB: Create order with status "PREPARING"
+  end
