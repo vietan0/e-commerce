@@ -3,13 +3,13 @@ import { prisma } from '@/src/lib/prisma';
 
 export async function GET() {
   try {
-    const categories = await prisma.category.findMany();
-    const totalRowCount = await prisma.category.count();
+    const sims = await prisma.sim.findMany();
+    const totalRowCount = await prisma.sim.count();
 
     return NextResponse.json({
-      rowCount: categories.length,
+      rowCount: sims.length,
       totalRowCount,
-      rows: categories,
+      rows: sims,
     });
   } catch (error) {
     console.error(error);

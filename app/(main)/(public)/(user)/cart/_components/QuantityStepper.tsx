@@ -7,7 +7,7 @@ export default function QuantityStepper({
   cart_item,
 }: {
   cart_item: cart_itemGetPayload<{
-    include: { product: { include: { thumbnail: true } } };
+    include: { product: true };
   }>;
 }) {
   const { id, quantity } = cart_item;

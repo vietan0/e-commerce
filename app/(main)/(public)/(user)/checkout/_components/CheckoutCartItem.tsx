@@ -8,7 +8,7 @@ export default function CheckoutCartItem({
   cart_item,
 }: {
   cart_item: cart_itemGetPayload<{
-    include: { product: { include: { thumbnail: true } } };
+    include: { product: true };
   }>;
 }) {
   const { product, quantity } = cart_item;
@@ -27,12 +27,7 @@ export default function CheckoutCartItem({
     >
       <Grid size={6}>
         <Stack direction="row" gap={1} sx={{ alignItems: 'center' }}>
-          <Image
-            alt="Product thumbnail"
-            height={64}
-            src={product.thumbnail?.url || ''}
-            width={64}
-          />
+          <Image alt="Product thumbnail" height={64} src="" width={64} />
           <Link
             color="inherit"
             component={NextLink}

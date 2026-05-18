@@ -1,4 +1,3 @@
-'use client';
 import {
   Box,
   CircularProgress,
@@ -33,11 +32,9 @@ export default function ProductTable() {
             <TableCell>ID</TableCell>
             <TableCell>Thumbnail</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell align="right">Base Price</TableCell>
-            <TableCell>Manufacturer</TableCell>
+            <TableCell>Brand</TableCell>
             <TableCell>Categories</TableCell>
             <TableCell>Discounts</TableCell>
-            <TableCell>Stock</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

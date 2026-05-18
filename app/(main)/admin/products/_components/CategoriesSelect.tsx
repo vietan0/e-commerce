@@ -10,10 +10,10 @@ import {
   Stack,
 } from '@mui/material';
 import QueryError from '@/app/_components/QueryError';
-import useCategories from '@/src/queries/categories/useCategories';
+import useEndpoint from '@/src/queries/useEndpoint';
 
 export default function CategoriesSelect(props: SelectProps) {
-  const { data: categories, isPending, error } = useCategories();
+  const { data: categories, isPending, error } = useEndpoint('categories');
   const labelId = 'categories-select';
 
   return (
@@ -28,8 +28,8 @@ export default function CategoriesSelect(props: SelectProps) {
           if (isPending) return <CircularProgress size={16} />;
           if (error) return <QueryError error={error} />;
 
-          const categoryNames = (selected as string[]).map((category_id) => {
-            const match = categories.find((m) => String(m.id) === category_id)!;
+          const categoryNames = (selected as number[]).map((category_id) => {
+            const match = categories.find((m) => m.id === category_id)!;
             return <Chip key={match.id} label={match.name} />;
           });
 

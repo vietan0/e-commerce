@@ -9,7 +9,7 @@ export default function CartMenuContent({
   cart_items,
 }: {
   cart_items: cart_itemGetPayload<{
-    include: { product: { include: { thumbnail: true } } };
+    include: { product: true };
   }>[];
 }) {
   const t = useTranslations('cart');

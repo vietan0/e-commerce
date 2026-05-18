@@ -333,10 +333,11 @@ model ram {
 }
 
 model sim {
-  id      Int       @id @default(autoincrement())
-  count   Int?
-  types   String?   @db.VarChar(255)
-  product product[]
+  id       Int       @id @default(autoincrement())
+  count    Int?
+  type     String?   @db.VarChar(255)
+  has_esim Boolean?
+  product  product[]
 }
 
 model storage {

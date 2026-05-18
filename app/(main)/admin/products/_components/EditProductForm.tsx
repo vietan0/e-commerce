@@ -8,7 +8,6 @@ import {
   DialogTitle,
   Divider,
   Grid,
-  InputAdornment,
   Stack,
   TextField,
   Typography,
@@ -23,20 +22,16 @@ import { useEffect, useMemo, useState } from 'react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import DevT from '@/app/_components/DevT';
 import VisuallyHiddenInput from '@/app/_components/VisuallyHiddenInput';
+import AppSelect from '@/app/(main)/admin/products/_components/AppSelect';
 import CategoriesSelect from '@/app/(main)/admin/products/_components/CategoriesSelect';
-import ManufacturerSelect from '@/app/(main)/admin/products/_components/ManufacturerSelect';
-import ProductImage from '@/app/(main)/admin/products/_components/ProductImage';
 import theme from '@/app/theme';
 import { placeholderImg } from '@/src/constants/ui';
-import { formatPrice, stripFormat } from '@/src/lib/price';
 import useUpdateProduct from '@/src/queries/products/useUpdateProduct';
 import type { Product } from '@/src/types';
 
 interface UpdateProductFields {
   name: string;
-  base_price: string;
-  stock: number;
-  manufacturer_id: string;
+  brand_id: string;
   categories: string[];
   description: string | null;
 }
@@ -49,31 +44,18 @@ export default function ProductEditForm({
   open: boolean;
   handleClose: () => void;
 }) {
-  const {
-    id,
-    name,
-    base_price,
-    stock,
-    manufacturer_id,
-    product_category,
-    description,
-    thumbnail,
-  } = product;
+  const { id, name, brand_id, product_category, description } = product;
 
   // defaultValues is updated when product updates (e.g. after successful edit),
   // which will reset form
   const defaultValues = useMemo(
     () => ({
       name,
-      stock,
       description,
-      base_price: formatPrice(base_price as unknown as string, {
-        hasUnit: false,
-      }),
-      manufacturer_id: String(manufacturer_id),
+      brand_id: String(brand_id),
       categories: product_category.map((pc) => String(pc.category_id)),
     }),
-    [name, base_price, stock, manufacturer_id, product_category, description],
+    [name, brand_id, product_category, description],
   );
 
   const { control, register, handleSubmit, formState, setValue, reset } =
@@ -98,11 +80,8 @@ export default function ProductEditForm({
     // make sure types match before sending
     const data = {
       ...dirtyFields,
-      base_price: dirtyKeys.includes('base_price')
-        ? stripFormat(dirtyFields.base_price)
-        : undefined,
-      manufacturer_id: dirtyKeys.includes('manufacturer_id')
-        ? Number(dirtyFields.manufacturer_id)
+      brand_id: dirtyKeys.includes('brand_id')
+        ? Number(dirtyFields.brand_id)
         : undefined,
     };
 
@@ -165,62 +144,21 @@ export default function ProductEditForm({
                 )}
               />
             </Grid>
-            <Grid size={3}>
-              <Controller
-                control={control}
-                name="base_price"
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    fullWidth
-                    inputMode="numeric"
-                    label="Base Price"
-                    onChange={(e) => {
-                      const strippedFormat = stripFormat(e.target.value);
-                      const reformatted = formatPrice(strippedFormat, {
-                        hasUnit: false,
-                      });
-                      field.onChange(reformatted);
-                    }}
-                    size="small"
-                    slotProps={{
-                      input: {
-                        endAdornment: (
-                          <InputAdornment position="end">₫</InputAdornment>
-                        ),
-                      },
-                    }}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid size={2}>
-              <Controller
-                control={control}
-                name="stock"
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    fullWidth
-                    inputMode="numeric"
-                    label="Stock"
-                    onChange={(e) => field.onChange(Number(e.target.value))}
-                    size="small"
-                    slotProps={{
-                      htmlInput: {
-                        pattern: '[0-9]*',
-                      },
-                    }}
-                  />
-                )}
-              />
-            </Grid>
+
             <Grid size="grow">
               <Controller
                 control={control}
-                name="manufacturer_id"
+                name="brand_id"
                 render={({ field }) => (
-                  <ManufacturerSelect {...field} fullWidth />
+                  <>
+                    <AppSelect
+                      {...field}
+                      endpoint="brands"
+                      fullWidth
+                      label="Brand"
+                      labelId="brand"
+                    />
+                  </>
                 )}
               />
             </Grid>
@@ -297,7 +235,7 @@ export default function ProductEditForm({
                 <Image
                   alt="Product thumbnail"
                   height={100}
-                  src={thumbnail?.url || placeholderImg}
+                  src={placeholderImg}
                   width={100}
                 />
                 <Icon
@@ -349,11 +287,7 @@ export default function ProductEditForm({
             <Box>
               <Typography gutterBottom>Product Images</Typography>
               <Grid container spacing={1}>
-                {product.product_image.map((img) => (
-                  <Grid key={img.id} size={3}>
-                    <ProductImage image={img} />
-                  </Grid>
-                ))}
+                {/* product images */}
               </Grid>
             </Box>
           </Stack>

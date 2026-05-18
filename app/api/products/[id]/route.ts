@@ -11,15 +11,10 @@ export async function GET(
   try {
     const { id } = await params;
     const product = await prisma.product.findUnique({
-      where: { id: BigInt(id) },
+      where: { id: +id },
       include: {
         ...includeDiscount,
-        manufacturer: true,
-        product_image: {
-          include: {
-            file: true,
-          },
-        },
+        brand: true,
         product_category: {
           include: {
             category: true,
@@ -75,7 +70,7 @@ export async function PATCH(
     // 3. update prisma
     const product = await prisma.product.update({
       where: {
-        id: BigInt(id),
+        id: +id,
       },
       data,
       include: includeDiscount,
@@ -96,7 +91,7 @@ export async function DELETE(
     const { id } = await params;
     const product = await prisma.product.delete({
       where: {
-        id: BigInt(id),
+        id: +id,
       },
     });
 

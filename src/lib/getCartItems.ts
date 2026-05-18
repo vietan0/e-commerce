@@ -12,7 +12,6 @@ export default async function getCartItems() {
       product: {
         include: {
           ...includeDiscount,
-          thumbnail: true,
         },
       },
     },
