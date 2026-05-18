@@ -16,7 +16,7 @@ model app_user {
   updated_at  DateTime?   @db.Timestamptz(6)
   password    String
   is_admin    Boolean     @default(false)
-  profile_pic BigInt?
+  profile_pic Int?
   address     String?     @db.VarChar(255)
   profilePic  file?       @relation("profilePic", fields: [profile_pic], references: [id])
   cart_item   cart_item[]
@@ -26,8 +26,8 @@ model app_user {
 }
 
 model cart_item {
-  id         BigInt   @id @default(autoincrement())
-  product_id BigInt
+  id         Int      @id @default(autoincrement())
+  product_id Int
   user_id    String   @db.Uuid
   quantity   Int
   product    product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
@@ -37,46 +37,40 @@ model cart_item {
 }
 
 model category {
-  id               BigInt             @id @default(autoincrement())
+  id               Int                @id @default(autoincrement())
   code             String             @unique(map: "category_name_key") @db.VarChar(255)
   name             String             @db.VarChar(255)
   product_category product_category[]
 }
 
 model discount {
-  id               BigInt             @id @default(autoincrement())
+  id               Int                @id @default(autoincrement())
   name             String             @db.VarChar(255)
   value            Decimal            @db.Decimal(14, 3)
-  type             BigInt
+  type             Int
   created_at       DateTime           @default(now()) @db.Timestamptz(6)
   discount_type    discount_type      @relation(fields: [type], references: [id], onDelete: NoAction, onUpdate: NoAction)
   discount_product discount_product[]
 }
 
 model discount_product {
-  id          BigInt   @id @default(autoincrement())
-  discount_id BigInt
-  product_id  BigInt
+  id          Int      @id @default(autoincrement())
+  discount_id Int
+  product_id  Int
   discount    discount @relation(fields: [discount_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   product     product  @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model discount_type {
-  id       BigInt     @id @default(autoincrement())
+  id       Int        @id @default(autoincrement())
   name     String     @db.VarChar(255)
   discount discount[]
 }
 
-model manufacturer {
-  id      BigInt    @id @default(autoincrement())
-  name    String    @unique @db.VarChar(255)
-  product product[]
-}
-
 model order_product {
-  order_id              BigInt
-  product_id            BigInt
-  id                    BigInt                   @id @default(autoincrement())
+  order_id              Int
+  product_id            Int
+  id                    Int                      @id @default(autoincrement())
   unit_price            Decimal                  @db.Decimal(14, 3)
   line_total            Decimal                  @db.Decimal(14, 3)
   quantity              Int
@@ -87,16 +81,16 @@ model order_product {
 }
 
 model order_product_discount {
-  id                 BigInt        @id @default(autoincrement())
+  id                 Int           @id @default(autoincrement())
   discount_name      String        @db.VarChar(255)
   discount_value     Decimal       @db.Decimal(14, 3)
   discount_type_name String        @db.VarChar(255)
-  order_product_id   BigInt
+  order_product_id   Int
   order_product      order_product @relation(fields: [order_product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model order_status {
-  id          BigInt  @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   code        String  @unique @db.VarChar(255)
   is_terminal Boolean
   name        String  @unique @db.VarChar(255)
@@ -105,42 +99,48 @@ model order_status {
 }
 
 model product {
-  id               BigInt             @id @default(autoincrement())
-  name             String             @unique @db.VarChar(255)
-  base_price       Decimal            @db.Decimal(14, 3)
-  description      String?
-  stock            Int
-  created_at       DateTime           @default(now()) @db.Timestamptz(6)
-  updated_at       DateTime?          @db.Timestamptz(6)
-  manufacturer_id  BigInt
-  thumbnail_id     BigInt?
-  cart_item        cart_item[]
-  discount_product discount_product[]
-  order_product    order_product[]
-  manufacturer     manufacturer       @relation(fields: [manufacturer_id], references: [id], onUpdate: NoAction)
-  thumbnail        file?              @relation(fields: [thumbnail_id], references: [id])
-  product_category product_category[]
-  product_image    product_image[]
+  id                     Int                  @id @default(autoincrement())
+  name                   String               @unique @db.VarChar(255)
+  description            String?
+  created_at             DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime?            @db.Timestamptz(6)
+  brand_id               Int?
+  product_series_id      Int?
+  os_id                  Int?
+  cpu_id                 Int?
+  gpu_id                 Int?
+  camera_system_id       Int?
+  network_technology_id  Int?
+  charging_technology_id Int?
+  sim_id                 Int?
+  ip_rating_id           Int?
+  cart_item              cart_item[]
+  discount_product       discount_product[]
+  order_product          order_product[]
+  brand                  brand?               @relation(fields: [brand_id], references: [id], onDelete: Restrict, onUpdate: NoAction, map: "product_brand_id_fkey")
+  camera_system          camera_system?       @relation(fields: [camera_system_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  charging_technology    charging_technology? @relation(fields: [charging_technology_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cpu                    cpu?                 @relation(fields: [cpu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  gpu                    gpu?                 @relation(fields: [gpu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ip_rating              ip_rating?           @relation(fields: [ip_rating_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  network_technology     network_technology?  @relation(fields: [network_technology_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  os                     os?                  @relation(fields: [os_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_series         product_series?      @relation(fields: [product_series_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sim                    sim?                 @relation(fields: [sim_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_category       product_category[]
+  product_color          product_color[]
 }
 
 model product_category {
-  id          BigInt   @id @default(autoincrement())
-  category_id BigInt
-  product_id  BigInt
+  id          Int      @id @default(autoincrement())
+  category_id Int
+  product_id  Int
   category    category @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   product     product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model product_image {
-  id         BigInt  @id @default(autoincrement())
-  product_id BigInt
-  file_id    BigInt
-  file       file    @relation(fields: [file_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  product    product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-}
-
 model store {
-  id             BigInt  @id @default(autoincrement())
+  id             Int     @id @default(autoincrement())
   city           String? @db.VarChar(255)
   district       String? @db.VarChar(255)
   street_address String? @db.VarChar(255)
@@ -148,18 +148,18 @@ model store {
 }
 
 model order {
-  id                BigInt          @id @default(autoincrement())
+  id                Int             @id @default(autoincrement())
   user_id           String          @db.Uuid
-  store_id          BigInt?
-  order_status_id   BigInt
-  payment_status_id BigInt
+  store_id          Int?
+  order_status_id   Int
+  payment_status_id Int
   total_value       Decimal         @db.Decimal(14, 3)
   shipping_address  String?
   note              String?
   created_at        DateTime        @default(now()) @db.Timestamptz(6)
   updated_at        DateTime?       @db.Timestamptz(6)
-  payment_method_id BigInt
-  delivery_type_id  BigInt
+  payment_method_id Int
+  delivery_type_id  Int
   shipping_fee      Decimal?        @db.Decimal(14, 3)
   subtotal          Decimal         @db.Decimal(14, 3)
   code              String          @unique @default(dbgenerated("random_string(15)")) @db.VarChar(15)
@@ -176,21 +176,20 @@ model order {
 }
 
 model file {
-  id            BigInt          @id @default(autoincrement())
-  name          String          @db.VarChar(255)
-  url           String
-  download_url  String
-  size          Int
-  created_at    DateTime        @default(now()) @db.Timestamptz(6)
-  user_id       String          @db.Uuid
-  profilePic    app_user[]      @relation("profilePic")
-  app_user      app_user        @relation("createdBy", fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  products      product[]
-  productImages product_image[]
+  id                  Int                   @id @default(autoincrement())
+  name                String                @db.VarChar(255)
+  url                 String
+  download_url        String
+  size                Int
+  created_at          DateTime              @default(now()) @db.Timestamptz(6)
+  user_id             String                @db.Uuid
+  profilePic          app_user[]            @relation("profilePic")
+  app_user            app_user              @relation("createdBy", fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_color_image product_color_image[]
 }
 
 model session {
-  id              BigInt   @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   session_id      String   @unique
   browser         String?  @db.VarChar(255)
   browser_version String?  @db.VarChar(255)
@@ -204,7 +203,7 @@ model session {
 }
 
 model payment_status {
-  id          BigInt  @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   code        String  @unique @db.VarChar(255)
   name        String  @db.VarChar(255)
   is_terminal Boolean
@@ -213,7 +212,7 @@ model payment_status {
 }
 
 model payment_method {
-  id     BigInt  @id @default(autoincrement())
+  id     Int     @id @default(autoincrement())
   code   String  @unique @db.VarChar(255)
   name   String  @db.VarChar(255)
   index  Int?
@@ -221,9 +220,127 @@ model payment_method {
 }
 
 model delivery_type {
-  id           BigInt  @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   code         String  @unique @db.VarChar(255)
   name         String  @db.VarChar(255)
   shipping_fee Decimal @db.Decimal(14, 3)
   orders       order[]
+}
+
+model brand {
+  id      Int       @id @default(autoincrement())
+  name    String    @unique @db.VarChar(255)
+  product product[]
+}
+
+model product_series {
+  id      Int       @id(map: "product_series_pk") @default(autoincrement())
+  name    String?   @db.VarChar(255)
+  product product[]
+}
+
+model camera_system {
+  id          Int       @id @default(autoincrement())
+  front_specs String?
+  back_specs  String?
+  product     product[]
+}
+
+model charging_technology {
+  id         Int       @id @default(autoincrement())
+  port       String    @db.VarChar(255)
+  technology String    @db.VarChar(255)
+  product    product[]
+}
+
+model connectivity {
+  id              Int               @id @default(autoincrement())
+  name            String            @db.VarChar(255)
+  product_variant product_variant[]
+}
+
+model cpu {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(255)
+  manufacturer String?   @db.VarChar(255)
+  core_count   Int?
+  product      product[]
+}
+
+model gpu {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(255)
+  manufacturer String?   @db.VarChar(255)
+  core_count   Int?
+  product      product[]
+}
+
+model ip_rating {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(255)
+  product product[]
+}
+
+model network_technology {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(255)
+  product product[]
+}
+
+model os {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(255)
+  product product[]
+}
+
+model product_color {
+  id                  Int                   @id @default(autoincrement())
+  product_id          Int
+  name                String                @db.VarChar(255)
+  product             product               @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_color_image product_color_image[]
+  product_variant     product_variant[]
+}
+
+model product_color_image {
+  id               Int            @id @default(autoincrement())
+  product_color_id Int?
+  file_id          Int?
+  is_thumbnail     Boolean        @default(false)
+  file             file?          @relation(fields: [file_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_color    product_color? @relation(fields: [product_color_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model product_variant {
+  id               Int            @id @default(autoincrement())
+  product_color_id Int?
+  sku              String?        @unique @db.VarChar(255)
+  price            Decimal?       @db.Decimal(14, 3)
+  stock            Int?
+  storage_id       Int?
+  ram_id           Int?
+  connectivity_id  Int?
+  connectivity     connectivity?  @relation(fields: [connectivity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_color    product_color? @relation(fields: [product_color_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ram              ram?           @relation(fields: [ram_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  storage          storage?       @relation(fields: [storage_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model ram {
+  id              Int               @id @default(autoincrement())
+  capacity        Int
+  product_variant product_variant[]
+}
+
+model sim {
+  id      Int       @id @default(autoincrement())
+  count   Int?
+  types   String?   @db.VarChar(255)
+  product product[]
+}
+
+model storage {
+  id              Int               @id @default(autoincrement())
+  capacity        Int
+  product_variant product_variant[]
 }
