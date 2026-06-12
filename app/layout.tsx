@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { Stack } from '@mui/material';
 import { NextIntlClientProvider } from 'next-intl';
+import DialogManager from '@/app/_components/DialogManager';
 import SnackbarManager from '@/app/_components/SnackbarManager';
 import Providers from '@/app/Providers';
 
@@ -39,6 +40,7 @@ export default function RootLayout({
           <NextIntlClientProvider>
             <Stack sx={{ minHeight: '100vh' }}>
               {children}
+              <DialogManager />
               <SnackbarManager />
             </Stack>
           </NextIntlClientProvider>
