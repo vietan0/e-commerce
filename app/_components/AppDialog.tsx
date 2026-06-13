@@ -6,29 +6,26 @@ import {
   DialogTitle,
 } from '@mui/material';
 import type React from 'react';
-import { useState } from 'react';
-import useGlobalStore from '@/src/store';
 
 export default function AppDialog({
   title,
   children,
+  onCloseAction,
 }: {
   title?: React.ReactNode;
   children: React.ReactNode;
+  onCloseAction: () => void;
 }) {
-  const popDialog = useGlobalStore((state) => state.popDialog);
-  const [open, setOpen] = useState(true);
-  const _handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    popDialog(); // (!) unmount, not set state, so no exit animation
-  };
+  // open/closed state is managed by useDialog
   return (
-    <div>
-      <Dialog onClose={handleClose} open={open}>
-        <DialogTitle>{title || 'DialogTitle'}</DialogTitle>
-        <DialogContent>{children}</DialogContent>
-        <DialogActions></DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      container={document.getElementById('dialogs')!}
+      onClose={onCloseAction}
+      open={true}
+    >
+      <DialogTitle>{title || 'DialogTitle'}</DialogTitle>
+      <DialogContent>{children}</DialogContent>
+      <DialogActions></DialogActions>
+    </Dialog>
   );
 }
