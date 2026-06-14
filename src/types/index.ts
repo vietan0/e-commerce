@@ -16,41 +16,10 @@ import type {
   orderGetPayload,
   productGetPayload,
 } from '@/src/generated/prisma/models';
-import type { orderInclude } from '@/src/lib/commonIncludes';
+import type { orderInclude, productInclude } from '@/src/lib/commonIncludes';
 
 export type Product = productGetPayload<{
-  include: {
-    brand: true;
-    os: true;
-    cpu: true;
-    gpu: true;
-    camera_system: true;
-    sim: true;
-    network_technology: true;
-    charging_technology: true;
-    ip_rating: true;
-    product_series: true;
-    product_color: {
-      include: {
-        product_variant: true;
-        product_color_image: true;
-      };
-    };
-    product_category: {
-      include: {
-        category: true;
-      };
-    };
-    discount_product: {
-      include: {
-        discount: {
-          include: {
-            discount_type: true;
-          };
-        };
-      };
-    };
-  };
+  include: typeof productInclude;
 }>;
 
 type ProductSuccessRes = { product: Product };

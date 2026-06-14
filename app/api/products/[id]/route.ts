@@ -1,7 +1,7 @@
 import { omit } from 'es-toolkit/object';
 import { type NextRequest, NextResponse } from 'next/server';
 import type { Prisma } from '@/src/generated/prisma/client';
-import { includeDiscount } from '@/src/lib/commonIncludes';
+import { productInclude } from '@/src/lib/commonIncludes';
 import { prisma } from '@/src/lib/prisma';
 
 export async function GET(
@@ -12,15 +12,7 @@ export async function GET(
     const { id } = await params;
     const product = await prisma.product.findUnique({
       where: { id: +id },
-      include: {
-        ...includeDiscount,
-        brand: true,
-        product_category: {
-          include: {
-            category: true,
-          },
-        },
-      },
+      include: productInclude,
     });
 
     if (!product) {
@@ -73,7 +65,6 @@ export async function PATCH(
         id: +id,
       },
       data,
-      include: includeDiscount,
     });
 
     return NextResponse.json({ product });

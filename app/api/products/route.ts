@@ -1,7 +1,7 @@
 import { omit, omitBy } from 'es-toolkit/object';
 import { type NextRequest, NextResponse } from 'next/server';
 import type { Prisma } from '@/src/generated/prisma/client';
-import { includeDiscount } from '@/src/lib/commonIncludes';
+import { productInclude } from '@/src/lib/commonIncludes';
 import { prisma } from '@/src/lib/prisma';
 
 export async function GET(req: NextRequest) {
@@ -34,15 +34,7 @@ export async function GET(req: NextRequest) {
       take,
       skip,
       orderBy: [orderByObj],
-      include: {
-        ...includeDiscount,
-        brand: true,
-        product_category: {
-          include: {
-            category: true,
-          },
-        },
-      },
+      include: productInclude,
     });
 
     const res = {

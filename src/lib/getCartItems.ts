@@ -1,4 +1,3 @@
-import { includeDiscount } from '@/src/lib/commonIncludes';
 import getUserId from '@/src/lib/getUserId';
 import { prisma } from '@/src/lib/prisma';
 
@@ -9,11 +8,7 @@ export default async function getCartItems() {
       user_id: userId,
     },
     include: {
-      product: {
-        include: {
-          ...includeDiscount,
-        },
-      },
+      product_variant: true,
     },
     orderBy: {
       id: 'desc',

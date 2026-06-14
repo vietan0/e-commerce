@@ -12,10 +12,20 @@ export default function CartItem({
   cart_item,
 }: {
   cart_item: cart_itemGetPayload<{
-    include: { product: true };
+    include: {
+      product_variant: {
+        include: {
+          product_color: {
+            include: {
+              product: true;
+            };
+          };
+        };
+      };
+    };
   }>;
 }) {
-  const { id, product, quantity } = cart_item;
+  const { id, product_variant, quantity } = cart_item;
   const deleteCartItem = useDeleteCartItem();
   const t = useTranslations('cart');
 
@@ -38,10 +48,10 @@ export default function CartItem({
           <Link
             color="inherit"
             component={NextLink}
-            href={`/product/${product.id}`}
+            href={`/product/${product_variant.product_color.product.id}`}
             underline="hover"
           >
-            {product.name}
+            {product_variant.product_color.product.name}
           </Link>
         </Stack>
       </Grid>

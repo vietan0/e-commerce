@@ -37,12 +37,27 @@ export default function ProductClient({ id }: { id: string }) {
 
   if (error) return <QueryError error={error} />;
 
-  const { name, product_category, discount_product, description } = product;
+  const { name, product_category, description } = product;
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 12, md: 7 }}>
         <Typography variant="h6">{name}</Typography>
         <Typography>{t('Price')}</Typography>
+        <Box sx={{ mb: 1 }}>
+          product_color:
+          {product.product_color.map((productColor) => (
+            <Chip
+              key={productColor.id}
+              label={productColor.name}
+              sx={{ mr: 1 }}
+            />
+          ))}
+          {product.product_color.map((productColor) => (
+            <pre key={productColor.id}>
+              {JSON.stringify(productColor.product_variant)}
+            </pre>
+          ))}
+        </Box>
         {/* {(base_price as unknown as string) !== final_price && (
           <Typography
             color="grey.500"
@@ -54,17 +69,12 @@ export default function ProductClient({ id }: { id: string }) {
         )}
         <Typography variant="h5">{formatPrice(final_price)}</Typography> */}
         <Box sx={{ mb: 1 }}>
+          product_category:
           {product_category.map(({ category }) => (
             <Chip key={category.id} label={category.name} sx={{ mr: 1 }} />
           ))}
         </Box>
-        <Box sx={{ mb: 1 }}>
-          {discount_product.map(({ discount }) =>
-            discount ? (
-              <Chip key={discount.id} label={discount.name} sx={{ mr: 1 }} />
-            ) : null,
-          )}
-        </Box>
+
         {/* <ImagesCarousel images={product_image} /> */}
         <MdPreview
           style={{ fontFamily: 'geistSans' }}

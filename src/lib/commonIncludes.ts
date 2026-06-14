@@ -12,10 +12,40 @@ export const includeDiscount = {
   },
 } satisfies Prisma.productInclude;
 
+export const productInclude = {
+  brand: true,
+  product_series: true,
+  camera_system: true,
+  network_technology: true,
+  charging_technology: true,
+  os: true,
+  cpu: true,
+  gpu: true,
+  sim: true,
+  ip_rating: true,
+  product_category: {
+    include: {
+      category: true,
+    },
+  },
+  product_color: {
+    include: {
+      product_color_image: true,
+      product_variant: {
+        include: {
+          ram: true,
+          connectivity: true,
+          storage: true,
+        },
+      },
+    },
+  },
+  ...includeDiscount,
+} satisfies Prisma.productInclude;
+
 export const orderProductInclude = {
   product: {
     include: {
-      ...includeDiscount,
       thumbnail: true,
     },
   },

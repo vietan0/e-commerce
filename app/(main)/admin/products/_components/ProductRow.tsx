@@ -16,7 +16,13 @@ export default function ProductRow({ product }: { product: Product }) {
       <TableRow hover onClick={handleOpen} sx={{ cursor: 'pointer' }}>
         <TableCell>{id}</TableCell>
         <TableCell>
-          <Image alt={name || ''} height={80} src={placeholderImg} width={80} />
+          <Image
+            alt={name || ''}
+            height={64}
+            src={placeholderImg}
+            style={{ display: 'block' }}
+            width={64}
+          />
         </TableCell>
         <TableCell>{name}</TableCell>
         <TableCell>{brand?.name}</TableCell>

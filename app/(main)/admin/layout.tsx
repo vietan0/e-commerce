@@ -74,17 +74,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           size={{ xs: 12, md: 'grow' }}
           sx={{ height: 1, overflow: 'auto' }}
         >
-          <Container
-            sx={{
-              py: 3,
-              pr: {
-                xs: 0,
-                sm: 2,
-              },
-            }}
-          >
-            {children}
-          </Container>
+          {children}
         </Grid>
       </Grid>
     </Container>

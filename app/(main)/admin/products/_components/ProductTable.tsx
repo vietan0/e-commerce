@@ -13,6 +13,7 @@ import ProductRow from '@/app/(main)/admin/products/_components/ProductRow';
 import useProducts from '@/src/queries/products/useProducts';
 
 export default function ProductTable() {
+  // currently unused (0 references)
   const { data: products, isPending, error } = useProducts({ sort: 'id' });
   if (isPending) {
     return (
