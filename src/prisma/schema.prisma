@@ -26,14 +26,14 @@ model app_user {
 }
 
 model cart_item {
-  id         Int      @id @default(autoincrement())
-  product_id Int
-  user_id    String   @db.Uuid
-  quantity   Int
-  product    product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  app_user   app_user @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id                 Int             @id @default(autoincrement())
+  product_variant_id Int
+  user_id            String          @db.Uuid
+  quantity           Int
+  product_variant    product_variant @relation(fields: [product_variant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  app_user           app_user        @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  @@unique([product_id, user_id])
+  @@unique([product_variant_id, user_id], map: "cart_item_product_id_user_id_key")
 }
 
 model category {
@@ -69,14 +69,14 @@ model discount_type {
 
 model order_product {
   order_id              Int
-  product_id            Int
   id                    Int                      @id @default(autoincrement())
   unit_price            Decimal                  @db.Decimal(14, 3)
-  line_total            Decimal                  @db.Decimal(14, 3)
-  quantity              Int
   base_price            Decimal                  @db.Decimal(14, 3)
+  serial_unit_id        Int?
+  product_variant_id    Int?
   order                 order                    @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  product               product                  @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_variant       product_variant?         @relation(fields: [product_variant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  serial_unit           serial_unit?             @relation(fields: [serial_unit_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   orderProductDiscounts order_product_discount[]
 }
 
@@ -114,9 +114,7 @@ model product {
   charging_technology_id Int?
   sim_id                 Int?
   ip_rating_id           Int?
-  cart_item              cart_item[]
   discount_product       discount_product[]
-  order_product          order_product[]
   brand                  brand?               @relation(fields: [brand_id], references: [id], onDelete: Restrict, onUpdate: NoAction, map: "product_brand_id_fkey")
   camera_system          camera_system?       @relation(fields: [camera_system_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   charging_technology    charging_technology? @relation(fields: [charging_technology_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -240,10 +238,12 @@ model product_series {
 }
 
 model camera_system {
-  id          Int       @id @default(autoincrement())
-  front_specs String?
-  back_specs  String?
-  product     product[]
+  id           Int       @id @default(autoincrement())
+  front_specs  String?
+  back_specs   String?
+  megapixels   Int
+  camera_count Int?
+  product      product[]
 }
 
 model charging_technology {
@@ -312,18 +312,20 @@ model product_color_image {
 }
 
 model product_variant {
-  id               Int            @id @default(autoincrement())
+  id               Int             @id @default(autoincrement())
   product_color_id Int?
-  sku              String?        @unique @db.VarChar(255)
-  price            Decimal?       @db.Decimal(14, 3)
-  stock            Int?
+  sku              String?         @unique @db.VarChar(255)
+  price            Decimal?        @db.Decimal(14, 3)
   storage_id       Int?
   ram_id           Int?
   connectivity_id  Int?
-  connectivity     connectivity?  @relation(fields: [connectivity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  product_color    product_color? @relation(fields: [product_color_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ram              ram?           @relation(fields: [ram_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  storage          storage?       @relation(fields: [storage_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cart_item        cart_item[]
+  order_product    order_product[]
+  connectivity     connectivity?   @relation(fields: [connectivity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_color    product_color?  @relation(fields: [product_color_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ram              ram?            @relation(fields: [ram_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  storage          storage?        @relation(fields: [storage_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  serial_unit      serial_unit[]
 }
 
 model ram {
@@ -344,4 +346,23 @@ model storage {
   id              Int               @id @default(autoincrement())
   capacity        Int
   product_variant product_variant[]
+}
+
+model serial_unit {
+  id                 Int                 @id @default(autoincrement())
+  product_variant_id Int?
+  serial_number      String              @unique @db.VarChar(255)
+  status             Int?
+  order_product      order_product[]
+  product_variant    product_variant?    @relation(fields: [product_variant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  serial_unit_status serial_unit_status? @relation(fields: [status], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model serial_unit_status {
+  id          Int           @id @default(autoincrement())
+  code        String        @db.VarChar(255)
+  name        String        @db.VarChar(255)
+  is_terminal Boolean
+  index       Int?
+  serial_unit serial_unit[]
 }
