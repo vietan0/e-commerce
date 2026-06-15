@@ -1,31 +1,34 @@
-'use client';
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@mui/material';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import type React from 'react';
 
 export default function AppDialog({
   title,
   children,
-  onCloseAction,
+  width = '80%',
+  onClose,
 }: {
   title?: React.ReactNode;
   children: React.ReactNode;
-  onCloseAction: () => void;
+  width?: React.CSSProperties['width'];
+  onClose: () => void;
 }) {
-  // open/closed state is managed by useDialog
   return (
     <Dialog
       container={document.getElementById('dialogs')!}
-      onClose={onCloseAction}
-      open={true}
+      onClose={onClose}
+      open={true} // open/closed state is managed by useDialog
+      slotProps={{
+        paper: {
+          sx: {
+            minWidth: 300,
+            maxWidth: 1000,
+            width,
+          },
+        },
+      }}
     >
-      <DialogTitle>{title || 'DialogTitle'}</DialogTitle>
+      {title && <DialogTitle>{title}</DialogTitle>}
       <DialogContent>{children}</DialogContent>
-      <DialogActions></DialogActions>
     </Dialog>
   );
 }

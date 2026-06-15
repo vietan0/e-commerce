@@ -1,0 +1,155 @@
+import { Button, DialogActions, Grid, TextField } from '@mui/material';
+import { useId } from 'react';
+import { createPortal } from 'react-dom';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import AppSelect from '@/app/(main)/admin/products/_components/AppSelect';
+
+interface CreateVariantFields {
+  product_color_id: number;
+  sku: string;
+  price: string;
+  storage_id?: number;
+  ram_id?: number;
+  connectivity_id?: number;
+}
+
+export default function CreateVariantDialog({ close }: { close: () => void }) {
+  const id = useId();
+
+  const defaultValues: Partial<CreateVariantFields> = {
+    product_color_id: undefined,
+    sku: '',
+    price: '',
+    storage_id: undefined,
+    ram_id: undefined,
+    connectivity_id: undefined,
+  };
+
+  const { control, handleSubmit } = useForm<CreateVariantFields>({
+    defaultValues,
+  });
+
+  const onSubmit: SubmitHandler<CreateVariantFields> = (formData) => {
+    console.log('Submitted variant data:', formData);
+    close();
+  };
+
+  return (
+    <Grid
+      component="form"
+      container
+      id={id}
+      onSubmit={handleSubmit(onSubmit)}
+      spacing={2}
+    >
+      <Grid size={4}>
+        <Controller
+          control={control}
+          name="product_color_id"
+          render={({ field }) => (
+            <AppSelect
+              {...field}
+              endpoint="product-colors"
+              fullWidth
+              label="Color"
+              labelId="product-colors"
+            />
+          )}
+          rules={{ required: 'Color is required' }}
+        />
+      </Grid>
+      <Grid size={8}>
+        <Controller
+          control={control}
+          name="sku"
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              {...field}
+              error={!!error}
+              fullWidth
+              helperText={error?.message}
+              label="SKU"
+              size="small"
+            />
+          )}
+          rules={{ required: 'SKU is required' }}
+        />
+      </Grid>
+      <Grid size={6}>
+        <Controller
+          control={control}
+          name="price"
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              {...field}
+              error={!!error}
+              fullWidth
+              helperText={error?.message}
+              label="Price"
+              size="small"
+              type="number"
+            />
+          )}
+          rules={{ required: 'Price is required' }}
+        />
+      </Grid>
+      <Grid size={6}>
+        <Controller
+          control={control}
+          name="ram_id"
+          render={({ field }) => (
+            <AppSelect
+              {...field}
+              displayField="capacity"
+              endpoint="rams"
+              label="RAM"
+            />
+          )}
+        />
+      </Grid>
+      <Grid size={6}>
+        <Controller
+          control={control}
+          name="storage_id"
+          render={({ field }) => (
+            <AppSelect
+              {...field}
+              displayField="capacity"
+              endpoint="storages"
+              label="Storage"
+            />
+          )}
+        />
+      </Grid>
+      <Grid size={6}>
+        <Controller
+          control={control}
+          name="connectivity_id"
+          render={({ field }) => (
+            <AppSelect
+              {...field}
+              endpoint="connectivities"
+              label="Connectivity"
+            />
+          )}
+        />
+      </Grid>
+      {document.getElementById(id) &&
+        createPortal(
+          <DialogActions>
+            <Button color="inherit" onClick={close}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              type="submit"
+              variant="contained"
+            >
+              Create Variant
+            </Button>
+          </DialogActions>,
+          document.getElementById(id)!.parentElement!.parentElement!,
+        )}
+    </Grid>
+  );
+}

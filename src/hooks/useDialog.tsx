@@ -1,10 +1,20 @@
-import { type JSX, useState } from 'react';
+import { useState } from 'react';
 import AppDialog from '@/app/_components/AppDialog';
 
-export default function useDialog(content: JSX.Element) {
+export default function useDialog({
+  title,
+  content,
+  width,
+}: {
+  title?: React.ReactNode;
+  content: React.ReactNode;
+  width?: React.CSSProperties['width'];
+}) {
   const [open, setOpen] = useState(false);
   const dialog = open && (
-    <AppDialog onCloseAction={() => setOpen(false)}>{content}</AppDialog>
+    <AppDialog onClose={() => setOpen(false)} title={title} width={width}>
+      {content}
+    </AppDialog>
   );
-  return { open, setOpen, dialog };
+  return { dialog, open, setOpen };
 }

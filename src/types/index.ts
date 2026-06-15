@@ -4,13 +4,17 @@ import type {
   camera_system,
   category,
   charging_technology,
+  connectivity,
   cpu,
   gpu,
   ip_rating,
   network_technology,
   os,
+  product_color,
   product_series,
+  ram,
   sim,
+  storage,
 } from '@/src/generated/prisma/client';
 import type {
   orderGetPayload,
@@ -57,6 +61,10 @@ export type EndpointMap = {
   'network-technologies': network_technology;
   'charging-technologies': charging_technology;
   'ip-ratings': ip_rating;
+  rams: ram;
+  storages: storage;
+  connectivities: connectivity;
+  'product-colors': product_color;
 };
 
 export type BlobsSuccessRes = {

@@ -14,6 +14,7 @@ import type { EndpointMap } from '@/src/types';
 type CustomProps = {
   endpoint: keyof EndpointMap;
   label?: string;
+  displayField?: string;
 };
 
 /*
@@ -34,18 +35,19 @@ type CustomProps = {
   } 
 */
 
-export default function AppSelect(props: SelectProps & CustomProps) {
-  const { endpoint, label } = props;
+export default function AppSelect({
+  endpoint,
+  label,
+  displayField = 'name',
+  ...selectProps
+}: SelectProps & CustomProps) {
   const { data, isPending, error } = useEndpoint(endpoint);
-  const displayField = 'name';
-  // TODO: displayField/renderValue can be decided by a callback pass from above
-  // if callback not passed, default to id or name or something
 
   return (
     <FormControl fullWidth size="small">
       <InputLabel id={endpoint}>{label}</InputLabel>
       <Select
-        {...props}
+        {...selectProps}
         label={label}
         labelId={endpoint}
         renderValue={(selected) => {
@@ -55,7 +57,7 @@ export default function AppSelect(props: SelectProps & CustomProps) {
           const match = data.find((m) => m.id === selected);
           if (!match) return 'No match';
           if (displayField in match) {
-            return match[displayField];
+            return String((match as Record<string, unknown>)[displayField]);
           } else {
             return String(match.id);
           }
@@ -75,7 +77,9 @@ export default function AppSelect(props: SelectProps & CustomProps) {
         ) : (
           data.map((m) => (
             <MenuItem key={m.id} value={m.id as unknown as string}>
-              {displayField in m ? m[displayField] : String(m.id)}
+              {displayField in m
+                ? String((m as Record<string, unknown>)[displayField])
+                : String(m.id)}
             </MenuItem>
           ))
         )}

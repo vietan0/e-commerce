@@ -1,4 +1,4 @@
-import ProductClient from '@/app/(main)/admin/products/[id]/ProductClient';
+import { redirect } from 'next/navigation';
 
 export default async function Page({
   params,
@@ -6,5 +6,5 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  return <ProductClient id={id} />;
+  redirect(`/admin/products/${id}/colors`);
 }

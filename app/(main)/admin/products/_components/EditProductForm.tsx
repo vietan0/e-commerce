@@ -129,8 +129,8 @@ export default function ProductEditForm({
           <Grid
             component="form"
             container
-            gap={2}
             onSubmit={handleSubmit(onSubmit)}
+            spacing={2}
           >
             <Grid size="grow">
               <TextField disabled label="ID" size="small" value={id} />
@@ -150,15 +150,13 @@ export default function ProductEditForm({
                 control={control}
                 name="brand_id"
                 render={({ field }) => (
-                  <>
-                    <AppSelect
-                      {...field}
-                      endpoint="brands"
-                      fullWidth
-                      label="Brand"
-                      labelId="brand"
-                    />
-                  </>
+                  <AppSelect
+                    {...field}
+                    endpoint="brands"
+                    fullWidth
+                    label="Brand"
+                    labelId="brand"
+                  />
                 )}
               />
             </Grid>

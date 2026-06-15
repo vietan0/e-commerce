@@ -20,6 +20,12 @@ const theme = createTheme({
         },
       },
     },
+    // https://github.com/mui/material-ui/issues/31185
+    MuiDialogContent: {
+      styleOverrides: {
+        root: { overflow: 'initial' },
+      },
+    },
   },
 });
 
