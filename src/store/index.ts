@@ -1,3 +1,4 @@
+import type React from 'react';
 import { create } from 'zustand';
 
 type Snackbar = {
@@ -5,11 +6,13 @@ type Snackbar = {
   action?: React.ReactNode;
 } | null;
 
-interface GlobalState {
+interface SnackbarManager {
   snackbar: Snackbar;
   displaySnackbar: (snackbar: Snackbar) => void;
   removeSnackbar: () => void;
 }
+
+interface GlobalState extends SnackbarManager {}
 
 const useGlobalStore = create<GlobalState>((set) => ({
   snackbar: null,

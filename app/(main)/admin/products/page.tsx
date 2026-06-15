@@ -1,12 +1,13 @@
-import { Typography } from '@mui/material';
-import ProductTable from '@/app/(main)/admin/products/_components/ProductTable';
+import { Stack, Typography } from '@mui/material';
 export default function Products() {
   return (
-    <>
-      <Typography gutterBottom variant="h5">
-        Products
+    <Stack sx={{ height: 1, justifyContent: 'center' }}>
+      <Typography
+        color="textSecondary"
+        sx={{ fontSize: 20, textAlign: 'center' }}
+      >
+        Select a product to view info
       </Typography>
-      <ProductTable />
-    </>
+    </Stack>
   );
 }

@@ -40,6 +40,7 @@ export default function RootLayout({
             <Stack sx={{ minHeight: '100vh' }}>
               {children}
               <SnackbarManager />
+              <div id="dialogs"></div>
             </Stack>
           </NextIntlClientProvider>
         </Providers>

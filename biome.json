@@ -29,6 +29,9 @@
       "correctness": {
         "useUniqueElementIds": "off"
       },
+      "suspicious": {
+        "noArrayIndexKey": "off"
+      },
       "style": {
         "noNonNullAssertion": "off"
       }

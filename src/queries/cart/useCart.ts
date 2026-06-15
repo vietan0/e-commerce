@@ -15,7 +15,17 @@ export default function useCart() {
 async function getCart() {
   const data = await apiFetch<{
     cart_items: cart_itemGetPayload<{
-      include: { product: { include: { thumbnail: true } } };
+      include: {
+        product_variant: {
+          include: {
+            product_color: {
+              include: {
+                product: true;
+              };
+            };
+          };
+        };
+      };
     }>[];
   }>('/cart');
 

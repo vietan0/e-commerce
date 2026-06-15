@@ -3,21 +3,11 @@ import Image from 'next/image';
 import { useState } from 'react';
 import CategoryChip from '@/app/(main)/admin/products/_components/CategoryChip';
 import DiscountChip from '@/app/(main)/admin/products/_components/DiscountChip';
-import ProductEditForm from '@/app/(main)/admin/products/_components/ProductEditForm';
+import ProductEditForm from '@/app/(main)/admin/products/_components/EditProductForm';
 import { placeholderImg } from '@/src/constants/ui';
-import { formatPrice } from '@/src/lib/price';
 import type { Product } from '@/src/types';
 export default function ProductRow({ product }: { product: Product }) {
-  const {
-    id,
-    name,
-    thumbnail,
-    base_price,
-    discount_product,
-    manufacturer,
-    product_category,
-    stock,
-  } = product;
+  const { id, name, discount_product, brand, product_category } = product;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -28,16 +18,14 @@ export default function ProductRow({ product }: { product: Product }) {
         <TableCell>
           <Image
             alt={name || ''}
-            height={80}
-            src={thumbnail?.url || placeholderImg}
-            width={80}
+            height={64}
+            src={placeholderImg}
+            style={{ display: 'block' }}
+            width={64}
           />
         </TableCell>
         <TableCell>{name}</TableCell>
-        <TableCell align="right">
-          {formatPrice(base_price as unknown as string)}
-        </TableCell>
-        <TableCell>{manufacturer?.name}</TableCell>
+        <TableCell>{brand?.name}</TableCell>
         <TableCell>
           <Stack
             direction="row"
@@ -62,7 +50,6 @@ export default function ProductRow({ product }: { product: Product }) {
             ))}
           </Stack>
         </TableCell>
-        <TableCell>{stock}</TableCell>
       </TableRow>
       <ProductEditForm
         handleClose={handleClose}

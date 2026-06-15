@@ -12,7 +12,7 @@ export async function GET(
     const { id } = await params;
     const order = await prisma.order.findUnique({
       where: {
-        id: BigInt(id),
+        id: +id,
         user_id,
       },
       include: orderInclude,

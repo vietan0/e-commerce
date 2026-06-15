@@ -12,10 +12,20 @@ export default function CartItem({
   cart_item,
 }: {
   cart_item: cart_itemGetPayload<{
-    include: { product: { include: { thumbnail: true } } };
+    include: {
+      product_variant: {
+        include: {
+          product_color: {
+            include: {
+              product: true;
+            };
+          };
+        };
+      };
+    };
   }>;
 }) {
-  const { id, product, quantity } = cart_item;
+  const { id, product_variant, quantity } = cart_item;
   const deleteCartItem = useDeleteCartItem();
   const t = useTranslations('cart');
 
@@ -34,26 +44,20 @@ export default function CartItem({
     >
       <Grid size={5}>
         <Stack direction="row" gap={1} sx={{ alignItems: 'center' }}>
-          <Image
-            alt="Product thumbnail"
-            height={64}
-            src={product.thumbnail?.url || ''}
-            width={64}
-          />
+          <Image alt="Product thumbnail" height={64} src="" width={64} />
           <Link
             color="inherit"
             component={NextLink}
-            href={`/product/${product.id}`}
+            href={`/product/${product_variant.product_color.product.id}`}
             underline="hover"
           >
-            {product.name}
+            {product_variant.product_color.product.name}
           </Link>
         </Stack>
       </Grid>
       <Grid size={1.5}>
         <Stack sx={{ alignItems: 'end' }}>
-          {/* @ts-expect-error */}
-          {product.base_price !== product.final_price && (
+          {/* {product.base_price !== product.final_price && (
             <Typography
               color="grey.500"
               sx={{ textDecorationLine: 'line-through' }}
@@ -61,9 +65,8 @@ export default function CartItem({
             >
               {formatPrice(String(product.base_price))}
             </Typography>
-          )}
-          {/* @ts-expect-error */}
-          <Typography>{formatPrice(product.final_price)}</Typography>
+          )} */}
+          {/* <Typography>{formatPrice(product.final_price)}</Typography> */}
         </Stack>
       </Grid>
       <Grid size={1.5}>

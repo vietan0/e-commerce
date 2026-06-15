@@ -9,7 +9,7 @@ export async function GET() {
     return NextResponse.json({
       rowCount: categories.length,
       totalRowCount,
-      categories,
+      rows: categories,
     });
   } catch (error) {
     console.error(error);

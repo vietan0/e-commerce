@@ -1,4 +1,3 @@
-'use client';
 import {
   Box,
   CircularProgress,
@@ -14,6 +13,7 @@ import ProductRow from '@/app/(main)/admin/products/_components/ProductRow';
 import useProducts from '@/src/queries/products/useProducts';
 
 export default function ProductTable() {
+  // currently unused (0 references)
   const { data: products, isPending, error } = useProducts({ sort: 'id' });
   if (isPending) {
     return (
@@ -33,11 +33,9 @@ export default function ProductTable() {
             <TableCell>ID</TableCell>
             <TableCell>Thumbnail</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell align="right">Base Price</TableCell>
-            <TableCell>Manufacturer</TableCell>
+            <TableCell>Brand</TableCell>
             <TableCell>Categories</TableCell>
             <TableCell>Discounts</TableCell>
-            <TableCell>Stock</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

@@ -1,7 +1,7 @@
 import { omit } from 'es-toolkit/object';
 import { type NextRequest, NextResponse } from 'next/server';
 import type { Prisma } from '@/src/generated/prisma/client';
-import { includeDiscount } from '@/src/lib/commonIncludes';
+import { productInclude } from '@/src/lib/commonIncludes';
 import { prisma } from '@/src/lib/prisma';
 
 export async function GET(
@@ -11,21 +11,8 @@ export async function GET(
   try {
     const { id } = await params;
     const product = await prisma.product.findUnique({
-      where: { id: BigInt(id) },
-      include: {
-        ...includeDiscount,
-        manufacturer: true,
-        product_image: {
-          include: {
-            file: true,
-          },
-        },
-        product_category: {
-          include: {
-            category: true,
-          },
-        },
-      },
+      where: { id: +id },
+      include: productInclude,
     });
 
     if (!product) {
@@ -75,10 +62,9 @@ export async function PATCH(
     // 3. update prisma
     const product = await prisma.product.update({
       where: {
-        id: BigInt(id),
+        id: +id,
       },
       data,
-      include: includeDiscount,
     });
 
     return NextResponse.json({ product });
@@ -96,7 +82,7 @@ export async function DELETE(
     const { id } = await params;
     const product = await prisma.product.delete({
       where: {
-        id: BigInt(id),
+        id: +id,
       },
     });
 

@@ -7,7 +7,7 @@ export default function CartItem({
   cart_item,
 }: {
   cart_item: cart_itemGetPayload<{
-    include: { product: { include: { thumbnail: true } } };
+    include: { product: true };
   }>;
 }) {
   const { product, quantity } = cart_item;
@@ -20,12 +20,7 @@ export default function CartItem({
         title={product.name}
       >
         <Grid sx={{ lineHeight: 0 }}>
-          <Image
-            alt="Product thumbnail"
-            height={40}
-            src={product.thumbnail?.url || ''}
-            width={40}
-          />
+          <Image alt="Product thumbnail" height={40} src="" width={40} />
         </Grid>
         <Grid size="grow">
           <Typography

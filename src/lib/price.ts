@@ -1,5 +1,4 @@
-import type { productGetPayload } from '@/src/generated/prisma/models';
-import type { includeDiscount } from '@/src/lib/commonIncludes';
+import type { product } from '@/src/generated/prisma/client';
 
 export function stripFormat(str: string) {
   const stripped = str.replaceAll(/[\s.,]/g, '');
@@ -41,14 +40,12 @@ export function formatPrice(
   return formatted;
 }
 
-export function calcPriceAfterDiscounts(
-  product: productGetPayload<{
-    include: typeof includeDiscount;
-  }>,
-) {
-  const base_price = Number(product.base_price);
+export function calcPriceAfterDiscounts(product: product) {
+  // const base_price = Number(product.base_price);
+  const base_price = 0;
   let final_price = base_price;
 
+  return final_price.toString();
   product.discount_product.forEach((dp) => {
     if (dp.discount === null) return;
 

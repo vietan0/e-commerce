@@ -15,7 +15,7 @@ export async function PATCH(
     const { id } = await params;
 
     const cart_item = await prisma.cart_item.findUnique({
-      where: { id: BigInt(id) },
+      where: { id: +id },
     });
 
     if (!cart_item) {
@@ -29,7 +29,7 @@ export async function PATCH(
     if (cart_item.quantity === 1 && action === 'decrement') {
       // delete, not update
       const deletedCartItem = await prisma.cart_item.delete({
-        where: { id: BigInt(id) },
+        where: { id: +id },
       });
 
       return NextResponse.json({
@@ -40,7 +40,7 @@ export async function PATCH(
 
     const updateArgs: Prisma.cart_itemUpdateArgs = {
       where: {
-        id: BigInt(id),
+        id: +id,
       },
       data: {
         quantity: {
@@ -69,7 +69,7 @@ export async function DELETE(
   try {
     const { id } = await params;
     const deletedCartItem = await prisma.cart_item.delete({
-      where: { id: BigInt(id) },
+      where: { id: +id },
     });
 
     return NextResponse.json({ cart_item: deletedCartItem });

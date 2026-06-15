@@ -23,13 +23,13 @@ export async function POST(req: NextRequest) {
     const cart_item = await prisma.cart_item.upsert({
       where: {
         product_id_user_id: {
-          product_id: BigInt(body.productId),
+          product_id: +body.productId,
           user_id,
         },
       },
       create: {
         user_id,
-        product_id: BigInt(body.productId),
+        product_id: +body.productId,
         quantity: body.quantity,
       },
       update: {

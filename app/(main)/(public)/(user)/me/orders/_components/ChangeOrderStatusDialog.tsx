@@ -36,7 +36,7 @@ export default function ChangeOrderStatusDialog({
 
   const handleListItemClick = (
     _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: bigint,
+    index: number,
   ) => {
     setSelectedId(index);
   };
