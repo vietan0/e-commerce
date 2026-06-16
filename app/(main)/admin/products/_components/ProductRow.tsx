@@ -5,8 +5,8 @@ import CategoryChip from '@/app/(main)/admin/products/_components/CategoryChip';
 import DiscountChip from '@/app/(main)/admin/products/_components/DiscountChip';
 import ProductEditForm from '@/app/(main)/admin/products/_components/EditProductForm';
 import { placeholderImg } from '@/src/constants/ui';
-import type { Product } from '@/src/types';
-export default function ProductRow({ product }: { product: Product }) {
+import type { ProductFull } from '@/src/types';
+export default function ProductRow({ product }: { product: ProductFull }) {
   const { id, name, discount_product, brand, product_category } = product;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

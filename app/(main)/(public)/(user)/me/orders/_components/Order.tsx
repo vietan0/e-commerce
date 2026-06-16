@@ -6,9 +6,9 @@ import OrderStatusChip from '@/app/(main)/(public)/(user)/me/orders/_components/
 import PaymentStatusChip from '@/app/(main)/(public)/(user)/me/orders/_components/PaymentStatusChip';
 import useDayjs from '@/src/hooks/useDayjs';
 import { formatPrice } from '@/src/lib/price';
-import type { OrderCommon } from '@/src/types';
+import type { OrderFull } from '@/src/types';
 
-export default function Order({ order }: { order: OrderCommon }) {
+export default function Order({ order }: { order: OrderFull }) {
   const t = useTranslations('order');
   const dayjs = useDayjs();
   return (

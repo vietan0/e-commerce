@@ -6,7 +6,13 @@ export async function GET() {
     const payment_methods = await prisma.payment_method.findMany({
       orderBy: { index: 'asc' },
     });
-    return NextResponse.json({ payment_methods });
+    const totalRowCount = await prisma.payment_method.count();
+
+    return NextResponse.json({
+      rowCount: payment_methods.length,
+      totalRowCount,
+      rows: payment_methods,
+    });
   } catch (error) {
     console.error(error);
     const typedError = error as Error;

@@ -3,9 +3,9 @@ import OrderStatusInteractiveChip from '@/app/(main)/(public)/(user)/me/orders/_
 import useDayjs from '@/src/hooks/useDayjs';
 import { formatPrice } from '@/src/lib/price';
 import { OrderStoreProvider } from '@/src/store/OrderStore';
-import type { OrderCommon } from '@/src/types';
+import type { OrderFull } from '@/src/types';
 
-export default function OrderRow({ order }: { order: OrderCommon }) {
+export default function OrderRow({ order }: { order: OrderFull }) {
   const {
     id,
     code,

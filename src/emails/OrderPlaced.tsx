@@ -16,7 +16,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import { createTranslator } from 'next-intl';
 import { formatPrice } from '@/src/lib/price';
-import type { OrderCommon } from '@/src/types';
+import type { OrderFull } from '@/src/types';
 import 'dayjs/locale/vi';
 
 dayjs.extend(isSameOrBefore);
@@ -26,7 +26,7 @@ export default async function OrderPlaced({
   order,
   locale,
 }: {
-  order: OrderCommon;
+  order: OrderFull;
   locale: string;
 }) {
   const finalLocale = locale || 'vi-VN';

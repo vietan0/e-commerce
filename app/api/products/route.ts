@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
     const res = {
       rowCount: products.length,
       totalRowCount,
-      products,
+      rows: products,
     };
 
     return NextResponse.json(res);

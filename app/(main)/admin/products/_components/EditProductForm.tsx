@@ -27,7 +27,7 @@ import CategoriesSelect from '@/app/(main)/admin/products/_components/Categories
 import theme from '@/app/theme';
 import { placeholderImg } from '@/src/constants/ui';
 import useUpdateProduct from '@/src/queries/products/useUpdateProduct';
-import type { Product } from '@/src/types';
+import type { ProductFull } from '@/src/types';
 
 interface UpdateProductFields {
   name: string;
@@ -40,7 +40,7 @@ export default function ProductEditForm({
   open,
   handleClose,
 }: {
-  product: Product;
+  product: ProductFull;
   open: boolean;
   handleClose: () => void;
 }) {

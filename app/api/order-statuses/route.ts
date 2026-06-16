@@ -8,7 +8,13 @@ export async function GET() {
         index: 'asc',
       },
     });
-    return NextResponse.json({ order_statuses });
+    const totalRowCount = await prisma.order_status.count();
+
+    return NextResponse.json({
+      rowCount: order_statuses.length,
+      totalRowCount,
+      rows: order_statuses,
+    });
   } catch (error) {
     console.error(error);
     const typedError = error as Error;

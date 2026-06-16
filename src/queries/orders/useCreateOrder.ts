@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import type { OrderFields } from '@/app/(main)/(public)/(user)/checkout/page';
 import apiFetch from '@/src/queries/apiFetch';
 import useGlobalStore from '@/src/store';
-import type { OrderCommon } from '@/src/types';
+import type { OrderFull } from '@/src/types';
 
 export default function useCreateOrder() {
   const queryClient = useQueryClient();
@@ -24,7 +24,7 @@ export default function useCreateOrder() {
 }
 
 async function createOrder(body: OrderFields) {
-  const res = await apiFetch<{ order: OrderCommon }>('/orders', {
+  const res = await apiFetch<{ order: OrderFull }>('/orders', {
     method: 'POST',
     body,
   });

@@ -1,15 +1,15 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { createStore, useStore } from 'zustand';
-import type { OrderCommon } from '@/src/types';
+import type { OrderFull } from '@/src/types';
 
 /* 
   To use within each OrderRow in admin page,
   so that nested children of OrderRow can access the order object without prop drilling.
  */
 
-type OrderStore = { order: OrderCommon };
+type OrderStore = { order: OrderFull };
 
-const createOrderStore = (order: OrderCommon) => {
+const createOrderStore = (order: OrderFull) => {
   return createStore<OrderStore>()(() => ({ order }));
 };
 
@@ -21,7 +21,7 @@ export function OrderStoreProvider({
   order,
   children,
 }: {
-  order: OrderCommon;
+  order: OrderFull;
   children: React.ReactNode;
 }) {
   const [store] = useState(() => createOrderStore(order));

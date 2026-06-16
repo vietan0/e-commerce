@@ -22,32 +22,19 @@ import type {
 } from '@/src/generated/prisma/models';
 import type { orderInclude, productInclude } from '@/src/lib/commonIncludes';
 
-export type Product = productGetPayload<{
-  include: typeof productInclude;
-}>;
-
-type ProductSuccessRes = { product: Product };
-
-export interface ProductsSuccessRes {
-  rowCount: number;
-  totalRowCount: number;
-  products: Product[];
-}
-
 export interface ErrorRes {
   error: string;
 }
 
-export type ProductRes = ProductSuccessRes | ErrorRes;
-export type ProductsRes = ProductsSuccessRes | ErrorRes;
-
-export interface SuccessRes<T> {
+export interface GetManySuccessRes<T> {
   rowCount: number;
   totalRowCount: number;
   rows: T[];
 }
 
-export type DataRes<T> = SuccessRes<T> | ErrorRes;
+export type GetManyRes<T> = GetManySuccessRes<T> | ErrorRes;
+
+export type GetOneRes<T> = T | ErrorRes; // T should be in the shape of { product: ProductFull }
 
 export type EndpointMap = {
   categories: category;
@@ -74,14 +61,10 @@ export type BlobsSuccessRes = {
 
 export type BlobsRes = BlobsSuccessRes | ErrorRes;
 
-export interface CategoriesSuccessRes {
-  rowCount: number;
-  totalRowCount: number;
-  categories: category[];
-}
+export type ProductFull = productGetPayload<{
+  include: typeof productInclude;
+}>;
 
-export type CategoriesRes = CategoriesSuccessRes | ErrorRes;
-
-export type OrderCommon = orderGetPayload<{
+export type OrderFull = orderGetPayload<{
   include: typeof orderInclude;
 }>;

@@ -11,10 +11,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { placeholderImg, productCardWidth } from '@/src/constants/ui';
 import { formatPrice } from '@/src/lib/price';
-import type { Product } from '@/src/types';
+import type { ProductFull } from '@/src/types';
 
 interface Props {
-  product: Product;
+  product: ProductFull;
   hasShadow: boolean;
 }
 export default function ProductCard({ product, hasShadow }: Props) {

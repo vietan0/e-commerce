@@ -7,6 +7,7 @@ import useProducts from '@/src/queries/products/useProducts';
 
 export default function ProductSidebar() {
   const { data: products, isPending, error } = useProducts({ sort: 'id' });
+
   if (isPending) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>

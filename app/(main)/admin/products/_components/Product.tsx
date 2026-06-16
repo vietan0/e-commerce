@@ -8,9 +8,9 @@ import {
 } from '@mui/material';
 import NextLink from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
-import type { Product as ProductT } from '@/src/types';
+import type { ProductFull } from '@/src/types';
 
-export default function Product({ product }: { product: ProductT }) {
+export default function Product({ product }: { product: ProductFull }) {
   const pathname = usePathname();
   const basePath = pathname.split('/').slice(0, 3).join('/');
   const { id } = useParams();

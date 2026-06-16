@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import apiFetch from '@/src/queries/apiFetch';
 import { staleTime } from '@/src/queries/options';
-import type { DataRes, EndpointMap } from '@/src/types';
+import type { EndpointMap, GetManyRes } from '@/src/types';
 
 type Query = {
   page?: number;
@@ -22,7 +22,7 @@ export default function useEndpoint<K extends keyof EndpointMap>(
 }
 
 async function getData(endpoint: keyof EndpointMap, query: Query) {
-  const data = await apiFetch<DataRes<EndpointMap[typeof endpoint]>>(
+  const data = await apiFetch<GetManyRes<EndpointMap[typeof endpoint]>>(
     `/${endpoint}`,
     {
       query,
