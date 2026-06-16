@@ -21,10 +21,12 @@ export default function useUpdateProduct() {
       updateProduct(updateProductParams),
     onSuccess: async ({ product }) => {
       displaySnackbar({ content: t('Product updated') });
-      await queryClient.invalidateQueries({ queryKey: ['products'] });
-      await queryClient.invalidateQueries({
-        queryKey: ['product', product.id],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['products'] }),
+        queryClient.invalidateQueries({
+          queryKey: ['product', product.id],
+        }),
+      ]);
     },
   });
 }

@@ -21,10 +21,12 @@ export default function useUpdateOrder() {
       updateOrder(updateOrderParams),
     onSuccess: async ({ order }) => {
       displaySnackbar({ content: t('Order updated') });
-      await queryClient.invalidateQueries({ queryKey: ['orders'] });
-      await queryClient.invalidateQueries({
-        queryKey: ['userOrder', order.id],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['orders'] }),
+        queryClient.invalidateQueries({
+          queryKey: ['userOrder', order.id],
+        }),
+      ]);
     },
   });
 }

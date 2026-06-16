@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     });
     // 4. Create session record & attach session_id to cookie
     await createSession(req, user);
-    return NextResponse.json({ user });
+    return NextResponse.json({ user }, { status: 201 });
   } catch (error) {
     console.error(error);
     const typedError = error as Error;

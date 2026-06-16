@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ cart_item });
+    return NextResponse.json({ cart_item }, { status: 201 });
   } catch (error) {
     console.error(error);
     const typedError = error as Error;

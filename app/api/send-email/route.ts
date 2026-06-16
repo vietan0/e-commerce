@@ -1,4 +1,4 @@
-import type { NextRequest } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import sendEmail from '@/app/api/send-email/sendEmail';
 
 export async function POST(req: NextRequest) {
@@ -11,8 +11,8 @@ export async function POST(req: NextRequest) {
     } */
     const body = await req.json();
     const data = await sendEmail(body);
-    return Response.json(data);
+    return NextResponse.json(data, { status: 201 });
   } catch (error) {
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }

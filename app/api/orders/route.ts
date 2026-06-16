@@ -237,7 +237,7 @@ export async function POST(req: NextRequest) {
       locale,
     });
 
-    return NextResponse.json({ order });
+    return NextResponse.json({ order }, { status: 201 });
   } catch (error) {
     console.error(error);
     const typedError = error as Error;
