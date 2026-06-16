@@ -38,7 +38,12 @@ export default function Variants() {
       </Button>
       {createVariantDialog}
       <Stack spacing={1}>
-        <pre>{JSON.stringify(allVariants, null, 2)}</pre>
+        <p>allVariants.length: {allVariants?.length}</p>
+        {allVariants?.map((v) => (
+          <pre key={v.id} style={{ fontSize: 11 }}>
+            {JSON.stringify(v)}
+          </pre>
+        ))}
       </Stack>
     </Box>
   );

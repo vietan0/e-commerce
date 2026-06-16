@@ -1,8 +1,16 @@
-import { Button, DialogActions, Grid, TextField } from '@mui/material';
-import { useId } from 'react';
+import {
+  Button,
+  DialogActions,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { useEffect, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import DevT from '@/app/_components/DevT';
 import AppSelect from '@/app/(main)/admin/products/_components/AppSelect';
+import useCreateProductVariant from '@/src/queries/products/useCreateVariant';
 
 interface CreateVariantFields {
   product_color_id: number;
@@ -25,13 +33,35 @@ export default function CreateVariantDialog({ close }: { close: () => void }) {
     connectivity_id: undefined,
   };
 
-  const { control, handleSubmit } = useForm<CreateVariantFields>({
-    defaultValues,
-  });
+  const { control, handleSubmit, formState, subscribe } =
+    useForm<CreateVariantFields>({
+      defaultValues,
+    });
 
+  useEffect(() => {
+    const callback = subscribe({
+      formState: {
+        values: true,
+      },
+      callback: ({ values }) => {
+        console.log(values);
+      },
+    });
+
+    return () => callback();
+  }, [subscribe]);
+
+  const createProductVariant = useCreateProductVariant();
   const onSubmit: SubmitHandler<CreateVariantFields> = (formData) => {
     console.log('Submitted variant data:', formData);
-    close();
+    createProductVariant.mutate(
+      { data: formData },
+      {
+        onSuccess: () => {
+          close(); // onSuccess in mutate runs after onSuccess in useMutation
+        },
+      },
+    );
   };
 
   return (
@@ -134,13 +164,21 @@ export default function CreateVariantDialog({ close }: { close: () => void }) {
           )}
         />
       </Grid>
+      <DevT control={control} />
       {document.getElementById(id) &&
         createPortal(
           <DialogActions>
+            {createProductVariant.error && (
+              <Typography color="error" variant="body2">
+                {createProductVariant.error.message}
+              </Typography>
+            )}
             <Button color="inherit" onClick={close}>
               Cancel
             </Button>
             <Button
+              disabled={!formState.isValid}
+              loading={createProductVariant.isPending}
               onClick={handleSubmit(onSubmit)}
               type="submit"
               variant="contained"

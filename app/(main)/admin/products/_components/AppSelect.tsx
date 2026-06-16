@@ -63,6 +63,7 @@ export default function AppSelect({
           }
         }}
         size="small"
+        value={selectProps.value || ''} // fallback to '' to avoid out-of-range warning when value is undefined: https://github.com/mui/material-ui/issues/18494
       >
         {isPending ? (
           <MenuItem>
