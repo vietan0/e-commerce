@@ -130,9 +130,9 @@ export default function CreateVariantDialog({ close }: { close: () => void }) {
           render={({ field }) => (
             <AppSelect
               {...field}
-              displayField="capacity"
               endpoint="rams"
               label="RAM"
+              renderLabel={(x) => `${x.capacity}GB`}
             />
           )}
         />
@@ -144,9 +144,9 @@ export default function CreateVariantDialog({ close }: { close: () => void }) {
           render={({ field }) => (
             <AppSelect
               {...field}
-              displayField="capacity"
               endpoint="storages"
               label="Storage"
+              renderLabel={(x) => `${x.capacity}GB`}
             />
           )}
         />

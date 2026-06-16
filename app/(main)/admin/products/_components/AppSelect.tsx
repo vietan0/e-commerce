@@ -14,7 +14,7 @@ import type { EndpointMap } from '@/src/types';
 type CustomProps = {
   endpoint: keyof EndpointMap;
   label?: string;
-  displayField?: string;
+  renderLabel?: string | ((match: Record<string, unknown>) => React.ReactNode);
 };
 
 /*
@@ -38,10 +38,18 @@ type CustomProps = {
 export default function AppSelect({
   endpoint,
   label,
-  displayField = 'name',
+  renderLabel = 'name',
   ...selectProps
 }: SelectProps & CustomProps) {
   const { data, isPending, error } = useEndpoint(endpoint);
+
+  function getRenderValue(match: Record<string, unknown>) {
+    if (typeof renderLabel === 'string') {
+      if (renderLabel in match) return String(match[renderLabel]);
+      return String(match.id);
+    }
+    return renderLabel(match);
+  }
 
   return (
     <FormControl fullWidth size="small">
@@ -55,12 +63,7 @@ export default function AppSelect({
           if (error) return <QueryError error={error} />;
 
           const match = data.find((m) => m.id === selected);
-          if (!match) return 'No match';
-          if (displayField in match) {
-            return String((match as Record<string, unknown>)[displayField]);
-          } else {
-            return String(match.id);
-          }
+          return match ? getRenderValue(match) : 'No match';
         }}
         size="small"
         value={selectProps.value || ''} // fallback to '' to avoid out-of-range warning when value is undefined: https://github.com/mui/material-ui/issues/18494
@@ -78,9 +81,7 @@ export default function AppSelect({
         ) : (
           data.map((m) => (
             <MenuItem key={m.id} value={m.id as unknown as string}>
-              {displayField in m
-                ? String((m as Record<string, unknown>)[displayField])
-                : String(m.id)}
+              {getRenderValue(m)}
             </MenuItem>
           ))
         )}
