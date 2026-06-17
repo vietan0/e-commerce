@@ -21,7 +21,7 @@ export default function Color({
     <Card variant="outlined">
       <CardContent>
         <Typography>{product_color.name}</Typography>
-        <pre style={{ fontSize: 11 }}>
+        <pre>
           variants: {JSON.stringify(product_color.product_variant, null, 2)}
         </pre>
       </CardContent>

@@ -61,7 +61,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         ))}
       </Box>
       <Divider />
-      <Tabs onChange={handleChange} value={value}>
+      <Tabs
+        onChange={handleChange}
+        sx={{ borderBottom: 1, borderColor: 'grey.300' }}
+        value={value}
+      >
         <Tab
           component={NextLink}
           href={`${basePath}/colors`}
