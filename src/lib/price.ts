@@ -1,3 +1,4 @@
+import type { Decimal } from '@prisma/client/runtime/client';
 import type { product } from '@/src/generated/prisma/client';
 
 export function stripFormat(str: string) {
@@ -7,11 +8,11 @@ export function stripFormat(str: string) {
 
 /**
  * - e.g. `12000000` -> `12.000.000₫`
- * - e.g. `12000000.5` -> `12.000.000,5₫`
- * @param numeric numeric(x,y) from postgres
+ * - e.g. `'12000000'` -> `12.000.000₫`
+ * - e.g. `'12000000.5'` -> `12.000.000,5₫`
  */
 export function formatPrice(
-  numeric: string,
+  input: Decimal | string | number,
   options: {
     hasUnit?: boolean;
   } = {},
@@ -24,7 +25,7 @@ export function formatPrice(
     ...options,
   };
 
-  const num = Number(numeric);
+  const num = Number(input);
   let formatted = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
     currency: 'vnd',

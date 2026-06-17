@@ -64,7 +64,7 @@ export default function ProductClient({ id }: { id: string }) {
             sx={{ textDecorationLine: 'line-through' }}
             variant="h6"
           >
-            {formatPrice(base_price as unknown as string)}
+            {formatPrice(base_price)}
           </Typography>
         )}
         <Typography variant="h5">{formatPrice(final_price)}</Typography> */}

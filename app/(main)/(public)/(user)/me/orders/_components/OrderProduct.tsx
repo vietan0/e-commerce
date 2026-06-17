@@ -43,11 +43,11 @@ export default function OrderProduct({
             sx={{ textDecorationLine: 'line-through' }}
             variant="body2"
           >
-            {formatPrice(order_product.base_price.toString())}
+            {formatPrice(order_product.base_price)}
           </Typography>
         )}
         <Typography sx={{ fontWeight: 700 }} variant="body2">
-          {formatPrice(order_product.unit_price.toString())}
+          {formatPrice(order_product.unit_price)}
         </Typography>
       </Box>
     </Stack>

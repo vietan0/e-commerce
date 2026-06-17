@@ -141,20 +141,18 @@ export default function OrderClient({ id }: { id: string }) {
       <Grid container spacing={0.5} sx={{ fontSize: 14 }}>
         <Grid container size={12} sx={{ justifyContent: 'space-between' }}>
           <Grid>{t('order.Subtotal')}</Grid>
-          <Grid>{formatPrice(order.subtotal.toString())}</Grid>
+          <Grid>{formatPrice(order.subtotal)}</Grid>
         </Grid>
         <Grid container size={12} sx={{ justifyContent: 'space-between' }}>
           <Grid>{t('order.Shipping fee')}</Grid>
           <Grid>
-            {order.shipping_fee
-              ? formatPrice(order.shipping_fee.toString())
-              : '-'}
+            {order.shipping_fee ? formatPrice(order.shipping_fee) : '-'}
           </Grid>
         </Grid>
         <Grid container size={12} sx={{ justifyContent: 'space-between' }}>
           <Grid>{t('order.Total')}</Grid>
           <Grid sx={{ fontSize: 18, fontWeight: 700 }}>
-            {formatPrice(order.total_value.toString())}
+            {formatPrice(order.total_value)}
           </Grid>
         </Grid>
       </Grid>

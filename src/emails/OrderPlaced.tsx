@@ -231,13 +231,13 @@ export default async function OrderPlaced({
                 <Row cellSpacing={8} key={id}>
                   <Column className="w-1/4">{product.name}</Column>
                   <Column align="right" className="w-1/8">
-                    {formatPrice(unit_price.toString())}
+                    {formatPrice(unit_price)}
                   </Column>
                   <Column align="center" className="w-1/12">
                     {quantity}
                   </Column>
                   <Column align="right" className="w-1/8">
-                    {formatPrice(line_total.toString())}
+                    {formatPrice(line_total)}
                   </Column>
                 </Row>
               ),
@@ -245,13 +245,13 @@ export default async function OrderPlaced({
             <Row cellSpacing={8}>
               <Column className="w-1/6">{t('cart.Shipping fee')}</Column>
               <Column align="right" className="w-1/6">
-                {formatPrice((finalOrder.shipping_fee || 0).toString())}
+                {formatPrice(finalOrder.shipping_fee || 0)}
               </Column>
             </Row>
             <Row cellSpacing={8} className="bg-neutral-200">
               <Column className="w-1/6 font-bold">{t('cart.Total')}</Column>
               <Column align="right" className="w-1/6 font-bold">
-                {formatPrice(finalOrder.total_value.toString())}
+                {formatPrice(finalOrder.total_value)}
               </Column>
             </Row>
             <Link

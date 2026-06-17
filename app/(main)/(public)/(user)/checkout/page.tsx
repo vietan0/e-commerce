@@ -171,7 +171,7 @@ export default function Checkout() {
                   {t('cart.products', { count: cart_items.length })})
                 </Typography>
                 <Typography color="primary" sx={{ fontSize: 18 }}>
-                  {formatPrice(subtotal.toString())}
+                  {formatPrice(subtotal)}
                 </Typography>
               </Grid>
             </Grid>
@@ -217,7 +217,7 @@ export default function Checkout() {
                   {t('cart.Subtotal-main')}
                 </Grid>
                 <Grid size={5} sx={{ textAlign: 'end' }}>
-                  {formatPrice(subtotal.toString())}
+                  {formatPrice(subtotal)}
                 </Grid>
                 <Grid size={7} sx={{ color: 'grey.600' }}>
                   {t('cart.Shipping fee')}
@@ -228,7 +228,7 @@ export default function Checkout() {
                   ) : deliveryTypesError ? (
                     <QueryError error={deliveryTypesError} />
                   ) : (
-                    formatPrice(shipping_fee.toString())
+                    formatPrice(shipping_fee)
                   )}
                 </Grid>
                 <Grid size={7} sx={{ color: 'grey.600' }}>
@@ -238,7 +238,7 @@ export default function Checkout() {
                   size={5}
                   sx={{ textAlign: 'end', color: 'primary.main', fontSize: 24 }}
                 >
-                  {formatPrice(total_value.toString())}
+                  {formatPrice(total_value)}
                 </Grid>
               </Grid>
             </Grid>

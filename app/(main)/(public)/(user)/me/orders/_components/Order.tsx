@@ -44,7 +44,7 @@ export default function Order({ order }: { order: OrderFull }) {
       <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
         <Typography variant="body2">{t('Total')}</Typography>
         <Typography sx={{ fontWeight: 700 }}>
-          {formatPrice(order.total_value.toString())}
+          {formatPrice(order.total_value)}
         </Typography>
       </Stack>
     </Box>

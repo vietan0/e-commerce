@@ -66,14 +66,14 @@ export default function ProductCard({ product, hasShadow }: Props) {
           >
             {name}
           </Typography>
-          {(base_price as unknown as string) !== final_price && (
+          {base_price !== final_price && (
             <Typography
               align="right"
               color="grey.500"
               sx={{ textDecorationLine: 'line-through' }}
               variant="body2"
             >
-              {formatPrice(base_price as unknown as string)}
+              {formatPrice(base_price)}
             </Typography>
           )}
           <Typography

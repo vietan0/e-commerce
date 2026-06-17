@@ -86,7 +86,7 @@ export default function Cart() {
             {t('products', { count: cart_items.length })}):
           </Typography>
           <Typography color="primary" sx={{ fontSize: 18 }}>
-            {formatPrice(totalAmount.toString())}
+            {formatPrice(totalAmount)}
           </Typography>
         </Grid>
         <Grid size={2.5} sx={{ textAlign: 'end' }}>

@@ -76,7 +76,7 @@ export default function Variants() {
                     {variant.product_color?.name}
                   </TableCell>
                   <TableCell align="right">
-                    {formatPrice(variant.price.toString())}
+                    {formatPrice(variant.price)}
                   </TableCell>
                   <TableCell align="right">{variant.ram?.capacity}</TableCell>
                   <TableCell align="right">

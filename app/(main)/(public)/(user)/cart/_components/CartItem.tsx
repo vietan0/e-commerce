@@ -63,7 +63,7 @@ export default function CartItem({
               sx={{ textDecorationLine: 'line-through' }}
               variant="body2"
             >
-              {formatPrice(String(product.base_price))}
+              {formatPrice(product.base_price)}
             </Typography>
           )} */}
           {/* <Typography>{formatPrice(product.final_price)}</Typography> */}

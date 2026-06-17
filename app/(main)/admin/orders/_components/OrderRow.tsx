@@ -25,9 +25,7 @@ export default function OrderRow({ order }: { order: OrderFull }) {
         <TableCell>{id}</TableCell>
         <TableCell>{code}</TableCell>
         <TableCell>{user_name}</TableCell>
-        <TableCell align="right">
-          {formatPrice(total_value as unknown as string)}
-        </TableCell>
+        <TableCell align="right">{formatPrice(total_value)}</TableCell>
         <TableCell>
           <OrderStatusInteractiveChip />
         </TableCell>
