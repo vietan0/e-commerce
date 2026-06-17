@@ -313,24 +313,25 @@ model product_color_image {
 
 model product_variant {
   id               Int             @id @default(autoincrement())
-  product_color_id Int?
-  sku              String?         @unique @db.VarChar(255)
-  price            Decimal?        @db.Decimal(14, 3)
-  storage_id       Int?
-  ram_id           Int?
-  connectivity_id  Int?
+  product_color_id Int
+  sku              String          @unique @db.VarChar(255)
+  price            Decimal         @db.Decimal(14, 3)
+  storage_id       Int
+  ram_id           Int
+  connectivity_id  Int
   cart_item        cart_item[]
   order_product    order_product[]
-  connectivity     connectivity?   @relation(fields: [connectivity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  product_color    product_color?  @relation(fields: [product_color_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ram              ram?            @relation(fields: [ram_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  storage          storage?        @relation(fields: [storage_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  connectivity     connectivity    @relation(fields: [connectivity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_color    product_color   @relation(fields: [product_color_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ram              ram             @relation(fields: [ram_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  storage          storage         @relation(fields: [storage_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   serial_unit      serial_unit[]
 }
 
 model ram {
   id              Int               @id @default(autoincrement())
   capacity        Int
+  unit            String            @default("GB") @db.VarChar(4)
   product_variant product_variant[]
 }
 
@@ -345,6 +346,7 @@ model sim {
 model storage {
   id              Int               @id @default(autoincrement())
   capacity        Int
+  unit            String            @default("GB") @db.VarChar(4)
   product_variant product_variant[]
 }
 

@@ -36,6 +36,7 @@ export const productInclude = {
           ram: true,
           connectivity: true,
           storage: true,
+          product_color: true,
         },
       },
     },

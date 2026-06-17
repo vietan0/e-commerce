@@ -16,9 +16,9 @@ interface CreateVariantFields {
   product_color_id: number;
   sku: string;
   price: string;
-  storage_id?: number;
-  ram_id?: number;
-  connectivity_id?: number;
+  storage_id: number;
+  ram_id: number;
+  connectivity_id: number;
 }
 
 export default function CreateVariantDialog({ close }: { close: () => void }) {
@@ -37,6 +37,8 @@ export default function CreateVariantDialog({ close }: { close: () => void }) {
     useForm<CreateVariantFields>({
       defaultValues,
     });
+
+  // const formDataLive = useWatch({ control }); // for debug rendering
 
   useEffect(() => {
     const callback = subscribe({
