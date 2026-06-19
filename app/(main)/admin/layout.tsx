@@ -15,21 +15,23 @@ import theme from '@/app/theme';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const firstSegment = pathname.match(/^\/\w+/)![0];
+  const segments = pathname.split('/');
+  const firstSegment = segments[1];
+  const secondSegment = segments[2];
   const links = [
     {
       name: 'Products',
-      path: `${firstSegment}/products`,
+      segment: 'products',
       icon: 'material-symbols:inventory-2-outline-rounded',
     },
     {
       name: 'Orders',
-      path: `${firstSegment}/orders`,
+      segment: 'orders',
       icon: 'material-symbols:shopping-bag-outline',
     },
     {
       name: 'Blobs',
-      path: `${firstSegment}/blobs`,
+      segment: 'blobs',
       icon: 'material-symbols:perm-media-outline-rounded',
     },
   ];
@@ -50,12 +52,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Grid container sx={{ height: 1 }}>
         <Grid size={{ xs: 12, md: 2 }}>
           <MenuList>
-            {links.map(({ name, path, icon }) => (
+            {links.map(({ name, segment, icon }) => (
               <MenuItem
                 component={NextLink}
-                href={path}
-                key={path}
-                selected={path === pathname}
+                href={`/${firstSegment}/${segment}`}
+                key={segment}
+                selected={segment === secondSegment}
               >
                 <ListItemIcon>
                   <Icon
