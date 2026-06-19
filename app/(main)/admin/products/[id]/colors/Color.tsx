@@ -21,9 +21,6 @@ export default function Color({
     <Card variant="outlined">
       <CardContent>
         <Typography>{product_color.name}</Typography>
-        <pre>
-          variants: {JSON.stringify(product_color.product_variant, null, 2)}
-        </pre>
       </CardContent>
     </Card>
   );

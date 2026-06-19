@@ -2,6 +2,7 @@
 import { Icon } from '@iconify/react';
 import {
   Container,
+  Divider,
   Grid,
   ListItemIcon,
   ListItemText,
@@ -47,10 +48,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       }}
     >
       <Grid container sx={{ height: 1 }}>
-        <Grid
-          size={{ xs: 12, md: 2 }}
-          sx={{ borderRight: 1, borderColor: 'grey.300' }}
-        >
+        <Grid size={{ xs: 12, md: 2 }}>
           <MenuList>
             {links.map(({ name, path, icon }) => (
               <MenuItem
@@ -73,6 +71,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             ))}
           </MenuList>
         </Grid>
+        <Divider orientation="vertical" />
         <Grid
           size={{ xs: 12, md: 'grow' }}
           sx={{ height: 1, overflow: 'auto' }}

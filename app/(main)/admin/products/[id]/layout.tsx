@@ -81,6 +81,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           value="serial-units"
         />
       </Tabs>
+      <Divider />
       <Box sx={{ p: 2 }}>{children}</Box>
     </Box>
   );

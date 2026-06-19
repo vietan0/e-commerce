@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   CircularProgress,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -49,48 +48,43 @@ export default function Variants() {
         Create Variant
       </Button>
       {createVariantDialog}
-      <Stack spacing={1}>
-        <p>allVariants.length: {allVariants?.length}</p>
-        <TableContainer>
-          <Table aria-label="Variant Table" sx={{ minWidth: 650 }}>
-            <TableHead>
-              <TableRow>
-                <TableCell>SKU</TableCell>
-                <TableCell align="right">Color</TableCell>
-                <TableCell align="right">Price</TableCell>
-                <TableCell align="right">RAM&nbsp;(GB)</TableCell>
-                <TableCell align="right">Storage&nbsp;(GB)</TableCell>
-                <TableCell align="right">Connectivity</TableCell>
+      <TableContainer>
+        <Table aria-label="Variant Table" sx={{ minWidth: 650 }}>
+          <TableHead>
+            <TableRow>
+              <TableCell>SKU</TableCell>
+              <TableCell align="right">Color</TableCell>
+              <TableCell align="right">Price</TableCell>
+              <TableCell align="right">RAM&nbsp;(GB)</TableCell>
+              <TableCell align="right">Storage&nbsp;(GB)</TableCell>
+              <TableCell align="right">Connectivity</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {allVariants.map((variant) => (
+              <TableRow
+                key={variant.id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {variant.sku}
+                </TableCell>
+                <TableCell align="right">
+                  {variant.product_color?.name}
+                </TableCell>
+                <TableCell align="right">
+                  {formatPrice(variant.price)}
+                </TableCell>
+                <TableCell align="right">{variant.ram?.capacity}</TableCell>
+                <TableCell align="right">{variant.storage?.capacity}</TableCell>
+                <TableCell align="right">
+                  {variant.connectivity?.name}
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {allVariants.map((variant) => (
-                <TableRow
-                  key={variant.id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {variant.sku}
-                  </TableCell>
-                  <TableCell align="right">
-                    {variant.product_color?.name}
-                  </TableCell>
-                  <TableCell align="right">
-                    {formatPrice(variant.price)}
-                  </TableCell>
-                  <TableCell align="right">{variant.ram?.capacity}</TableCell>
-                  <TableCell align="right">
-                    {variant.storage?.capacity}
-                  </TableCell>
-                  <TableCell align="right">
-                    {variant.connectivity?.name}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Stack>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   );
 }

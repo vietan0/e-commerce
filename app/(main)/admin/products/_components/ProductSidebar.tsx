@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, CircularProgress, List, Typography } from '@mui/material';
+import { Box, CircularProgress, Divider, List, TextField } from '@mui/material';
 import QueryError from '@/app/_components/QueryError';
 import Product from '@/app/(main)/admin/products/_components/Product';
 import useProducts from '@/src/queries/products/useProducts';
@@ -20,9 +20,15 @@ export default function ProductSidebar() {
 
   return (
     <Box>
-      <Typography color="textDisabled" sx={{ textAlign: 'center' }}>
-        Searchbox product
-      </Typography>
+      <Box sx={{ p: 2 }}>
+        <TextField
+          fullWidth
+          label="Search product"
+          size="small"
+          variant="outlined"
+        />
+      </Box>
+      <Divider />
       <List>
         {products.map((product, i) => (
           <Product key={i} product={product} />
