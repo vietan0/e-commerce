@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const segments = pathname.split('/');
   const basePath = segments.slice(0, 4).join('/');
-  const tab = segments[segments.length - 1];
+  const tab = segments.length === 5 ? segments[segments.length - 1] : undefined;
 
   const { data: product, isPending, error } = useProduct(id);
 
@@ -61,11 +61,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         ))}
       </Box>
       <Divider />
-      <Tabs
-        onChange={handleChange}
-        sx={{ borderBottom: 1, borderColor: 'grey.300' }}
-        value={value}
-      >
+      <Tabs onChange={handleChange} value={value || 'colors'}>
         <Tab
           component={NextLink}
           href={`${basePath}/colors`}
