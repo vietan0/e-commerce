@@ -6,13 +6,16 @@ import uploadFiles from '@/src/lib/uploadFiles';
 export async function PATCH(req: NextRequest) {
   try {
     const user_id = await getUserId();
-    const [file] = await uploadFiles(req);
+    const formData = await req.formData();
+    const files = formData.getAll('file') as File[];
+
+    const [fileRecord] = await uploadFiles(files);
     const user = await prisma.app_user.update({
       where: {
         id: user_id,
       },
       data: {
-        profile_pic: file.id,
+        profile_pic: fileRecord.id,
       },
     });
     return NextResponse.json({ user });

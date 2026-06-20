@@ -80,13 +80,13 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const product = await prisma.product.delete({
+    const deletedProduct = await prisma.product.delete({
       where: {
         id: +id,
       },
     });
 
-    return NextResponse.json(product);
+    return NextResponse.json({ deletedProduct });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error }, { status: 500 });

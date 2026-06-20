@@ -305,9 +305,9 @@ model product_color {
 model product_color_image {
   id               Int            @id @default(autoincrement())
   product_color_id Int?
-  file_id          Int?
+  file_id          Int
   is_thumbnail     Boolean        @default(false)
-  file             file?          @relation(fields: [file_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  file             file           @relation(fields: [file_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   product_color    product_color? @relation(fields: [product_color_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 

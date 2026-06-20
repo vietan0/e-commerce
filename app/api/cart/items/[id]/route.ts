@@ -72,7 +72,7 @@ export async function DELETE(
       where: { id: +id },
     });
 
-    return NextResponse.json({ cart_item: deletedCartItem });
+    return NextResponse.json({ deletedCartItem });
   } catch (error) {
     console.error(error);
     const typedError = error as Error;

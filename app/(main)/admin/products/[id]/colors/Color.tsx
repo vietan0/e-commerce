@@ -1,27 +1,40 @@
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
+import ColorDialog from '@/app/(main)/admin/products/[id]/colors/ColorDialog';
 import type { product_colorGetPayload } from '@/src/generated/prisma/models';
+import useDialog from '@/src/hooks/useDialog';
+import type { includeColor } from '@/src/lib/commonIncludes';
 
 export default function Color({
   product_color,
 }: {
-  product_color: product_colorGetPayload<{
-    include: {
-      product_color_image: true;
-      product_variant: {
-        include: {
-          ram: true;
-          connectivity: true;
-          storage: true;
-        };
-      };
-    };
-  }>;
+  product_color: product_colorGetPayload<typeof includeColor.product_color>;
 }) {
+  const { dialog: colorDialog, setOpen } = useDialog({
+    title: (
+      <>
+        {`${product_color.name} - Images`}
+        <Typography color="textSecondary">
+          {product_color.product.name}
+        </Typography>
+      </>
+    ),
+    content: (
+      <ColorDialog close={() => setOpen(false)} product_color={product_color} />
+    ),
+    width: '800px',
+  });
+
   return (
     <Card variant="outlined">
-      <CardContent>
-        <Typography>{product_color.name}</Typography>
-      </CardContent>
+      <CardActionArea onClick={() => setOpen(true)}>
+        <CardContent>
+          <Typography>{product_color.name}</Typography>
+          <Typography color="textSecondary" variant="body2">
+            {product_color.product_color_image.length} images
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      {colorDialog}
     </Card>
   );
 }

@@ -1,12 +1,8 @@
 import { put } from '@vercel/blob';
-import type { NextRequest } from 'next/server';
 import getSession from '@/app/api/(auth)/_lib/getSession';
 import { prisma } from '@/src/lib/prisma';
 
-async function uploadBlobs(req: NextRequest) {
-  const form = await req.formData();
-  const files = form.getAll('file') as File[];
-
+async function uploadBlobs(files: File[]) {
   if (files.length === 1 && files[0].name === '' && files[0].size === 0) {
     throw new Error('No file selected');
   }
@@ -20,13 +16,13 @@ async function uploadBlobs(req: NextRequest) {
   return blobsWithSize;
 }
 
-export default async function uploadFiles(req: NextRequest) {
+export default async function uploadFiles(files: File[]) {
   const { session, error } = await getSession();
   if (error) throw new Error(error);
 
-  const blobs = await uploadBlobs(req);
+  const blobs = await uploadBlobs(files);
 
-  const files = await prisma.file.createManyAndReturn({
+  const fileRecords = await prisma.file.createManyAndReturn({
     data: blobs.map((b) => ({
       name: b.pathname,
       size: b.size,
@@ -36,5 +32,5 @@ export default async function uploadFiles(req: NextRequest) {
     })),
   });
 
-  return files;
+  return fileRecords;
 }

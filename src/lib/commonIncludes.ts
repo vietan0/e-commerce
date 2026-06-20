@@ -12,6 +12,27 @@ export const includeDiscount = {
   },
 } satisfies Prisma.productInclude;
 
+export const includeColor = {
+  product_color: {
+    include: {
+      product: true,
+      product_color_image: {
+        include: {
+          file: true,
+        },
+      },
+      product_variant: {
+        include: {
+          ram: true,
+          connectivity: true,
+          storage: true,
+          product_color: true,
+        },
+      },
+    },
+  },
+} satisfies Prisma.productInclude;
+
 export const productInclude = {
   brand: true,
   product_series: true,
@@ -28,19 +49,7 @@ export const productInclude = {
       category: true,
     },
   },
-  product_color: {
-    include: {
-      product_color_image: true,
-      product_variant: {
-        include: {
-          ram: true,
-          connectivity: true,
-          storage: true,
-          product_color: true,
-        },
-      },
-    },
-  },
+  ...includeColor,
   ...includeDiscount,
 } satisfies Prisma.productInclude;
 

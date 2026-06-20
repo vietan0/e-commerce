@@ -4,6 +4,7 @@ import { create } from 'zustand';
 type Snackbar = {
   content: string;
   action?: React.ReactNode;
+  severity?: 'success' | 'info' | 'warning' | 'error';
 } | null;
 
 interface SnackbarManager {

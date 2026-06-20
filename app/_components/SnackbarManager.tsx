@@ -24,7 +24,7 @@ export default function SnackbarManager() {
       <Alert
         action={snackbar?.action}
         onClose={handleClose}
-        severity="success"
+        severity={snackbar?.severity}
         sx={{ width: '100%' }}
         variant="standard"
       >
