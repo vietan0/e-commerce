@@ -11,7 +11,6 @@ import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import CartMenuContent from '@/app/_components/nav/cart/CartMenuContent';
 import QueryError from '@/app/_components/QueryError';
-import theme from '@/app/theme';
 import useCart from '@/src/queries/cart/useCart';
 
 export default function CartBtn() {
@@ -67,10 +66,10 @@ export default function CartBtn() {
           color="error"
           slotProps={{
             badge: {
-              sx: {
+              sx: (theme) => ({
                 backgroundColor: 'white',
                 color: theme.palette.primary.main,
-              },
+              }),
             },
           }}
         >
