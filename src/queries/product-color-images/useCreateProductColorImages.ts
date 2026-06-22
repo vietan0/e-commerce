@@ -13,6 +13,7 @@ export default function useCreateProductColorImages() {
     mutationFn: (formData: FormData) => createProductColorImages(formData),
     onSuccess: async ({ images }) => {
       displaySnackbar({ content: t('Product images added') });
+
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: ['product', images[0].product_color.product.id.toString()],

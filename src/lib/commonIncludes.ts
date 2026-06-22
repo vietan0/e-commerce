@@ -20,6 +20,9 @@ export const includeColor = {
         include: {
           file: true,
         },
+        orderBy: {
+          id: 'asc',
+        },
       },
       product_variant: {
         include: {
