@@ -8,6 +8,7 @@
     "check": "biome check",
     "dev": "next dev --turbopack",
     "email:dev": "email dev --dir src/emails",
+    "pullgen": "prisma db pull && prisma generate",
     "start": "next start"
   },
   "dependencies": {
@@ -29,6 +30,7 @@
     "next": "16.1.4",
     "next-intl": "^4.9.0",
     "ofetch": "^1.5.1",
+    "pluralize": "^8.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.1",
@@ -45,8 +47,10 @@
     "@tanstack/react-query-devtools": "^5.91.2",
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^25.0.10",
+    "@types/pluralize": "^0.0.33",
     "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
+    "dotenv": "^17.4.2",
     "prisma": "^7.3.0",
     "react-email": "5.2.10",
     "typescript": "^6.0.2"

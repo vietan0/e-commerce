@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { NextResponse } from 'next/server';
+import { wrapErr } from '@/app/api/_utils/wrapErr';
 
 function getApiRoutes(dir: string, basePath = '/api'): string[] {
   const routes: string[] = [];
@@ -20,7 +21,7 @@ function getApiRoutes(dir: string, basePath = '/api'): string[] {
   return routes;
 }
 
-export async function GET() {
+export const GET = wrapErr(() => {
   const apiDir = path.join(process.cwd(), 'app/api');
   const endpoints = getApiRoutes(apiDir);
 
@@ -31,4 +32,4 @@ export async function GET() {
     documentation: '',
     endpoints,
   });
-}
+});
