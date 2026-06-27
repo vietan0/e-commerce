@@ -12,6 +12,17 @@ export const includeDiscount = {
   },
 } satisfies Prisma.productInclude;
 
+export const includeVariant = {
+  ram: true,
+  connectivity: true,
+  storage: true,
+  product_color: {
+    include: {
+      product: true,
+    },
+  },
+};
+
 export const includeColor = {
   product_color: {
     include: {
@@ -25,12 +36,7 @@ export const includeColor = {
         },
       },
       product_variant: {
-        include: {
-          ram: true,
-          connectivity: true,
-          storage: true,
-          product_color: true,
-        },
+        include: includeVariant,
       },
     },
   },

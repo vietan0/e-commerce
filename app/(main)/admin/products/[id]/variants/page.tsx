@@ -14,8 +14,8 @@ import {
 import { useParams } from 'next/navigation';
 import QueryError from '@/app/_components/QueryError';
 import CreateVariantDialog from '@/app/(main)/admin/products/[id]/variants/CreateVariantDialog';
+import VariantRow from '@/app/(main)/admin/products/[id]/variants/VariantRow';
 import useDialog from '@/src/hooks/useDialog';
-import { formatPrice } from '@/src/lib/price';
 import useProduct from '@/src/queries/products/useProduct';
 
 export default function Variants() {
@@ -58,29 +58,12 @@ export default function Variants() {
               <TableCell align="right">RAM&nbsp;(GB)</TableCell>
               <TableCell align="right">Storage&nbsp;(GB)</TableCell>
               <TableCell align="right">Connectivity</TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {allVariants.map((variant) => (
-              <TableRow
-                key={variant.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {variant.sku}
-                </TableCell>
-                <TableCell align="right">
-                  {variant.product_color?.name}
-                </TableCell>
-                <TableCell align="right">
-                  {formatPrice(variant.price)}
-                </TableCell>
-                <TableCell align="right">{variant.ram?.capacity}</TableCell>
-                <TableCell align="right">{variant.storage?.capacity}</TableCell>
-                <TableCell align="right">
-                  {variant.connectivity?.name}
-                </TableCell>
-              </TableRow>
+              <VariantRow key={variant.id} variant={variant} />
             ))}
           </TableBody>
         </Table>

@@ -26,9 +26,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const [value, setValue] = useState(tab);
   useEffect(() => {
-    // when redirect hasn't finished yet
-    if (tab === id) setValue('colors');
-  }, [id, tab]);
+    // setValue when redirect completes ('tab' will be string)
+    if (tab !== undefined) setValue(tab);
+  }, [tab]);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
