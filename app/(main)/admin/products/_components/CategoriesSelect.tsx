@@ -10,10 +10,10 @@ import {
   Stack,
 } from '@mui/material';
 import QueryError from '@/app/_components/QueryError';
-import useEndpoint from '@/src/queries/useEndpoint';
+import useResource from '@/src/queries/useResource';
 
 export default function CategoriesSelect(props: SelectProps) {
-  const { data: categories, isPending, error } = useEndpoint('categories');
+  const { data: categories, isPending, error } = useResource('categories');
   const labelId = 'categories-select';
 
   return (

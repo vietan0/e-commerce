@@ -13,10 +13,10 @@ import {
 } from '@mui/material';
 import QueryError from '@/app/_components/QueryError';
 import OrderRow from '@/app/(main)/admin/orders/_components/OrderRow';
-import useOrders from '@/src/queries/orders/useOrders';
+import useResource from '@/src/queries/useResource';
 
 export default function OrderTable() {
-  const { data: orders, isPending, error } = useOrders();
+  const { data: orders, isPending, error } = useResource('orders');
   if (isPending)
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>

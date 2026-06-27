@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { NextResponse } from 'next/server';
-import { includes, resources } from '@/app/api/_utils/resources';
+import { resources } from '@/app/api/_utils/resources';
 import { NotFoundError, wrapErr } from '@/app/api/_utils/wrapErr';
 
 export const GET = wrapErr(
@@ -12,9 +12,9 @@ export const GET = wrapErr(
   ) => {
     const { resource, id } = await params;
 
-    const data = await resources[resource].findUnique({
+    const data = await resources[resource].model.findUnique({
       where: { id: +id },
-      include: includes[resource],
+      include: resources[resource].include,
     });
 
     if (data === null)
@@ -34,10 +34,10 @@ export const PATCH = wrapErr(
   ) => {
     const { resource, id } = await params;
     const body = await req.json();
-    const data = await resources[resource].update({
+    const data = await resources[resource].model.update({
       where: { id: +id },
       data: body,
-      include: includes[resource],
+      include: resources[resource].include,
     });
 
     return NextResponse.json(data);
@@ -52,9 +52,9 @@ export const DELETE = wrapErr(
     }: { params: Promise<{ resource: keyof typeof resources; id: string }> },
   ) => {
     const { resource, id } = await params;
-    const data = await resources[resource].delete({
+    const data = await resources[resource].model.delete({
       where: { id: +id },
-      include: includes[resource],
+      include: resources[resource].include,
     });
 
     return NextResponse.json(data);

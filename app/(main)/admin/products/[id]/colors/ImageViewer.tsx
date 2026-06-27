@@ -41,7 +41,7 @@ export default function ImageViewer({
             }}
           />
         }
-        label="Is Thumbnail"
+        label="Thumbnail"
       />
       <Image
         alt={image.file.url}

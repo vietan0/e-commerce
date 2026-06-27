@@ -1,7 +1,11 @@
 // @ts-nocheck
 import { kebabCase } from 'es-toolkit/string';
 import pluralize from 'pluralize';
-import { includeColor, productInclude } from '@/src/lib/commonIncludes';
+import {
+  includeColor,
+  orderInclude,
+  productInclude,
+} from '@/src/lib/commonIncludes';
 import { prisma } from '@/src/lib/prisma';
 
 const tables = [
@@ -42,16 +46,33 @@ const tables = [
   'storage',
   'store',
 ];
-export const resources = Object.fromEntries(
-  tables.map((t) => [kebabCase(pluralize(t)), prisma[t]]),
-);
-export const includes: Partial<Record<keyof typeof resources, object>> = {
+
+const includes: Partial<Record<keyof typeof resources, object>> = {
   cart_items: {
     app_user: true,
   },
+  orders: orderInclude,
   products: productInclude,
   'product-variants': {
     product_color: true,
   },
   'product-color-images': includeColor,
 };
+
+type ResourceConfig = {
+  model: (typeof prisma)[keyof typeof prisma];
+  include?: object;
+};
+
+export const resources: Record<string, ResourceConfig> = Object.fromEntries(
+  tables.map((t) => {
+    const resource = kebabCase(pluralize(t)); // cart-items, product-variants
+    return [
+      resource,
+      {
+        model: prisma[t],
+        include: includes[resource],
+      },
+    ];
+  }),
+);

@@ -2,10 +2,14 @@ import { Box, CircularProgress, Tab, Tabs } from '@mui/material';
 import NextLink from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import QueryError from '@/app/_components/QueryError';
-import useOrderStatuses from '@/src/queries/order-statuses/useOrderStatuses';
+import useResource from '@/src/queries/useResource';
 
 export default function OrderStatusTabs() {
-  const { data: orderStatuses, isPending, error } = useOrderStatuses();
+  const {
+    data: orderStatuses,
+    isPending,
+    error,
+  } = useResource('order-statuses');
   const searchParams = useSearchParams();
   const status_code = searchParams.get('status_code');
 

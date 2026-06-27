@@ -32,8 +32,8 @@ import { navId } from '@/src/constants/ui';
 import { formatPrice } from '@/src/lib/price';
 import useMe from '@/src/queries/auth/useMe';
 import useCart from '@/src/queries/cart/useCart';
-import useDeliveryTypes from '@/src/queries/delivery-types/useDeliveryTypes';
 import useCreateOrder from '@/src/queries/orders/useCreateOrder';
+import useResource from '@/src/queries/useResource';
 
 export type OrderFields = {
   delivery_type_id: string;
@@ -62,7 +62,7 @@ export default function Checkout() {
     data: deliveryTypes,
     isPending: isDeliveryTypesPending,
     error: deliveryTypesError,
-  } = useDeliveryTypes();
+  } = useResource('delivery-types');
 
   const deliveryTypeId = useWatch({ control, name: 'delivery_type_id' });
 

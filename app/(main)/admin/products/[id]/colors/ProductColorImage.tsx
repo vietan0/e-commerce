@@ -27,6 +27,8 @@ export default function ProductColorImage({
     content: <ImageViewer image={image}></ImageViewer>,
   });
 
+  const size = 150;
+
   const setProductColorThumbnail = useSetProductColorThumbnail();
   const updateProductColorImage = useUpdateProductColorImage();
   const deleteProductColorImage = useDeleteProductColorImage();
@@ -53,7 +55,7 @@ export default function ProductColorImage({
     <Box>
       <Card
         sx={{
-          maxWidth: 120,
+          maxWidth: size,
           position: 'relative',
           border: 1,
           borderColor: 'grey.400',
@@ -67,10 +69,10 @@ export default function ProductColorImage({
           <CardMedia>
             <Image
               alt={image.file.url}
-              height={120}
+              height={size}
               src={image.file.url || placeholderImg}
               style={{ display: 'block', objectFit: 'contain' }}
-              width={120}
+              width={size}
             />
           </CardMedia>
         </CardActionArea>
@@ -104,13 +106,9 @@ export default function ProductColorImage({
         control={
           <Checkbox
             checked={image.is_thumbnail}
-            onChange={(_e, checked) => {
-              if (checked) {
-                thumbnailOn();
-              } else {
-                thumbnailOff();
-              }
-            }}
+            onChange={(_e, checked) =>
+              checked ? thumbnailOn() : thumbnailOff()
+            }
             size="small"
           />
         }

@@ -14,10 +14,14 @@ import ProductCard from '@/app/_components/ProductCard';
 import QueryError from '@/app/_components/QueryError';
 import theme from '@/app/theme';
 import { productCardWidth } from '@/src/constants/ui';
-import useProducts from '@/src/queries/products/useProducts';
+import useResource from '@/src/queries/useResource';
 
 export default function ProductCarousel() {
-  const { data: products, isPending, error } = useProducts({ limit: 8 });
+  const {
+    data: products,
+    isPending,
+    error,
+  } = useResource('products', { limit: 8 });
   const [offset, setOffset] = useState(0);
   const btnW = 52; // size of one CarouselNavButton, may change if "size" prop or child icon size changes
   const spacing = 2;

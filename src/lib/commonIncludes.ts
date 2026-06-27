@@ -63,12 +63,19 @@ export const productInclude = {
 } satisfies Prisma.productInclude;
 
 export const orderProductInclude = {
-  product: {
+  product_variant: {
     include: {
-      thumbnail: true,
+      product_color: {
+        include: {
+          product_color_image: {
+            include: {
+              file: true,
+            },
+          },
+        },
+      },
     },
   },
-  orderProductDiscounts: true,
 };
 
 export const orderInclude = {

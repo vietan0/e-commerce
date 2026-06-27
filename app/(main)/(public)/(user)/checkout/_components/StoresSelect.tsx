@@ -8,10 +8,10 @@ import {
   type SelectProps,
 } from '@mui/material';
 import QueryError from '@/app/_components/QueryError';
-import useStores from '@/src/queries/stores/useStores';
+import useResource from '@/src/queries/useResource';
 
 export default function StoresSelect(props: SelectProps) {
-  const { data: stores, isPending, error } = useStores();
+  const { data: stores, isPending, error } = useResource('stores');
   const labelId = 'stores-select';
   if (isPending) {
     return (

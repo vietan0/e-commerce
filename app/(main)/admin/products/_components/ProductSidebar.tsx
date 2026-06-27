@@ -3,10 +3,14 @@
 import { Box, CircularProgress, Divider, List, TextField } from '@mui/material';
 import QueryError from '@/app/_components/QueryError';
 import Product from '@/app/(main)/admin/products/_components/Product';
-import useProducts from '@/src/queries/products/useProducts';
+import useResource from '@/src/queries/useResource';
 
 export default function ProductSidebar() {
-  const { data: products, isPending, error } = useProducts({ sort: 'id' });
+  const {
+    data: products,
+    isPending,
+    error,
+  } = useResource('products', { sort: 'id' });
 
   if (isPending) {
     return (

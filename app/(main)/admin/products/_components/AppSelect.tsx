@@ -8,11 +8,11 @@ import {
   type SelectProps,
 } from '@mui/material';
 import QueryError from '@/app/_components/QueryError';
-import useEndpoint from '@/src/queries/useEndpoint';
-import type { EndpointMap } from '@/src/types';
+import useResource from '@/src/queries/useResource';
+import type { ResourceMap } from '@/src/types';
 
 type CustomProps = {
-  endpoint: keyof EndpointMap;
+  endpoint: keyof ResourceMap;
   label?: string;
   renderLabel?: string | ((match: Record<string, unknown>) => React.ReactNode);
 };
@@ -41,7 +41,7 @@ export default function AppSelect({
   renderLabel = 'name',
   ...selectProps
 }: SelectProps & CustomProps) {
-  const { data, isPending, error } = useEndpoint(endpoint);
+  const { data, isPending, error } = useResource(endpoint);
 
   function getRenderValue(match: Record<string, unknown>) {
     if (typeof renderLabel === 'string') {

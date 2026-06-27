@@ -5,7 +5,7 @@ import QueryError from '@/app/_components/QueryError';
 import HomeDelivery from '@/app/(main)/(public)/(user)/checkout/_components/HomeDelivery';
 import StorePickup from '@/app/(main)/(public)/(user)/checkout/_components/StorePickup';
 import type { OrderFields } from '@/app/(main)/(public)/(user)/checkout/page';
-import useDeliveryTypes from '@/src/queries/delivery-types/useDeliveryTypes';
+import useResource from '@/src/queries/useResource';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -24,7 +24,11 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 
 export default function DeliveryTypes() {
-  const { data: deliveryTypes, isPending, error } = useDeliveryTypes();
+  const {
+    data: deliveryTypes,
+    isPending,
+    error,
+  } = useResource('delivery-types');
   const [selectedDeliveryType, setSelectedDeliveryType] = useState<
     string | null
   >(null);

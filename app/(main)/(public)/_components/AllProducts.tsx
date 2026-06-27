@@ -2,10 +2,10 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
 import ProductCard from '@/app/_components/ProductCard';
 import QueryError from '@/app/_components/QueryError';
-import useProducts from '@/src/queries/products/useProducts';
+import useResource from '@/src/queries/useResource';
 
 export default function AllProducts() {
-  const { data: products, isPending, error } = useProducts();
+  const { data: products, isPending, error } = useResource('products');
 
   if (isPending) {
     return (

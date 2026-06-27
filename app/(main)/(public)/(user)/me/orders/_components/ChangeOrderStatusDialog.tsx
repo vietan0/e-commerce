@@ -18,8 +18,8 @@ import { useState } from 'react';
 import QueryError from '@/app/_components/QueryError';
 import OrderStatusChip from '@/app/(main)/(public)/(user)/me/orders/_components/OrderStatusChip';
 import theme from '@/app/theme';
-import useOrderStatuses from '@/src/queries/order-statuses/useOrderStatuses';
 import useUpdateOrder from '@/src/queries/orders/useUpdateOrder';
+import useResource from '@/src/queries/useResource';
 import { useOrderStore } from '@/src/store/OrderStore';
 
 export default function ChangeOrderStatusDialog({
@@ -29,7 +29,11 @@ export default function ChangeOrderStatusDialog({
   open: boolean;
   handleClose: () => void;
 }) {
-  const { data: orderStatuses, isPending, error } = useOrderStatuses();
+  const {
+    data: orderStatuses,
+    isPending,
+    error,
+  } = useResource('order-statuses');
   const order = useOrderStore((state) => state.order);
   const [selectedId, setSelectedId] = useState(order.order_status_id);
   const updateOrder = useUpdateOrder();
