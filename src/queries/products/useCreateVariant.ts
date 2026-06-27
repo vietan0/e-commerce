@@ -24,9 +24,7 @@ export default function useCreateProductVariant() {
         queryClient.invalidateQueries({
           queryKey: [
             'product',
-            String(product_variant.product_color.product_id),
-            // for some reason this needs to be a string, while other invalidateQueries can work with numbers
-            // maybe others broke too, but haven't been tested since removing prisma extension that convert BigInt to string
+            product_variant.product_color.product_id.toString(),
           ],
         }),
       ]);
@@ -35,7 +33,7 @@ export default function useCreateProductVariant() {
 }
 
 async function createVariant({ data }: CreateProductVariantParams) {
-  const createRes = await apiFetch('/product-variants', {
+  const createRes = await apiFetch('data/product-variants', {
     method: 'POST',
     body: data,
   });

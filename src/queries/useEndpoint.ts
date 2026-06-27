@@ -16,14 +16,14 @@ export default function useEndpoint<K extends keyof EndpointMap>(
   return useQuery({
     queryKey: [endpoint, query],
     queryFn: () => getData(endpoint, query),
-    select: (data) => data.rows,
+    select: ({ data }) => data,
     staleTime,
   }) as ReturnType<typeof useQuery<EndpointMap[K][]>>;
 }
 
 async function getData(endpoint: keyof EndpointMap, query: Query) {
   const data = await apiFetch<GetManyRes<EndpointMap[typeof endpoint]>>(
-    `/${endpoint}`,
+    `/data/${endpoint}`,
     {
       query,
     },

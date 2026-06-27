@@ -33,7 +33,7 @@ export default function useCreateProductColorImages() {
 }
 
 async function createProductColorImages(formData: FormData) {
-  const createRes = await apiFetch(`/product-color-images`, {
+  const createRes = await apiFetch('/product-color-images/upload', {
     method: 'POST',
     body: formData,
   });

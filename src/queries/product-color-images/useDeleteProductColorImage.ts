@@ -11,14 +11,14 @@ export default function useDeleteProductColorImage() {
   return useMutation({
     mutationKey: ['deleteProductColorImage'],
     mutationFn: (id: string) => deleteProductColorImage(id),
-    onSuccess: async ({ deletedProductColorImage }) => {
+    onSuccess: async (deletedProductColorImage) => {
       displaySnackbar({ content: t('Product image deleted') });
 
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: [
             'product',
-            deletedProductColorImage.product_color.product.id.toString(),
+            deletedProductColorImage.product_color.product_id.toString(),
           ],
         }),
         queryClient.invalidateQueries({
@@ -39,7 +39,7 @@ export default function useDeleteProductColorImage() {
 }
 
 async function deleteProductColorImage(id: string) {
-  const deleteRes = await apiFetch(`/product-color-images/${id}`, {
+  const deleteRes = await apiFetch(`/data/product-color-images/${id}`, {
     method: 'DELETE',
   });
 

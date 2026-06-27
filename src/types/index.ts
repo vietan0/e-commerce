@@ -29,7 +29,7 @@ export interface ErrorRes {
 export interface GetManySuccessRes<T> {
   rowCount: number;
   totalRowCount: number;
-  rows: T[];
+  data: T[];
 }
 
 export type GetManyRes<T> = GetManySuccessRes<T> | ErrorRes;

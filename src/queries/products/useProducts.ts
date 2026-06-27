@@ -13,13 +13,15 @@ export default function useProducts(query: Query = {}) {
   return useQuery({
     queryKey: ['products', query],
     queryFn: () => getProducts(query),
-    select: (data) => data.rows,
+    select: ({ data }) => data,
     staleTime,
   });
 }
 
 async function getProducts(query: Query) {
-  const data = await apiFetch<GetManyRes<ProductFull>>('/products', { query });
+  const data = await apiFetch<GetManyRes<ProductFull>>('/data/products', {
+    query,
+  });
 
   if ('error' in data) throw new Error(data.error);
   return data;

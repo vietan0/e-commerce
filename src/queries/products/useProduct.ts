@@ -7,15 +7,12 @@ export default function useProduct(id: string) {
   return useQuery({
     queryKey: ['product', id],
     queryFn: () => getProduct(id),
-    select: (data) => data.product,
     staleTime,
   });
 }
 
 export async function getProduct(id: string) {
-  const data = await apiFetch<GetOneRes<{ product: ProductFull }>>(
-    `/products/${id}`,
-  );
+  const data = await apiFetch<GetOneRes<ProductFull>>(`data/products/${id}`);
 
   if ('error' in data) throw new Error(data.error);
   return data;

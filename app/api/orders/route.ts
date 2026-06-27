@@ -215,7 +215,7 @@ export async function POST(req: NextRequest) {
     });
 
     const emptyCartPromise = prisma.cart_item.deleteMany({
-      where: { user_id },
+      where: { user_id: +user_id },
     });
 
     const [order, _cart] = await prisma.$transaction([

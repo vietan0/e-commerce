@@ -18,9 +18,8 @@ export default function useUpdateProductColorImage() {
       id: string;
       data: product_color_imageUpdateInput;
     }) => updateProductColorImage(id, data),
-    onSuccess: async ({ updatedProductColorImage }) => {
+    onSuccess: async (updatedProductColorImage) => {
       displaySnackbar({ content: t('Product image updated') });
-
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: [
@@ -49,7 +48,7 @@ async function updateProductColorImage(
   id: string,
   data: product_color_imageUpdateInput,
 ) {
-  const updateRes = await apiFetch(`/product-color-images/${id}`, {
+  const updateRes = await apiFetch(`/data/product-color-images/${id}`, {
     method: 'PATCH',
     body: data,
   });

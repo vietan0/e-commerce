@@ -5,7 +5,7 @@ export default async function getCartItems() {
   const userId = await getUserId();
   const cart_items = await prisma.cart_item.findMany({
     where: {
-      user_id: userId,
+      id: +userId,
     },
     include: {
       product_variant: true,

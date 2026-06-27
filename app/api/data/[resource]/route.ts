@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { NextResponse } from 'next/server';
-import { resources } from '@/app/api/_utils/resources';
+import { includes, resources } from '@/app/api/_utils/resources';
 import { wrapErr } from '@/app/api/_utils/wrapErr';
 
 export const GET = wrapErr(
@@ -33,12 +33,19 @@ export const GET = wrapErr(
       }
     }
 
+    const totalRowCount = await resources[resource].count();
     const data = await resources[resource].findMany({
       take,
       skip,
       orderBy: [orderByObj],
+      include: includes[resource],
     });
-    return NextResponse.json({ data });
+
+    return NextResponse.json({
+      rowCount: data.length,
+      totalRowCount,
+      data,
+    });
   },
 );
 
@@ -49,7 +56,10 @@ export const POST = wrapErr(
   ) => {
     const { resource } = await params;
     const body = await req.json();
-    const data = await resources[resource].create({ data: body });
+    const data = await resources[resource].create({
+      data: body,
+      include: includes[resource],
+    });
 
     return NextResponse.json(data);
   },

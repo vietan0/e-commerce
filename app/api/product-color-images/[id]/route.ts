@@ -33,7 +33,6 @@ export async function DELETE(
       where: { id: +id },
       include: includeColor,
     });
-    deletedProductColorImage.product_color?.product.id;
 
     return NextResponse.json({ deletedProductColorImage });
   } catch (error) {
