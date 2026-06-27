@@ -1,8 +1,9 @@
 'use client';
 import { Icon } from '@iconify/react';
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Button } from '@mui/material';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
+import Loading from '@/app/_components/Loading';
 import ProfileMenu from '@/app/_components/nav/ProfileMenu';
 import QueryError from '@/app/_components/QueryError';
 import useMe from '@/src/queries/auth/useMe';
@@ -13,13 +14,11 @@ export default function UserBtns() {
 
   if (isPending)
     return (
-      <Box
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-      >
-        <CircularProgress color="inherit" size={20} />
-      </Box>
+      <Loading
+        circularProps={{ color: 'inherit', size: 20 }}
+        stackSx={{ height: 'auto' }}
+      />
     );
-
   if (error) return <QueryError error={error} />;
 
   if (data === null) {

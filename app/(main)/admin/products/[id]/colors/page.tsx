@@ -1,7 +1,8 @@
 'use client';
 import { Icon } from '@iconify/react';
-import { Box, Button, CircularProgress, Stack } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 import { useParams } from 'next/navigation';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import Color from '@/app/(main)/admin/products/[id]/colors/_components/Color';
 import CreateColorDialog from '@/app/(main)/admin/products/[id]/colors/_components/CreateColorDialog';
@@ -18,14 +19,7 @@ export default function Colors() {
     width: '600px',
   });
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (

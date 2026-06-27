@@ -20,6 +20,7 @@ import {
   useWatch,
 } from 'react-hook-form';
 import DevT from '@/app/_components/DevT';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import VisuallyHiddenInput from '@/app/_components/VisuallyHiddenInput';
 import CheckoutCartItem from '@/app/(main)/(public)/(user)/checkout/_components/CheckoutCartItem';
@@ -86,14 +87,7 @@ export default function Checkout() {
     return undefined;
   }, [meData, deliveryType, t]);
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
   if (cart_items.length === 0) return <EmptyCartInCheckout />;
 

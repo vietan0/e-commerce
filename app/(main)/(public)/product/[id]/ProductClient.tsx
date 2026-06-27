@@ -1,18 +1,11 @@
 'use client';
-import {
-  Box,
-  Button,
-  Chip,
-  CircularProgress,
-  Grid,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Chip, Grid, Stack, Typography } from '@mui/material';
 import { MdPreview } from 'md-editor-rt';
 import 'md-editor-rt/lib/preview.css';
 import { Icon } from '@iconify/react';
 import { useTranslations } from 'next-intl';
 import { useCounter } from 'react-use';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import QuantityStepper from '@/app/(main)/(public)/product/[id]/_components/QuantityStepper';
 import useUpsertCartItem from '@/src/queries/cart/useUpsertCartItem';
@@ -28,13 +21,7 @@ export default function ProductClient({ id }: { id: string }) {
   const createCartItem = useUpsertCartItem();
   const t = useTranslations('product');
 
-  if (isPending)
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   const { name, product_category, description } = product;

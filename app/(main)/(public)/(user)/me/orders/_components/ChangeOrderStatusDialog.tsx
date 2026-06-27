@@ -1,8 +1,6 @@
 import { Icon } from '@iconify/react';
 import {
-  Box,
   Button,
-  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -15,6 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import OrderStatusChip from '@/app/(main)/(public)/(user)/me/orders/_components/OrderStatusChip';
 import theme from '@/app/theme';
@@ -58,14 +57,7 @@ export default function ChangeOrderStatusDialog({
     });
   }
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (

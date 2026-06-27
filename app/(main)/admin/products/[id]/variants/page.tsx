@@ -3,7 +3,6 @@ import { Icon } from '@iconify/react';
 import {
   Box,
   Button,
-  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -12,6 +11,7 @@ import {
   TableRow,
 } from '@mui/material';
 import { useParams } from 'next/navigation';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import CreateVariantDialog from '@/app/(main)/admin/products/[id]/variants/CreateVariantDialog';
 import VariantRow from '@/app/(main)/admin/products/[id]/variants/VariantRow';
@@ -27,14 +27,7 @@ export default function Variants() {
     width: '600px',
   });
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   const allVariants = product.product_color.flatMap((pc) => pc.product_variant);

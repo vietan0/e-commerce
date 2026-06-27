@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, CircularProgress, Divider, List, TextField } from '@mui/material';
+import { Box, Divider, List, TextField } from '@mui/material';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import Product from '@/app/(main)/admin/products/_components/Product';
 import useResource from '@/src/queries/useResource';
@@ -12,14 +13,7 @@ export default function ProductSidebar() {
     error,
   } = useResource('products', { sort: 'id' });
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (

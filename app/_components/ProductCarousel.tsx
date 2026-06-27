@@ -1,15 +1,9 @@
 'use client';
 import { Icon } from '@iconify/react';
-import {
-  alpha,
-  Box,
-  CircularProgress,
-  Stack,
-  type SxProps,
-  type Theme,
-} from '@mui/material';
+import { alpha, Box, Stack, type SxProps, type Theme } from '@mui/material';
 import { useState } from 'react';
 import CarouselNavButton from '@/app/_components/CarouselNavButton';
+import Loading from '@/app/_components/Loading';
 import ProductCard from '@/app/_components/ProductCard';
 import QueryError from '@/app/_components/QueryError';
 import theme from '@/app/theme';
@@ -44,13 +38,7 @@ export default function ProductCarousel() {
     setOffset((p) => p - 1);
   }
 
-  if (isPending)
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (

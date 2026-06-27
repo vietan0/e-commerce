@@ -1,5 +1,4 @@
 import {
-  Box,
   CircularProgress,
   FormControl,
   InputLabel,
@@ -7,20 +6,14 @@ import {
   Select,
   type SelectProps,
 } from '@mui/material';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import useResource from '@/src/queries/useResource';
 
 export default function StoresSelect(props: SelectProps) {
   const { data: stores, isPending, error } = useResource('stores');
   const labelId = 'stores-select';
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
   return (
     <FormControl fullWidth size="small">

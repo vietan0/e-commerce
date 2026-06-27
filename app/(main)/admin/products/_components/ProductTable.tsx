@@ -1,6 +1,4 @@
 import {
-  Box,
-  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -8,6 +6,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import ProductRow from '@/app/(main)/admin/products/_components/ProductRow';
 import useResource from '@/src/queries/useResource';
@@ -19,14 +18,7 @@ export default function ProductTable() {
     isPending,
     error,
   } = useResource('products', { sort: 'id' });
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (

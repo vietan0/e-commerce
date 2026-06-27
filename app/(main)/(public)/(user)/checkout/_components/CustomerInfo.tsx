@@ -1,14 +1,9 @@
 import { Icon } from '@iconify/react';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import UserEditFormOrder from '@/app/(main)/(public)/(user)/checkout/_components/UserEditFormOrder';
 import useReturnTo from '@/src/hooks/useReturnTo';
@@ -25,14 +20,7 @@ export default function CustomerInfo() {
     if (data === null) router.push(`/login?returnTo=${returnTo}`);
   }, [data, returnTo, router]);
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (

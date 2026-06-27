@@ -1,7 +1,8 @@
-import { Box, CircularProgress, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import type { OrderFields } from '@/app/(main)/(public)/(user)/checkout/page';
 import useReturnTo from '@/src/hooks/useReturnTo';
@@ -22,14 +23,7 @@ export default function HomeDelivery() {
     if (data === null) router.push(`/login?returnTo=${returnTo}`);
   }, [data, returnTo, router]);
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (

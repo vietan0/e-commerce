@@ -4,7 +4,6 @@ import { Icon } from '@iconify/react';
 import {
   Box,
   Button,
-  CircularProgress,
   Divider,
   Grid,
   IconButton,
@@ -16,6 +15,7 @@ import NextLink from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import OrderProduct from '@/app/(main)/(public)/(user)/me/orders/_components/OrderProduct';
 import theme from '@/app/theme';
@@ -44,14 +44,7 @@ export default function OrderClient({ id }: { id: string }) {
     }
   }, [isNewOrder, queryClient, router, id]);
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   const { order } = data;

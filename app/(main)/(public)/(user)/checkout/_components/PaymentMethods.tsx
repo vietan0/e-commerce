@@ -1,9 +1,9 @@
-import { CircularProgress } from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { type SyntheticEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import type { OrderFields } from '@/app/(main)/(public)/(user)/checkout/page';
 import usePaymentMethods from '@/src/queries/payment-methods/usePaymentMethods';
@@ -44,14 +44,7 @@ export default function PaymentMethods() {
     setValue('payment_method_id', newValue);
   };
 
-  if (isPending || selectedPaymentMethod === null) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending || selectedPaymentMethod === null) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (

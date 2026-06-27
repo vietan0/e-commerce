@@ -4,7 +4,6 @@ import { Icon } from '@iconify/react';
 import {
   Box,
   Button,
-  CircularProgress,
   IconButton,
   Stack,
   Tooltip,
@@ -13,6 +12,7 @@ import {
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { type ChangeEvent, useState } from 'react';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import VisuallyHiddenInput from '@/app/_components/VisuallyHiddenInput';
 import UserEditForm from '@/app/(main)/(public)/(user)/me/UserEditForm';
@@ -32,14 +32,7 @@ export default function MeClient() {
     updateProfilePic.mutate(formData);
   }
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   const { app_user } = data!;
@@ -66,20 +59,15 @@ export default function MeClient() {
           width={120}
         />
         {updateProfilePic.isPending && (
-          <Box
-            sx={{
+          <Loading
+            stackSx={{
               width: 120,
               height: 120,
               position: 'absolute',
               top: 0,
               backgroundColor: 'hsl(0 100% 100% / 0.75)',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
             }}
-          >
-            <CircularProgress />
-          </Box>
+          />
         )}
         <Tooltip title={t('Change profile pic')}>
           <IconButton

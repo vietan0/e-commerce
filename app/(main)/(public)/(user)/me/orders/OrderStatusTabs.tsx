@@ -1,6 +1,7 @@
-import { Box, CircularProgress, Tab, Tabs } from '@mui/material';
+import { Tab, Tabs } from '@mui/material';
 import NextLink from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import useResource from '@/src/queries/useResource';
 
@@ -13,14 +14,7 @@ export default function OrderStatusTabs() {
   const searchParams = useSearchParams();
   const status_code = searchParams.get('status_code');
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
   return (
     <Tabs

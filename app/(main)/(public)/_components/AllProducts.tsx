@@ -1,5 +1,6 @@
 'use client';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import Loading from '@/app/_components/Loading';
 import ProductCard from '@/app/_components/ProductCard';
 import QueryError from '@/app/_components/QueryError';
 import useResource from '@/src/queries/useResource';
@@ -7,14 +8,7 @@ import useResource from '@/src/queries/useResource';
 export default function AllProducts() {
   const { data: products, isPending, error } = useResource('products');
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (

@@ -1,6 +1,7 @@
-import { Box, CircularProgress, Tab, Tabs } from '@mui/material';
+import { Box, Tab, Tabs } from '@mui/material';
 import { type SyntheticEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import HomeDelivery from '@/app/(main)/(public)/(user)/checkout/_components/HomeDelivery';
 import StorePickup from '@/app/(main)/(public)/(user)/checkout/_components/StorePickup';
@@ -47,14 +48,7 @@ export default function DeliveryTypes() {
     setValue('delivery_type_id', newValue);
   };
 
-  if (isPending || selectedDeliveryType === null) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending || selectedDeliveryType === null) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (

@@ -14,6 +14,7 @@ export default function RootLayout({
         maxWidth: {
           lg: 1500,
         },
+        flexGrow: 1,
       }}
     >
       {children}

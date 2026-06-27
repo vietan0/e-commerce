@@ -1,8 +1,6 @@
 'use client';
 
 import {
-  Box,
-  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -11,19 +9,14 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import OrderRow from '@/app/(main)/admin/orders/_components/OrderRow';
 import useResource from '@/src/queries/useResource';
 
 export default function OrderTable() {
   const { data: orders, isPending, error } = useResource('orders');
-  if (isPending)
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
   if (orders.length === 0)
     return <Typography variant="h6">No orders.</Typography>;

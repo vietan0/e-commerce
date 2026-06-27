@@ -1,6 +1,6 @@
 'use client';
 import { Icon } from '@iconify/react';
-import { Badge, Box, CircularProgress, IconButton } from '@mui/material';
+import { Badge, IconButton } from '@mui/material';
 import HoverMenu from 'material-ui-popup-state/HoverMenu';
 import {
   bindHover,
@@ -9,6 +9,7 @@ import {
 } from 'material-ui-popup-state/hooks';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
+import Loading from '@/app/_components/Loading';
 import CartMenuContent from '@/app/_components/nav/cart/CartMenuContent';
 import QueryError from '@/app/_components/QueryError';
 import useCart from '@/src/queries/cart/useCart';
@@ -24,11 +25,10 @@ export default function CartBtn() {
 
   if (isPending) {
     return (
-      <Box
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-      >
-        <CircularProgress color="inherit" size={20} />
-      </Box>
+      <Loading
+        circularProps={{ color: 'inherit', size: 20 }}
+        stackSx={{ height: 'auto' }}
+      />
     );
   }
 

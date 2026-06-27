@@ -1,15 +1,9 @@
 'use client';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Grid,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import EmptyCart from '@/app/_components/EmptyCart';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import CartItem from '@/app/(main)/(public)/(user)/cart/_components/CartItem';
 import { formatPrice } from '@/src/lib/price';
@@ -19,13 +13,7 @@ export default function Cart() {
   const { data: cart_items, isPending, error } = useCart();
   const t = useTranslations('cart');
 
-  if (isPending)
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
   if (cart_items.length === 0) return <EmptyCart inMenu={false} />;
 

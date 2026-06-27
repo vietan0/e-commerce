@@ -1,18 +1,13 @@
 'use client';
-import { Box, CircularProgress, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import Blob from '@/app/(main)/admin/blobs/Blob';
 import useBlobs from '@/src/queries/blobs/useBlobs';
 
 export default function Blobs() {
   const { data: blobs, isPending, error } = useBlobs({ sort: '-uploadedAt' });
-  if (isPending)
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (

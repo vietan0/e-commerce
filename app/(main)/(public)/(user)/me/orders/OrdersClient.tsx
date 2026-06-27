@@ -1,14 +1,9 @@
 'use client';
 import { Icon } from '@iconify/react';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import NextLink from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import Order from '@/app/(main)/(public)/(user)/me/orders/_components/Order';
 import OrderStatusTabs from '@/app/(main)/(public)/(user)/me/orders/OrderStatusTabs';
@@ -23,14 +18,7 @@ export default function OrdersClient() {
     error,
   } = useUserOrders({ status_code: status_code || undefined });
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
   return (
     <>

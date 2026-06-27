@@ -1,16 +1,10 @@
 'use client';
 
-import {
-  Box,
-  CircularProgress,
-  Divider,
-  Tab,
-  Tabs,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, Tab, Tabs, Typography } from '@mui/material';
 import NextLink from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Loading from '@/app/_components/Loading';
 import QueryError from '@/app/_components/QueryError';
 import useProduct from '@/src/queries/products/useProduct';
 
@@ -34,14 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     setValue(newValue);
   };
 
-  if (isPending) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isPending) return <Loading />;
   if (error) return <QueryError error={error} />;
 
   return (
