@@ -16,7 +16,7 @@ export default function useCreateProductColorImages() {
 
       await Promise.all([
         queryClient.invalidateQueries({
-          queryKey: ['product', images[0].product_color.product.id.toString()],
+          queryKey: ['product', images[0].product_color.product_id.toString()],
         }),
         queryClient.invalidateQueries({
           queryKey: [

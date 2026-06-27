@@ -20,6 +20,8 @@
     "Customer": "Khách hàng"
   },
   "snackbar": {
+    "Resource created": "Đã tạo tài nguyên",
+    "Resource deleted": "Đã xoá tài nguyên",
     "Order created": "Đã tạo đơn hàng",
     "Order updated": "Đã cập nhật đơn hàng",
     "Product created": "Đã tạo sản phẩm",

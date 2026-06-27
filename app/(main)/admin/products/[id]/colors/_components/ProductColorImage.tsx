@@ -10,18 +10,20 @@ import {
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import Image from 'next/image';
-import ImageViewer from '@/app/(main)/admin/products/[id]/colors/ImageViewer';
+import ImageViewer from '@/app/(main)/admin/products/[id]/colors/_components/ImageViewer';
 import { placeholderImg } from '@/src/constants/ui';
 import type { product_color_imageGetPayload } from '@/src/generated/prisma/models';
 import useDialog from '@/src/hooks/useDialog';
-import useDeleteProductColorImage from '@/src/queries/product-color-images/useDeleteProductColorImage';
 import useSetProductColorThumbnail from '@/src/queries/product-color-images/useSetProductColorThumbnail';
 import useUpdateProductColorImage from '@/src/queries/product-color-images/useUpdateProductColorImage';
+import useDeleteResource from '@/src/queries/useDeleteResource';
 
 export default function ProductColorImage({
   image,
 }: {
-  image: product_color_imageGetPayload<{ include: { file: true } }>;
+  image: product_color_imageGetPayload<{
+    include: { file: true; product_color: true };
+  }>;
 }) {
   const { dialog: viewImageDialog, setOpen } = useDialog({
     content: <ImageViewer image={image}></ImageViewer>,
@@ -31,10 +33,12 @@ export default function ProductColorImage({
 
   const setProductColorThumbnail = useSetProductColorThumbnail();
   const updateProductColorImage = useUpdateProductColorImage();
-  const deleteProductColorImage = useDeleteProductColorImage();
+  const deleteProductColorImage = useDeleteResource('product-color-images', [
+    ['product', image.product_color.product_id],
+  ]);
 
   function deleteImage() {
-    deleteProductColorImage.mutate(image.id.toString());
+    deleteProductColorImage.mutate(image.id);
   }
 
   function thumbnailOff() {

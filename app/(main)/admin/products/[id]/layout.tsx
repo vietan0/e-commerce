@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const basePath = segments.slice(0, 4).join('/');
   const tab = segments.length === 5 ? segments[segments.length - 1] : undefined;
 
-  const { data: product, isPending, error } = useProduct(id);
+  const { data: product, isPending, error } = useProduct(+id);
 
   const [value, setValue] = useState(tab);
   useEffect(() => {

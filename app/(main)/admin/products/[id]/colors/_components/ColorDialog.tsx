@@ -3,7 +3,7 @@ import { Box, Button, DialogActions, Stack, Typography } from '@mui/material';
 import { type ChangeEvent, useCallback, useState } from 'react';
 import { createPortal } from 'react-dom';
 import VisuallyHiddenInput from '@/app/_components/VisuallyHiddenInput';
-import ProductColorImage from '@/app/(main)/admin/products/[id]/colors/ProductColorImage';
+import ProductColorImage from '@/app/(main)/admin/products/[id]/colors/_components/ProductColorImage';
 import type { product_colorGetPayload } from '@/src/generated/prisma/models';
 import type { includeColor } from '@/src/lib/commonIncludes';
 import useCreateProductColorImages from '@/src/queries/product-color-images/useCreateProductColorImages';

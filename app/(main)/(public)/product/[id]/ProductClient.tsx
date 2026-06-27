@@ -19,7 +19,7 @@ import useUpsertCartItem from '@/src/queries/cart/useUpsertCartItem';
 import useProduct from '@/src/queries/products/useProduct';
 
 export default function ProductClient({ id }: { id: string }) {
-  const { data: product, isPending, error } = useProduct(id);
+  const { data: product, isPending, error } = useProduct(+id);
   const [quantity, { inc, dec }] = useCounter(
     1,
     0 /* used to be product.stock */,

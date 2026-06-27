@@ -20,7 +20,7 @@ import useProduct from '@/src/queries/products/useProduct';
 
 export default function Variants() {
   const params = useParams<{ id: string }>();
-  const { data: product, isPending, error } = useProduct(params.id);
+  const { data: product, isPending, error } = useProduct(+params.id);
   const { dialog: createVariantDialog, setOpen } = useDialog({
     title: `Create ${product?.name} Variant`,
     content: <CreateVariantDialog close={() => setOpen(false)} />,

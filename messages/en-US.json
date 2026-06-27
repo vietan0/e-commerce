@@ -20,6 +20,8 @@
     "Customer": "Customer"
   },
   "snackbar": {
+    "Resource created": "Resource created",
+    "Resource deleted": "Resource deleted",
     "Order created": "Order created",
     "Order updated": "Order updated",
     "Product created": "Product created",

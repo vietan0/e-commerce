@@ -30,6 +30,7 @@ export const includeColor = {
       product_color_image: {
         include: {
           file: true,
+          product_color: true,
         },
         orderBy: {
           id: 'asc',

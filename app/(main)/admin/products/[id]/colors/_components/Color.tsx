@@ -1,5 +1,5 @@
 import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
-import ColorDialog from '@/app/(main)/admin/products/[id]/colors/ColorDialog';
+import ColorDialog from '@/app/(main)/admin/products/[id]/colors/_components/ColorDialog';
 import type { product_colorGetPayload } from '@/src/generated/prisma/models';
 import useDialog from '@/src/hooks/useDialog';
 import type { includeColor } from '@/src/lib/commonIncludes';
