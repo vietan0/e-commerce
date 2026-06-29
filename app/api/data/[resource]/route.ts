@@ -61,6 +61,6 @@ export const POST = wrapErr(
       include: resources[resource].include,
     });
 
-    return NextResponse.json(data);
+    return NextResponse.json(data, { status: 201 });
   },
 );
